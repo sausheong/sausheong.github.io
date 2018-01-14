@@ -18,7 +18,7 @@
       <pubDate>Mon, 15 Jan 2018 01:04:07 +0800</pubDate>
       
       <guid>https://sausheong.github.io/posts/flocking-with-go/</guid>
-      <description>I have been writing flocking simulations for a long time. I played around with it with Java but the earliest one I still have record of was with JRuby and Swing called Utopia. I subsequently wrote one using Shoes and that was the one in my Exploring Everyday Things witn R and Ruby book. Some time after (I was unhappy with Shoes in general), I re-wrote it again using Gosu, a 2D game development library for Ruby and C++.</description>
+      <description>I have been writing flocking simulations for a long time. I played around with it with Java but the earliest one I still have record of was with JRuby and Swing called Utopia. I wrote one using Shoes and that was the one in my Exploring Everyday Things witn R and Ruby book. Some time after (I was unhappy with Shoes in general), I re-wrote it again using Gosu, a 2D game development library for Ruby and C++.</description>
     </item>
     
     <item>
