@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy; &lt;a href=&#34;https://github.com/sausheong&#34;&gt;Chang Sau Sheong&lt;/a&gt; 2018</copyright>
-    <lastBuildDate>Fri, 12 Jan 2018 23:33:07 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 15 Jan 2018 01:04:07 +0800</lastBuildDate>
     
 	<atom:link href="https://sausheong.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Flocking with Go</title>
       <link>https://sausheong.github.io/posts/flocking-with-go/</link>
-      <pubDate>Fri, 12 Jan 2018 23:33:07 +0800</pubDate>
+      <pubDate>Mon, 15 Jan 2018 01:04:07 +0800</pubDate>
       
       <guid>https://sausheong.github.io/posts/flocking-with-go/</guid>
       <description>I have been writing flocking simulations for a long time. I played around with it with Java but the earliest one I still have record of was with JRuby and Swing called Utopia. I subsequently wrote one using Shoes and that was the one in my Exploring Everyday Things witn R and Ruby book. Some time after (I was unhappy with Shoes in general), I re-wrote it again using Gosu, a 2D game development library for Ruby and C++.</description>
