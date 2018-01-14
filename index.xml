@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy; &lt;a href=&#34;https://github.com/sausheong&#34;&gt;Chang Sau Sheong&lt;/a&gt; 2018</copyright>
-    <lastBuildDate>Sat, 06 Jan 2018 23:33:07 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 12 Jan 2018 23:33:07 +0800</lastBuildDate>
     
 	<atom:link href="https://sausheong.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Flocking with Go</title>
+      <link>https://sausheong.github.io/posts/flocking-with-go/</link>
+      <pubDate>Fri, 12 Jan 2018 23:33:07 +0800</pubDate>
+      
+      <guid>https://sausheong.github.io/posts/flocking-with-go/</guid>
+      <description>I have been writing flocking simulations for a long time. I played around with it with Java but the earliest one I still have record of was with JRuby and Swing called Utopia. I subsequently wrote one using Shoes and that was the one in my Exploring Everyday Things witn R and Ruby book. Some time after (I was unhappy with Shoes in general), I re-wrote it again using Gosu, a 2D game development library for Ruby and C++.</description>
+    </item>
     
     <item>
       <title>A gentle introduction to genetic algorithms</title>
@@ -19,15 +28,6 @@
       
       <guid>https://sausheong.github.io/posts/a-gentle-introduction-to-genetic-algorithms/</guid>
       <description>It may not seem obvious at first glance, but computer science algorithms are often inspired by nature and biological processes. Some of these algorithms include neural networks, particle swarm optimization, artificial bee colony, ant colony optimization, evolutionary algorithms and many more. In fact, you can consider biological processes to be simply algorithms that nature have come up with to solve problems. From that point of view it&amp;rsquo;s easy to see why many of these algorithms are optimization heuristics and metaheuristics.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://sausheong.github.io/posts/flocking-with-go/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://sausheong.github.io/posts/flocking-with-go/</guid>
-      <description>Flocking with Go I have been writing flocking simulations for a long time. I played around with it with Java but the earliest one I still have record of was with JRuby and Swing called Utopia. I subsequently wrote one using Shoes and that was the one in my Exploring Everyday Things witn R and Ruby book. Some time after (I was unhappy with Shoes in general), I re-wrote it again using Gosu, a 2D game development library for Ruby and C++.</description>
     </item>
     
   </channel>
