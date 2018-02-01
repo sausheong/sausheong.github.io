@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title> | sausheong&#39;s space</title>
+
+<meta property='og:title' content=' - sausheong&#39;s space'>
+<meta property='og:description' content='Writing Space Invaders with Go The earliest memory I had of arcade video games was watching my older brother and cousins going at the video game machines at Genting Highlands. While our parents were at the other types of games Genting Highlands was more popularly known for, we were generally let loose to play arcade games to our hearts&rsquo; content.
+Those were the magical days of Pac-Man, Space Invaders, Galaxian, Donkey Kong, Frogger, Centipede and many, many more.'>
+<meta property='og:url' content='https://sausheong.github.io/posts/space-invaders-with-go/'>
+<meta property='og:site_name' content='sausheong&#39;s space'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://www.gravatar.com/avatar/ee191858f0d96ad93098694537f71998?s=256'><meta property='article:author' content='https://facebook.com/sausheong'><meta property='article:section' content='Posts'><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@sausheong'><meta name='twitter:creator' content='@sausheong'>
+<link rel="stylesheet" href="https://sausheong.github.io/css/style.css"/><link rel='stylesheet' href='/css/custom.css'></head>
+<body>
+
+<section class="section">
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="nav-item" href="https://sausheong.github.io"><h1 class="title is-4">sausheong&#39;s space</h1></a>
+      </div>
+      <div class="nav-right">
+        <nav class="nav-item level is-mobile"><a class="level-item" href='mailto:sausheong@gmail.com' target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+    <polyline points="22,6 12,13 2,6"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" href='https://facebook.com/sausheong' target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" href='https://github.com/sausheong' target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" href='https://instagram.com/sausheong' target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+    <line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" href='https://linkedin.com/in/sausheong' target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path stroke-width="1.8" d="m5.839218,4.101561c0,1.211972 -0.974141,2.194011 -2.176459,2.194011s-2.176459,-0.982039 -2.176459,-2.194011c0,-1.211094 0.974141,-2.194011 2.176459,-2.194011s2.176459,0.982917 2.176459,2.194011zm0.017552,3.94922l-4.388022,0l0,14.04167l4.388022,0l0,-14.04167zm7.005038,0l-4.359939,0l0,14.04167l4.360816,0l0,-7.370999c0,-4.098413 5.291077,-4.433657 5.291077,0l0,7.370999l4.377491,0l0,-8.89101c0,-6.915523 -7.829986,-6.66365 -9.669445,-3.259423l0,-1.891237z"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" href='https://twitter.com/sausheong' target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+    
+  </svg></i>
+            </span>
+          </a></nav>
+      </div>
+    </nav>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="subtitle is-6 is-pulled-right">
+      
+    </div>
+    <h2 class="subtitle is-6">January 1, 0001</h2>
+    <h1 class="title"></h1>
+      
+    <div class="content">
+      
+
+<h1 id="writing-space-invaders-with-go">Writing Space Invaders with Go</h1>
+
+<p>The earliest memory I had of arcade video games was watching my older brother and cousins going at the video game machines at Genting Highlands. While our parents were at the other types of games Genting Highlands was more popularly known for, we were generally let loose to play arcade games to our hearts&rsquo; content.</p>
+
+<p>Those were the magical days of Pac-Man, Space Invaders, Galaxian, Donkey Kong, Frogger, Centipede and many, many more. Days of blinking lights, intense music, frantic tugs at the joystick, furious mashing of the buttons then the groans of dismay as the last life was lost.</p>
+
+<p>As with many aspiring programmers starting out, one of my secret dreams was always to recreate that magic, to write the next big game. And as with many as well programmers, I failed many times miserably. Even though eventually I succeeded in writing some simple games, I came to realise that even seemingly simple games are in fact not easy to write.</p>
+
+<p>Of course that didn&rsquo;t stop me from trying my hand at it once again. This time round I tried the grand old dame of arcade video games &ndash; <em>Space Invaders</em>.</p>
+
+<h2 id="space-invaders">Space Invaders</h2>
+
+<p><a href="https://en.wikipedia.org/wiki/Space_Invaders" target="_blank">Space Invaders</a> was one of the most successful arcade video games during the <a href="https://en.wikipedia.org/wiki/Golden_age_of_arcade_video_games" target="_blank">golden age of arcade video games</a>. It was first released in 1978 and is generally accepted as start of the golden age, which lasted from late 70s to the early 90s. Even after the decline of arcade video games, it simply transcended the medium and moved to video game consoles.</p>
+
+<p><img src="https://github.com/sausheong/invaders/blob/master/images/space-invaders.png" alt="Space Invaders" /></p>
+
+<p>The premise of the game, in case you&rsquo;re not already familiar, is quite simple. As the player you control a laser cannon to battle rows of alien invaders. The laser cannon can only move horizontally across the bottom of the screen as the aliens move back and forth, and slowly descending upon you. The aliens try to destroy you by dropping torpedos at you, while you are partially protected by a few stationary defending bunkers. The game ends if the aliens reach the cannon or all your cannons are destroyed.</p>
+
+<p>As I said, simple.</p>
+
+<h2 id="engine-less">Engine-less</h2>
+
+<p>Most game development uses some sort of game engine or at least a graphics engine, but the game I wrote uses neither. Instead what I tried to do is to build a game by creating individual frames and displaying them rapidly one after another. Essentially, this is a variation of the <a href="https://sausheong.github.io/posts/flocking-with-go/" target="_blank">flocking simulation</a> I wrote earlier.</p>
+
+<p>The idea is quite straightforward &ndash; a while back I stumbled on a <a href="https://www.iterm2.com/documentation-images.html" target="_blank">hack</a> in iTerm2 that allows me to display images on the screen and that led me, one thing to another, displaying a number of images one after another, resulting in an animation.</p>
+
+<p>Which, if you think about it, is what a simple game like Space Invaders is all about &ndash; an animation that can be controlled by a user.</p>
+
+<p>Let&rsquo;s look at the code.</p>
+
+<h2 id="sprites">Sprites</h2>
+
+<p>In computer graphics, sprites are independent objects that are added on to a background. Sprites were, not unexpectedly, first used in arcade video games and were often generated by hardware. In our case, we&rsquo;re using a simple but popular technique of using a single sprite sheet and taking various parts of the sprite sheet to be a separate sprite.</p>
+
+<p><img src="https://github.com/sausheong/invaders/blob/master/images/sprites.png" alt="sprites" /></p>
+
+<p>The image above is a magnified version of the <code>sprites.png</code> sprite sheet file.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// sprites
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">src</span> <span class="p">=</span> <span class="nx">getImage</span><span class="p">(</span><span class="s">&#34;imgs/sprites.png&#34;</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">background</span> <span class="p">=</span> <span class="nx">getImage</span><span class="p">(</span><span class="s">&#34;imgs/bg.png&#34;</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">cannonSprite</span> <span class="p">=</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Rect</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">47</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="mi">59</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">cannonExplode</span> <span class="p">=</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Rect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">47</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">57</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">alien1Sprite</span> <span class="p">=</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Rect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">14</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">alien1aSprite</span> <span class="p">=</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Rect</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">14</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">alien2Sprite</span> <span class="p">=</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Rect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">26</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">alien2aSprite</span> <span class="p">=</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Rect</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">26</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">alien3Sprite</span> <span class="p">=</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Rect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">alien3aSprite</span> <span class="p">=</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Rect</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">alienExplode</span> <span class="p">=</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Rect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">68</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">beamSprite</span> <span class="p">=</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Rect</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">65</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">bombSprite</span> <span class="p">=</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Rect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">79</span><span class="p">)</span></code></pre></div>
+<p>Each sprite is represented by an <code>image.Rectangle</code> position of the corresponding sprite image in the <code>sprites.png</code> file. For example, the <code>alien1Sprite</code> shows a Rectangle with the upper left position of <code>(0,0)</code> and the lower right position of <code>(20,14)</code>.</p>
+
+<p><img src="https://github.com/sausheong/invaders/blob/master/images/sprites-position.png" alt="position" /></p>
+
+<p>We&rsquo;ll see how this is being used in a short while.</p>
+
+<p>We also see that we load up the 2 image files <code>sprites.png</code> and <code>bg.png</code>. This function simply gets an <code>image.Image</code> from an image file.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nx">getImage</span><span class="p">(</span><span class="nx">filePath</span> <span class="kt">string</span><span class="p">)</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Image</span> <span class="p">{</span>
+	<span class="nx">imgFile</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="nx">filePath</span><span class="p">)</span>
+	<span class="k">defer</span> <span class="nx">imgFile</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&#34;Cannot read file:&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="nx">img</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Decode</span><span class="p">(</span><span class="nx">imgFile</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&#34;Cannot decode file:&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="nx">img</span>
+<span class="p">}</span></code></pre></div>
+<p>Now that we have the positions of the sprites, let&rsquo;s see the <code>Sprite</code> struct itself.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Sprite represents a sprite in the game
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Sprite</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">size</span>     <span class="nx">image</span><span class="p">.</span><span class="nx">Rectangle</span> <span class="c1">// the sprite size
+</span><span class="c1"></span>	<span class="nx">Filter</span>   <span class="o">*</span><span class="nx">gift</span><span class="p">.</span><span class="nx">GIFT</span>      <span class="c1">// normal filter used to draw the sprite
+</span><span class="c1"></span>	<span class="nx">FilterA</span>  <span class="o">*</span><span class="nx">gift</span><span class="p">.</span><span class="nx">GIFT</span>      <span class="c1">// alternate filter used to draw the sprite
+</span><span class="c1"></span>	<span class="nx">FilterE</span>  <span class="o">*</span><span class="nx">gift</span><span class="p">.</span><span class="nx">GIFT</span>      <span class="c1">// exploded filter used to draw the sprite
+</span><span class="c1"></span>	<span class="nx">Position</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Point</span>     <span class="c1">// top left position of the sprite
+</span><span class="c1"></span>	<span class="nx">Status</span>   <span class="kt">bool</span>            <span class="c1">// alive or dead
+</span><span class="c1"></span>	<span class="nx">Points</span>   <span class="kt">int</span>             <span class="c1">// number of points if destroyed
+</span><span class="c1"></span><span class="p">}</span></code></pre></div>
+<p>The sprites are represented by:</p>
+
+<ol>
+<li>The size of the sprite, which is the Rectangle we defined earlier</li>
+<li>3 images filters which we will later use for drawing the sprites</li>
+<li>The position of the sprite to draw on the background</li>
+<li>A representation of the status of the sprite, and</li>
+<li>The number of points if the sprite is destroyed (this is only applicable for aliens).</li>
+</ol>
+
+<p>The image filters we are using are from the excellent <a href="https://github.com/disintegration/gift" target="_blank">Go Image Filtering Toolkit (GIFT)</a>. We are underutilising this library since we&rsquo;re only using this to draw the sprite on the background. Each sprite has 3 filters, a normal filter for drawing a normal sprite, an alternate filter, which draws an alternate form of the sprite (only for aliens, so far) and an exploded filter, which draws the sprite when it&rsquo;s exploded (or died). We&rsquo;re using the alternate form of the sprite to animate the sprite.</p>
+
+<p>Let&rsquo;s look at the definition of different sprites in the game.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">var</span> <span class="nx">aliens</span> <span class="p">=</span> <span class="p">[]</span><span class="nx">Sprite</span><span class="p">{}</span>
+
+<span class="c1">// sprite for laser cannon
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">laserCannon</span> <span class="p">=</span> <span class="nx">Sprite</span><span class="p">{</span>
+	<span class="nx">size</span><span class="p">:</span>     <span class="nx">cannonSprite</span><span class="p">,</span>
+	<span class="nx">Filter</span><span class="p">:</span>   <span class="nx">gift</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">gift</span><span class="p">.</span><span class="nx">Crop</span><span class="p">(</span><span class="nx">cannonSprite</span><span class="p">)),</span>
+	<span class="nx">Position</span><span class="p">:</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Pt</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">250</span><span class="p">),</span>
+	<span class="nx">Status</span><span class="p">:</span>   <span class="kc">true</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1">// sprite for the laser beam
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">beam</span> <span class="p">=</span> <span class="nx">Sprite</span><span class="p">{</span>
+	<span class="nx">size</span><span class="p">:</span>     <span class="nx">beamSprite</span><span class="p">,</span>
+	<span class="nx">Filter</span><span class="p">:</span>   <span class="nx">gift</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">gift</span><span class="p">.</span><span class="nx">Crop</span><span class="p">(</span><span class="nx">beamSprite</span><span class="p">)),</span>
+	<span class="nx">Position</span><span class="p">:</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Pt</span><span class="p">(</span><span class="nx">laserCannon</span><span class="p">.</span><span class="nx">Position</span><span class="p">.</span><span class="nx">X</span><span class="o">+</span><span class="mi">7</span><span class="p">,</span> <span class="mi">250</span><span class="p">),</span>
+	<span class="nx">Status</span><span class="p">:</span>   <span class="kc">false</span><span class="p">,</span>
+<span class="p">}</span></code></pre></div>
+<p>This is a simplified version of Space Invaders, so we only have 4 types of sprites &ndash; aliens, the bombs the aliens drop, the laser cannon, and the laser beam that shoots out of the cannon. The variable <code>aliens</code> is an array of alien sprites, <code>bombs</code> is an array of bombs dropped while <code>laserCannon</code> is the laser cannon sprite and <code>beam</code> is the laser beam sprite. As you can see from the code, the filter crops the part of the sprite sheet according to the defined Rectangle earlier.</p>
+
+<p>We&rsquo;re not creating the aliens yet here, but we&rsquo;ll need to in a while, which we will be using a function:</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// used for creating alien sprites
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">createAlien</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">sprite</span><span class="p">,</span> <span class="nx">alt</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Rectangle</span><span class="p">,</span> <span class="nx">points</span> <span class="kt">int</span><span class="p">)</span> <span class="p">(</span><span class="nx">s</span> <span class="nx">Sprite</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">s</span> <span class="p">=</span> <span class="nx">Sprite</span><span class="p">{</span>
+		<span class="nx">size</span><span class="p">:</span>     <span class="nx">sprite</span><span class="p">,</span>
+		<span class="nx">Filter</span><span class="p">:</span>   <span class="nx">gift</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">gift</span><span class="p">.</span><span class="nx">Crop</span><span class="p">(</span><span class="nx">sprite</span><span class="p">)),</span>
+		<span class="nx">FilterA</span><span class="p">:</span>  <span class="nx">gift</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">gift</span><span class="p">.</span><span class="nx">Crop</span><span class="p">(</span><span class="nx">alt</span><span class="p">)),</span>
+		<span class="nx">FilterE</span><span class="p">:</span>  <span class="nx">gift</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">gift</span><span class="p">.</span><span class="nx">Crop</span><span class="p">(</span><span class="nx">alienExplode</span><span class="p">)),</span>
+		<span class="nx">Position</span><span class="p">:</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Pt</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">),</span>
+		<span class="nx">Status</span><span class="p">:</span>   <span class="kc">true</span><span class="p">,</span>
+		<span class="nx">Points</span><span class="p">:</span>   <span class="nx">points</span><span class="p">,</span>
+	<span class="p">}</span>
+	<span class="k">return</span>
+<span class="p">}</span></code></pre></div>
+<p>We wil be passing the Rectangles to the function to create the correct alien sprite and it&rsquo;s alternate form (for animating the sprite) but all aliens explode the same way. Bombs are created in the game loop itself and we&rsquo;ll see it later.</p>
+
+<p>So much for the sprites, let&rsquo;s look at the <code>main</code> function of the game.</p>
+
+<h2 id="the-action-starts">The action starts</h2>
+
+<p>This is a game that starts from the terminal, and the whole game is animated on the terminal. Therefore, controlling the terminal is very important. I used the popular <a href="https://github.com/nsf/termbox-go" target="_blank">termbox-go</a> library to give me this control. Termbox, as with the GIFT library, is probably an overkill since it&rsquo;s a much more powerful library than is needed here.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">err</span> <span class="o">:=</span> <span class="nx">termbox</span><span class="p">.</span><span class="nx">Init</span><span class="p">()</span>
+<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+	<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="p">}</span></code></pre></div>
+<p>I start off the main function by initializing termbox-go. The game actually has 2 independent loops:</p>
+
+<ul>
+<li>The first is the control of the laser cannon by the user and this is through input on the keyboard (left and right arrows)</li>
+<li>The second is the rest of the game, in what is called a game loop, explained later. This runs regardless of whatever the user does. It includes continual movement of the aliens as they descend while dropping bombs to destroy all life on earth as well as the upward movement of the laser beam as it hurtles towards the aliens to blast them to bits.</li>
+</ul>
+
+<p>This means there are 2 concurrently running threads, and in this case, goroutines.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// poll for keyboard events in another goroutine
+</span><span class="c1"></span><span class="nx">events</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="nx">termbox</span><span class="p">.</span><span class="nx">Event</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+	<span class="k">for</span> <span class="p">{</span>
+		<span class="nx">events</span> <span class="o">&lt;-</span> <span class="nx">termbox</span><span class="p">.</span><span class="nx">PollEvent</span><span class="p">()</span>
+	<span class="p">}</span>
+<span class="p">}()</span></code></pre></div>
+<p>We start a separate goroutine that polls for events and stuffs them into a buffered channel. We&rsquo;re using a liberally large buffer here, it can really be smaller, but the larger the buffer, the relatively smoother the event captures are so I didn&rsquo;t really try to figure out the optimal size.</p>
+
+<p>Most games have a start screen, where you are asked to place credits to press a button to begin. We have one too.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go">	<span class="c1">// show the start screen
+</span><span class="c1"></span>	<span class="nx">startScreen</span> <span class="o">:=</span> <span class="nx">getImage</span><span class="p">(</span><span class="s">&#34;imgs/start.png&#34;</span><span class="p">)</span>
+	<span class="nx">printImage</span><span class="p">(</span><span class="nx">startScreen</span><span class="p">)</span>
+<span class="nx">start</span><span class="p">:</span>
+	<span class="k">for</span> <span class="p">{</span>
+		<span class="k">switch</span> <span class="nx">ev</span> <span class="o">:=</span> <span class="nx">termbox</span><span class="p">.</span><span class="nx">PollEvent</span><span class="p">();</span> <span class="nx">ev</span><span class="p">.</span><span class="nx">Type</span> <span class="p">{</span>
+		<span class="k">case</span> <span class="nx">termbox</span><span class="p">.</span><span class="nx">EventKey</span><span class="p">:</span>
+			<span class="k">if</span> <span class="nx">ev</span><span class="p">.</span><span class="nx">Ch</span> <span class="o">==</span> <span class="sc">&#39;s&#39;</span> <span class="o">||</span> <span class="nx">ev</span><span class="p">.</span><span class="nx">Ch</span> <span class="o">==</span> <span class="sc">&#39;S&#39;</span> <span class="p">{</span>
+				<span class="k">break</span> <span class="nx">start</span>
+			<span class="p">}</span>
+			<span class="k">if</span> <span class="nx">ev</span><span class="p">.</span><span class="nx">Ch</span> <span class="o">==</span> <span class="sc">&#39;q&#39;</span> <span class="p">{</span>
+				<span class="nx">gameOver</span> <span class="p">=</span> <span class="kc">true</span>
+				<span class="k">break</span> <span class="nx">start</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span></code></pre></div>
+<p>We&rsquo;re polling the keyboard again, and we&rsquo;re waiting for some to either press the <code>s</code> or <code>S</code> to begin the game, or <code>q</code> to quit the game.</p>
+
+<p>Next, we populate the <code>aliens</code> array. This is pretty straightforward, we simply want 3 rows of different aliens.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// populate the aliens
+</span><span class="c1"></span><span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="nx">aliensStartCol</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">aliensStartCol</span><span class="o">+</span><span class="p">(</span><span class="nx">alienSize</span><span class="o">*</span><span class="nx">aliensPerRow</span><span class="p">);</span> <span class="nx">i</span> <span class="o">+=</span> <span class="nx">alienSize</span> <span class="p">{</span>
+	<span class="nx">aliens</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">aliens</span><span class="p">,</span> <span class="nx">createAlien</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="nx">alien1Sprite</span><span class="p">,</span> <span class="nx">alien1aSprite</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="nx">aliensStartCol</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">aliensStartCol</span><span class="o">+</span><span class="p">(</span><span class="mi">30</span><span class="o">*</span><span class="nx">aliensPerRow</span><span class="p">);</span> <span class="nx">i</span> <span class="o">+=</span> <span class="nx">alienSize</span> <span class="p">{</span>
+	<span class="nx">aliens</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">aliens</span><span class="p">,</span> <span class="nx">createAlien</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="nx">alien2Sprite</span><span class="p">,</span> <span class="nx">alien2aSprite</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="nx">aliensStartCol</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">aliensStartCol</span><span class="o">+</span><span class="p">(</span><span class="mi">30</span><span class="o">*</span><span class="nx">aliensPerRow</span><span class="p">);</span> <span class="nx">i</span> <span class="o">+=</span> <span class="nx">alienSize</span> <span class="p">{</span>
+	<span class="nx">aliens</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">aliens</span><span class="p">,</span> <span class="nx">createAlien</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="nx">alien3Sprite</span><span class="p">,</span> <span class="nx">alien3aSprite</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="p">}</span></code></pre></div>
+<h2 id="game-loop">Game loop</h2>
+
+<p>Now that we&rsquo;ve laid the groundwork, let&rsquo;s get into the main game loop. Most games run in a what is commonly called a <a href="http://gameprogrammingpatterns.com/game-loop.html" target="_blank">game loop</a>. A game loop is a game software development pattern that is often the heart of a game. It&rsquo;s an infinite loop that updates and redraws to animate gameplay. In our Space Invaders game loop we use a variable named <code>gameOver</code> to indicate that the loop should continue until the game ends (either triggered by the player or when the aliens win).</p>
+
+<p>The game loop is rather long so we&rsquo;ll break it up into a few parts. Let&rsquo;s look at the first part, which is used to capture the keyboard events from the player.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// if any of the keyboard events are captured
+</span><span class="c1"></span><span class="k">select</span> <span class="p">{</span>
+<span class="k">case</span> <span class="nx">ev</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">events</span><span class="p">:</span>
+	<span class="k">if</span> <span class="nx">ev</span><span class="p">.</span><span class="nx">Type</span> <span class="o">==</span> <span class="nx">termbox</span><span class="p">.</span><span class="nx">EventKey</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="nx">ev</span><span class="p">.</span><span class="nx">Key</span> <span class="o">==</span> <span class="nx">termbox</span><span class="p">.</span><span class="nx">KeyCtrlQ</span> <span class="p">{</span>
+			<span class="nx">gameOver</span> <span class="p">=</span> <span class="kc">true</span>
+		<span class="p">}</span>
+		<span class="k">if</span> <span class="nx">ev</span><span class="p">.</span><span class="nx">Key</span> <span class="o">==</span> <span class="nx">termbox</span><span class="p">.</span><span class="nx">KeySpace</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="nx">beam</span><span class="p">.</span><span class="nx">Status</span> <span class="o">==</span> <span class="kc">false</span> <span class="p">{</span>
+				<span class="nx">beamShot</span> <span class="p">=</span> <span class="kc">true</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+		<span class="k">if</span> <span class="nx">ev</span><span class="p">.</span><span class="nx">Key</span> <span class="o">==</span> <span class="nx">termbox</span><span class="p">.</span><span class="nx">KeyArrowRight</span> <span class="p">{</span>
+			<span class="nx">laserCannon</span><span class="p">.</span><span class="nx">Position</span><span class="p">.</span><span class="nx">X</span> <span class="o">+=</span> <span class="mi">10</span>
+		<span class="p">}</span>
+		<span class="k">if</span> <span class="nx">ev</span><span class="p">.</span><span class="nx">Key</span> <span class="o">==</span> <span class="nx">termbox</span><span class="p">.</span><span class="nx">KeyArrowLeft</span> <span class="p">{</span>
+			<span class="nx">laserCannon</span><span class="p">.</span><span class="nx">Position</span><span class="p">.</span><span class="nx">X</span> <span class="o">-=</span> <span class="mi">10</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+<span class="k">default</span><span class="p">:</span>
+
+<span class="p">}</span></code></pre></div>
+<p>Whenever the <code>events</code> buffered channel has something, it will be received into the <code>ev</code> variable where we try to determine what kind of event it is. Pressing <code>Ctrl-Q</code> ends the game, while pressing the space bar fires a laser beam. Pressing the left or right arrow buttons move the laser cannon left or right accordingly.</p>
+
+<p>You might notice that we have to have a default in the select. This is because if we don&rsquo;t have the default, the select will block, and the loop can only proceed whenever the user presses a key!</p>
+
+<p>Next, we&rsquo;ll draw the laser cannon and alien sprites. We start off with an empty image and drawing the background on to it.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// create background
+</span><span class="c1"></span><span class="nx">dst</span> <span class="o">:=</span> <span class="nx">image</span><span class="p">.</span><span class="nx">NewRGBA</span><span class="p">(</span><span class="nx">image</span><span class="p">.</span><span class="nx">Rect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">windowWidth</span><span class="p">,</span> <span class="nx">windowHeight</span><span class="p">))</span>
+<span class="nx">gift</span><span class="p">.</span><span class="nx">New</span><span class="p">().</span><span class="nx">Draw</span><span class="p">(</span><span class="nx">dst</span><span class="p">,</span> <span class="nx">background</span><span class="p">)</span></code></pre></div>
+<h2 id="aliens-are-coming">Aliens are coming!</h2>
+
+<p>We start off with the aliens first.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// process aliens
+</span><span class="c1"></span><span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">aliens</span><span class="p">);</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+	<span class="nx">aliens</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">Position</span><span class="p">.</span><span class="nx">X</span> <span class="p">=</span> <span class="nx">aliens</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">Position</span><span class="p">.</span><span class="nx">X</span> <span class="o">+</span> <span class="mi">5</span><span class="o">*</span><span class="nx">alienDirection</span>
+	<span class="k">if</span> <span class="nx">aliens</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">Status</span> <span class="p">{</span>
+		<span class="c1">// if alien is hit by a laser beam
+</span><span class="c1"></span>		<span class="k">if</span> <span class="nx">collide</span><span class="p">(</span><span class="nx">aliens</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">beam</span><span class="p">)</span> <span class="p">{</span>
+			<span class="c1">// draw the explosion
+</span><span class="c1"></span>			<span class="nx">aliens</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">FilterE</span><span class="p">.</span><span class="nx">DrawAt</span><span class="p">(</span><span class="nx">dst</span><span class="p">,</span> <span class="nx">src</span><span class="p">,</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Pt</span><span class="p">(</span><span class="nx">aliens</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">Position</span><span class="p">.</span><span class="nx">X</span><span class="p">,</span> <span class="nx">aliens</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">Position</span><span class="p">.</span><span class="nx">Y</span><span class="p">),</span> <span class="nx">gift</span><span class="p">.</span><span class="nx">OverOperator</span><span class="p">)</span>
+			<span class="c1">// alien dies, player scores points
+</span><span class="c1"></span>			<span class="nx">aliens</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">Status</span> <span class="p">=</span> <span class="kc">false</span>
+			<span class="nx">score</span> <span class="o">+=</span> <span class="nx">aliens</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">Points</span>
+			<span class="c1">// reset the laser beam
+</span><span class="c1"></span>			<span class="nx">resetBeam</span><span class="p">()</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="c1">// show alternating alients
+</span><span class="c1"></span>			<span class="k">if</span> <span class="nx">loop</span><span class="o">%</span><span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+				<span class="nx">aliens</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">Filter</span><span class="p">.</span><span class="nx">DrawAt</span><span class="p">(</span><span class="nx">dst</span><span class="p">,</span> <span class="nx">src</span><span class="p">,</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Pt</span><span class="p">(</span><span class="nx">aliens</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">Position</span><span class="p">.</span><span class="nx">X</span><span class="p">,</span> <span class="nx">aliens</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">Position</span><span class="p">.</span><span class="nx">Y</span><span class="p">),</span> <span class="nx">gift</span><span class="p">.</span><span class="nx">OverOperator</span><span class="p">)</span>
+			<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+				<span class="nx">aliens</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">FilterA</span><span class="p">.</span><span class="nx">DrawAt</span><span class="p">(</span><span class="nx">dst</span><span class="p">,</span> <span class="nx">src</span><span class="p">,</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Pt</span><span class="p">(</span><span class="nx">aliens</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">Position</span><span class="p">.</span><span class="nx">X</span><span class="p">,</span> <span class="nx">aliens</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">Position</span><span class="p">.</span><span class="nx">Y</span><span class="p">),</span> <span class="nx">gift</span><span class="p">.</span><span class="nx">OverOperator</span><span class="p">)</span>
+			<span class="p">}</span>
+			<span class="c1">// drop torpedoes
+</span><span class="c1"></span>			<span class="k">if</span> <span class="nx">rand</span><span class="p">.</span><span class="nx">Float64</span><span class="p">()</span> <span class="p">&lt;</span> <span class="nx">bombProbability</span> <span class="p">{</span>
+				<span class="nx">dropBomb</span><span class="p">(</span><span class="nx">aliens</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span>
+			<span class="p">}</span>			
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+<p>To determine where the aliens should be going, we multiply the horizontal (X) position of the alien with the variable <code>alienDirection</code>.</p>
+
+<p>We also use the <code>Status</code> of the alien to determine if it&rsquo;s alive or dead. If it&rsquo;s alive, we check if it has collided with a laser beam. If yes, it&rsquo;s dead. We draw the explosion sprite, set the <code>Status</code> to false, rack up the player points and reset the laser beam. Reseting the laser beam just means we set the beam&rsquo;s <code>Status</code> back to <code>false</code> and place it at the vertical (Y) level the same as the cannon.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nx">resetBeam</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">beam</span><span class="p">.</span><span class="nx">Status</span> <span class="p">=</span> <span class="kc">false</span>
+	<span class="nx">beam</span><span class="p">.</span><span class="nx">Position</span><span class="p">.</span><span class="nx">Y</span> <span class="p">=</span> <span class="mi">250</span>
+<span class="p">}</span></code></pre></div>
+<h2 id="collision-physics">Collision physics</h2>
+
+<p>If the alien didn&rsquo;t collide with the laser beam, we display either the normal sprite or the alternate sprite. This gives us the animation of a moving alien.</p>
+
+<p>Let&rsquo;s take a quick look at the collision physics, which is concentrated in the <code>collide()</code> function.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nx">collide</span><span class="p">(</span><span class="nx">s1</span><span class="p">,</span> <span class="nx">s2</span> <span class="nx">Sprite</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+	<span class="nx">spriteA</span> <span class="o">:=</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Rect</span><span class="p">(</span><span class="nx">s1</span><span class="p">.</span><span class="nx">Position</span><span class="p">.</span><span class="nx">X</span><span class="p">,</span> <span class="nx">s1</span><span class="p">.</span><span class="nx">Position</span><span class="p">.</span><span class="nx">Y</span><span class="p">,</span> <span class="nx">s1</span><span class="p">.</span><span class="nx">Position</span><span class="p">.</span><span class="nx">X</span><span class="o">+</span><span class="nx">s1</span><span class="p">.</span><span class="nx">size</span><span class="p">.</span><span class="nx">Dx</span><span class="p">(),</span> <span class="nx">s1</span><span class="p">.</span><span class="nx">Position</span><span class="p">.</span><span class="nx">Y</span><span class="o">+</span><span class="nx">s1</span><span class="p">.</span><span class="nx">size</span><span class="p">.</span><span class="nx">Dy</span><span class="p">())</span>
+	<span class="nx">spriteB</span> <span class="o">:=</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Rect</span><span class="p">(</span><span class="nx">s2</span><span class="p">.</span><span class="nx">Position</span><span class="p">.</span><span class="nx">X</span><span class="p">,</span> <span class="nx">s2</span><span class="p">.</span><span class="nx">Position</span><span class="p">.</span><span class="nx">Y</span><span class="p">,</span> <span class="nx">s2</span><span class="p">.</span><span class="nx">Position</span><span class="p">.</span><span class="nx">X</span><span class="o">+</span><span class="nx">s1</span><span class="p">.</span><span class="nx">size</span><span class="p">.</span><span class="nx">Dx</span><span class="p">(),</span> <span class="nx">s2</span><span class="p">.</span><span class="nx">Position</span><span class="p">.</span><span class="nx">Y</span><span class="o">+</span><span class="nx">s1</span><span class="p">.</span><span class="nx">size</span><span class="p">.</span><span class="nx">Dy</span><span class="p">())</span>
+	<span class="k">if</span> <span class="nx">spriteA</span><span class="p">.</span><span class="nx">Min</span><span class="p">.</span><span class="nx">X</span> <span class="p">&lt;</span> <span class="nx">spriteB</span><span class="p">.</span><span class="nx">Max</span><span class="p">.</span><span class="nx">X</span> <span class="o">&amp;&amp;</span> <span class="nx">spriteA</span><span class="p">.</span><span class="nx">Max</span><span class="p">.</span><span class="nx">X</span> <span class="p">&gt;</span> <span class="nx">spriteB</span><span class="p">.</span><span class="nx">Min</span><span class="p">.</span><span class="nx">X</span> <span class="o">&amp;&amp;</span>
+		<span class="nx">spriteA</span><span class="p">.</span><span class="nx">Min</span><span class="p">.</span><span class="nx">Y</span> <span class="p">&lt;</span> <span class="nx">spriteB</span><span class="p">.</span><span class="nx">Max</span><span class="p">.</span><span class="nx">Y</span> <span class="o">&amp;&amp;</span> <span class="nx">spriteA</span><span class="p">.</span><span class="nx">Max</span><span class="p">.</span><span class="nx">Y</span> <span class="p">&gt;</span> <span class="nx">spriteB</span><span class="p">.</span><span class="nx">Min</span><span class="p">.</span><span class="nx">Y</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="kc">true</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="kc">false</span>
+<span class="p">}</span></code></pre></div>
+<p>Give the two sprites are boxed within the two rectangles, the sprites are considered to have collided if all these conditions are met:</p>
+
+<ul>
+<li>spriteA.Min.X &lt; spriteB.Max.X</li>
+<li>spriteA.Max.X &gt; spriteB.Min.X</li>
+<li>spriteA.Min.Y &lt; spriteB.Max.Y</li>
+<li>spriteA.Max.Y &gt; spriteB.Min.Y</li>
+</ul>
+
+<p><img src="https://github.com/sausheong/invaders/blob/master/images/collision.png" alt="collision" /></p>
+
+<h2 id="bombs-away">Bombs away</h2>
+
+<p>The aliens drop bombs as they descend on the laser cannon. Obviously we don&rsquo;t want it to drop bombs continually, so we use a probability to determine if the bomb should be dropped or not.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// drop torpedoes
+</span><span class="c1"></span><span class="k">if</span> <span class="nx">rand</span><span class="p">.</span><span class="nx">Float64</span><span class="p">()</span> <span class="p">&lt;</span> <span class="nx">bombProbability</span> <span class="p">{</span>
+	<span class="nx">dropBomb</span><span class="p">(</span><span class="nx">aliens</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span>
+<span class="p">}</span>	</code></pre></div>
+<p>Dropping a bomb here means we create a new <code>Bomb</code> sprite and set it to start at where the alien is located, then adding it to the array of bombs.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nx">dropBomb</span><span class="p">(</span><span class="nx">alien</span> <span class="nx">Sprite</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">torpedo</span> <span class="o">:=</span> <span class="nx">Sprite</span><span class="p">{</span>
+		<span class="nx">size</span><span class="p">:</span>     <span class="nx">bombSprite</span><span class="p">,</span>
+		<span class="nx">Filter</span><span class="p">:</span>   <span class="nx">gift</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">gift</span><span class="p">.</span><span class="nx">Crop</span><span class="p">(</span><span class="nx">bombSprite</span><span class="p">)),</span>
+		<span class="nx">Position</span><span class="p">:</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Pt</span><span class="p">(</span><span class="nx">alien</span><span class="p">.</span><span class="nx">Position</span><span class="p">.</span><span class="nx">X</span><span class="o">+</span><span class="mi">7</span><span class="p">,</span> <span class="nx">alien</span><span class="p">.</span><span class="nx">Position</span><span class="p">.</span><span class="nx">Y</span><span class="p">),</span>
+		<span class="nx">Status</span><span class="p">:</span>   <span class="kc">true</span><span class="p">,</span>
+	<span class="p">}</span>
+
+	<span class="nx">bombs</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">bombs</span><span class="p">,</span> <span class="nx">torpedo</span><span class="p">)</span>
+<span class="p">}</span></code></pre></div>
+<p>Now that we have drawn the aliens (or its death by explosion), we check if it has moved outside of the window. It it has, we reverse the direction and move the aliens down.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// move the aliens back and forth
+</span><span class="c1"></span><span class="k">if</span> <span class="nx">aliens</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">Position</span><span class="p">.</span><span class="nx">X</span> <span class="p">&lt;</span> <span class="nx">alienSize</span> <span class="o">||</span> <span class="nx">aliens</span><span class="p">[</span><span class="nx">aliensPerRow</span><span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="nx">Position</span><span class="p">.</span><span class="nx">X</span> <span class="p">&gt;</span> <span class="nx">windowWidth</span><span class="o">-</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nx">alienSize</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">alienDirection</span> <span class="p">=</span> <span class="nx">alienDirection</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span>
+	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">aliens</span><span class="p">);</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+		<span class="nx">aliens</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">Position</span><span class="p">.</span><span class="nx">Y</span> <span class="p">=</span> <span class="nx">aliens</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">Position</span><span class="p">.</span><span class="nx">Y</span> <span class="o">+</span> <span class="mi">10</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+<p>We also need to move the bombs downwards on its deadly descend, according to the <code>boobSpeed</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// draw bombs, if laser cannon is hit, game over
+</span><span class="c1"></span><span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">bombs</span><span class="p">);</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+	<span class="nx">bombs</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">Position</span><span class="p">.</span><span class="nx">Y</span> <span class="p">=</span> <span class="nx">bombs</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">Position</span><span class="p">.</span><span class="nx">Y</span> <span class="o">+</span> <span class="nx">bombSpeed</span>
+	<span class="nx">bombs</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">Filter</span><span class="p">.</span><span class="nx">DrawAt</span><span class="p">(</span><span class="nx">dst</span><span class="p">,</span> <span class="nx">src</span><span class="p">,</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Pt</span><span class="p">(</span><span class="nx">bombs</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">Position</span><span class="p">.</span><span class="nx">X</span><span class="p">,</span> <span class="nx">bombs</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">Position</span><span class="p">.</span><span class="nx">Y</span><span class="p">),</span> <span class="nx">gift</span><span class="p">.</span><span class="nx">OverOperator</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">collide</span><span class="p">(</span><span class="nx">bombs</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">laserCannon</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">gameOver</span> <span class="p">=</span> <span class="kc">true</span>
+		<span class="nx">laserCannon</span><span class="p">.</span><span class="nx">FilterE</span><span class="p">.</span><span class="nx">DrawAt</span><span class="p">(</span><span class="nx">dst</span><span class="p">,</span> <span class="nx">src</span><span class="p">,</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Pt</span><span class="p">(</span><span class="nx">laserCannon</span><span class="p">.</span><span class="nx">Position</span><span class="p">.</span><span class="nx">X</span><span class="p">,</span> <span class="nx">laserCannon</span><span class="p">.</span><span class="nx">Position</span><span class="p">.</span><span class="nx">Y</span><span class="p">),</span> <span class="nx">gift</span><span class="p">.</span><span class="nx">OverOperator</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+<p>As the bombs drop, we need to check if it collides with the laser cannon. If it did, it&rsquo;s game over, and we draw the exploding cannon sprite.</p>
+
+<p>That&rsquo;s it for the aliens and their bombs in the game loop. Let&rsquo;s look at the laser cannon and its laser beam next.</p>
+
+<h2 id="laser-cannon-and-beams">Laser cannon and beams</h2>
+
+<p>The laser cannon is relatively simple. We continue drawing the cannon as long as it&rsquo;s not been destroyed.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// draw the laser cannon unless it&#39;s been destroyed
+</span><span class="c1"></span><span class="k">if</span> <span class="p">!</span><span class="nx">gameOver</span> <span class="p">{</span>
+	<span class="nx">laserCannon</span><span class="p">.</span><span class="nx">Filter</span><span class="p">.</span><span class="nx">DrawAt</span><span class="p">(</span><span class="nx">dst</span><span class="p">,</span> <span class="nx">src</span><span class="p">,</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Pt</span><span class="p">(</span><span class="nx">laserCannon</span><span class="p">.</span><span class="nx">Position</span><span class="p">.</span><span class="nx">X</span><span class="p">,</span> <span class="nx">laserCannon</span><span class="p">.</span><span class="nx">Position</span><span class="p">.</span><span class="nx">Y</span><span class="p">),</span> <span class="nx">gift</span><span class="p">.</span><span class="nx">OverOperator</span><span class="p">)</span>
+<span class="p">}</span></code></pre></div>
+<p>As for the laser beam, since there is only one variable to represent it you&rsquo;d probably realise that the cannon can only shoot one laser beam at a time. This is mostly for simplicity&rsquo;s sake.</p>
+
+<p>We use the <code>beamShot</code> variable to determine if the player has pressed the space bar, and therefore shot the laser cannon.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// if the beam is shot, place the beam at start of the cannon
+</span><span class="c1"></span><span class="k">if</span> <span class="nx">beamShot</span> <span class="p">{</span>
+	<span class="nx">beam</span><span class="p">.</span><span class="nx">Position</span><span class="p">.</span><span class="nx">X</span> <span class="p">=</span> <span class="nx">laserCannon</span><span class="p">.</span><span class="nx">Position</span><span class="p">.</span><span class="nx">X</span> <span class="o">+</span> <span class="mi">7</span>
+	<span class="nx">beam</span><span class="p">.</span><span class="nx">Status</span> <span class="p">=</span> <span class="kc">true</span>
+	<span class="nx">beamShot</span> <span class="p">=</span> <span class="kc">false</span>
+<span class="p">}</span></code></pre></div>
+<p>If yes, we place the beam at the tip of the laser cannon, set the beam&rsquo;s <code>Status</code> to <code>true</code> to indicate that the beam is in action and we should show it, then set <code>beamShot</code> back to false.</p>
+
+<p>We need to check the beam&rsquo;s <code>Status</code> and if it&rsquo;s in action, we draw it and then move it up. If the beam&rsquo;s position is outside the window, we reset the beam again.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// keep drawing the beam as it moves every loop
+</span><span class="c1"></span><span class="k">if</span> <span class="nx">beam</span><span class="p">.</span><span class="nx">Status</span> <span class="p">{</span>
+	<span class="nx">beam</span><span class="p">.</span><span class="nx">Filter</span><span class="p">.</span><span class="nx">DrawAt</span><span class="p">(</span><span class="nx">dst</span><span class="p">,</span> <span class="nx">src</span><span class="p">,</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Pt</span><span class="p">(</span><span class="nx">beam</span><span class="p">.</span><span class="nx">Position</span><span class="p">.</span><span class="nx">X</span><span class="p">,</span> <span class="nx">beam</span><span class="p">.</span><span class="nx">Position</span><span class="p">.</span><span class="nx">Y</span><span class="p">),</span> <span class="nx">gift</span><span class="p">.</span><span class="nx">OverOperator</span><span class="p">)</span>
+	<span class="nx">beam</span><span class="p">.</span><span class="nx">Position</span><span class="p">.</span><span class="nx">Y</span> <span class="o">-=</span> <span class="mi">10</span>
+<span class="p">}</span>
+
+<span class="c1">// if the beam leaves the window reset it
+</span><span class="c1"></span><span class="k">if</span> <span class="nx">beam</span><span class="p">.</span><span class="nx">Position</span><span class="p">.</span><span class="nx">Y</span> <span class="p">&lt;</span> <span class="mi">0</span> <span class="p">{</span>
+	<span class="nx">resetBeam</span><span class="p">()</span>
+<span class="p">}</span></code></pre></div>
+<h1 id="wrapping-up-and-printing-the-image">Wrapping up and printing the image</h1>
+
+<p>Just before we end the game loop, we print the image to the screen, print the score and increment the loop.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">printImage</span><span class="p">(</span><span class="nx">dst</span><span class="p">)</span>
+<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&#34;\n\nSCORE:&#34;</span><span class="p">,</span> <span class="nx">score</span><span class="p">)</span>
+<span class="nx">loop</span><span class="o">++</span></code></pre></div>
+<p>So how <em>exactly</em> do we print the image on the screen? This is done through a simple hack on ITerm2 (so this only works on iTerm2, sorry!)</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// this only works for iTerm2!
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">printImage</span><span class="p">(</span><span class="nx">img</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Image</span><span class="p">)</span> <span class="p">{</span>
+	<span class="kd">var</span> <span class="nx">buf</span> <span class="nx">bytes</span><span class="p">.</span><span class="nx">Buffer</span>
+	<span class="nx">png</span><span class="p">.</span><span class="nx">Encode</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">img</span><span class="p">)</span>
+	<span class="nx">imgBase64Str</span> <span class="o">:=</span> <span class="nx">base64</span><span class="p">.</span><span class="nx">StdEncoding</span><span class="p">.</span><span class="nx">EncodeToString</span><span class="p">(</span><span class="nx">buf</span><span class="p">.</span><span class="nx">Bytes</span><span class="p">())</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;\x1b[2;0H\x1b]1337;File=inline=1:%s\a&#34;</span><span class="p">,</span> <span class="nx">imgBase64Str</span><span class="p">)</span>
+<span class="p">}</span></code></pre></div>
+<p>And that&rsquo;s it! All in all, including comments, the code is less than 300 lines. If it seems pretty short, you should remember the original entire compiled binary ROM for the game is less than 110kb in size, including images and music! And mine is a simpler clone without the full game features (multiple lives, defender bunkers, ufo etc) and also includes 2 external libraries.</p>
+
+<p>This is how it looks on my computer. How does it look on yours?</p>
+
+<p><img src="https://github.com/sausheong/invaders/blob/master/images/invaders.gif" alt="invaders" /></p>
+
+<h1 id="code">Code</h1>
+
+<p>The code for this is all here in this GitHub repository.</p>
+
+<p><a href="https://github.com/sausheong/invaders" target="_blank">https://github.com/sausheong/invaders</a></p>
+
+    </div>
+    
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <aside><div id="disqus_thread"></div></aside>
+    <script type="text/javascript">
+      var disqus_shortname = 'space';
+      (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container has-text-centered">
+    <p>&copy; <a href="https://github.com/sausheong">Chang Sau Sheong</a> 2018</p>
+    
+  </div>
+</section>
+
+</body>
+</html>
