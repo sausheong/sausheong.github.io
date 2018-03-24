@@ -94,7 +94,14 @@ This is because computer programs are really good at executing algorithms &ndash
 
 <p>This is because computer programs are really good at executing algorithms &ndash; instructions that follow defined steps and patterns that are precise and often repetitious. And in most cases they work well for us for tasks like number crunching or repetitious boring work.</p>
 
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Eniac.jpg" alt="" /></p>
+
+<figure >
+    
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Eniac.jpg" width="600px" />
+    
+    
+</figure>
+
 
 <p>What computer programs are not so good at doing though, are tasks that are not so well defined, and doesn’t follow precise patterns.</p>
 
@@ -108,7 +115,19 @@ This is because computer programs are really good at executing algorithms &ndash
 
 <p>Let&rsquo;s take a simple example create a black box that accepts an input and tries to predict the output.</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/predictor1.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/predictor1.png" width="400px" />
+    
+    
+    <figcaption>
+        <h4>Predictor</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>We feed it with an input and get the output from this predictor. Since we know what the actual output should be, we can tell how different the predicted output is from the actual output. This difference between the actual and the predicted output becomes the <em>error</em>.</p>
 
@@ -120,7 +139,19 @@ This is because computer programs are really good at executing algorithms &ndash
 
 <p>Let’s see this in a more practical way. Let’s say we have a predictor with the simple mathematical formula <code>o = i x c</code> where <code>o</code> is the output, <code>i</code> is the input and <code>c</code> is configurable parameter.</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/predictor2.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/predictor2.png" width="400px" />
+    
+    
+    <figcaption>
+        <h4>Predictor2</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>We are also given a confirmed valid output with a given input, that is, we know if <code>i</code> is 10, <code>o</code> is 26. How do we find <code>c</code> using the predictor?</p>
 
@@ -136,15 +167,51 @@ This is because computer programs are really good at executing algorithms &ndash
 
 <p>Let’s step out a bit. We talked a bit about how a machine can possible learn using mathematical functions. How humans do the same thing (as research over the years have shown) is using something called a <a href="[Understanding Neurons’ Role in the Nervous System](https://www.verywellmind.com/what-is-a-neuron-2794890)" target="_blank"><em>neuron</em></a>.</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/C757D1E3-1446-444B-AA58-B2440E60BB09.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/purkinjecell.jpg" width="400px" />
+    
+    
+    <figcaption>
+        <h4>Drawing of pigeon neuron cells</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>A neuron, or a nerve cell, is a cell that receives information, processes them and transmits through electrical and chemical signals. Our brain and spinal cord (part of what is called our central nervous system) consists of neurons.</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/bneuron.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/bneuron.png" width="600px" />
+    
+    
+    <figcaption>
+        <h4>Neuron</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>A neuron consists of a cell body, dendrites and an axon and can connected to each other to form neural networks. In a neural network, a neuron&rsquo;s axon is connected to the next neuron&rsquo;s dendrites and synaptic signals are transmitted from a neuron through its axon, and received by the next neuron through its dendrites. The connections between the axon and the dendrites is the synapse.</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/synapses.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/synapses.png" width="600px" />
+    
+    
+    <figcaption>
+        <h4>Synapses</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>The incoming signals through the dendrite are strengthened or weakened based on how often the synaptic connections are being used and these strengthened or weakened signals are pooled together in the cell body.</p>
 
@@ -158,7 +225,19 @@ This is because computer programs are really good at executing algorithms &ndash
 
 <p>We start off with building an artificial neuron that emulates the actual biological neuron. This artificial neuron is our upgraded predictor.</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/aneuron1.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/aneuron1.png" width="400px" />
+    
+    
+    <figcaption>
+        <h4>Artificial neuron</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>Instead of a single input we have a bunch of inputs, each of the modified with a weight (in place of a configurable parameter). These modified inputs are summed up and passed through a triggering or <a href="[Understanding Activation Functions in Neural Networks](https://medium.com/the-theory-of-everything/understanding-activation-functions-in-neural-networks-9491262884e0)" target="_blank">activation function</a> which determines if an output should be sent.</p>
 
@@ -184,7 +263,19 @@ This is because computer programs are really good at executing algorithms &ndash
 
 <p>Calculating the final outputs in this network can be a bit tedious if we have to do it one at a time, especially if we have a lot of neurons. Fortunately there’s an easier way. If we represent the inputs as well as the weights as matrices, we can use the matrix operations to make the calculations easier. In fact we don’t need to do individual neuron input summation and output activation anymore, we simply do it layer by layer.</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/matrix.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/matrix1.png" width="600px" />
+    
+    
+    <figcaption>
+        <h4>Using matrices</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>This will help a lot later in the code, as you will see.</p>
 
@@ -196,7 +287,19 @@ This is because computer programs are really good at executing algorithms &ndash
 
 <p>However you’d probably realise that the neural network is quite a bit more complicated than our predictor. First, we have multiple neurons arranged in layers. As a result, while we know the final target output,  we don’t know the intermediate target outputs of the different layers in between. Secondly, we while our predictor is linear, our neurons are passed through a non-linear activation function so the output is not linear. So how do we change the weights of the different connections?</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/aneuron2.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/aneuron2.png" width="400px" />
+    
+    
+    <figcaption>
+        <h4>Weights and outputs in artificial neuron</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>We know from our predictor earlier, we are looking to minimise the final output error <code>Ek</code> by changing the various output weights that connect between the hidden layer to the output layer, <code>wjk</code>.</p>
 
@@ -204,23 +307,58 @@ This is because computer programs are really good at executing algorithms &ndash
 
 <p>Let’s look at this from a different perspective. We know the final output error <code>Ek</code>  is:</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/errork1.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/errork1.png" width="200px" />
+    
+    
+</figure>
+
 
 <p>However just subtracting <code>ok</code> from <code>tk</code> isn’t a great idea because it will often result in negative numbers. If we are trying to find the final output error of the network, we’re actually adding up all the errors, so if some of them are negative numbers it will result in the wrong final output error. A common solution is to use the <em>squared error</em>, which the name suggests is:</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/errork.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/errork.png" width="250px" />
+    
+    
+</figure>
+
 
 <p>At the same time we know:</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/ok.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/ok.png" width="250px" />
+    
+    
+</figure>
+
 
 <p>So we know (roughly speaking) if we map <code>Ek</code> with <code>wjk</code> we will get a range of values (blue line) plotted on a chart (actually this is a multi- dimensional chart but in order to keep our collective sanity, I’m going to use a 2 dimensional chart):</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/g.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/g.png" width="400px" />
+    
+    
+</figure>
+
 
 <p>As you can see, to reach the minimal value of <code>Ek</code> we follow the gradient downwards or the negative gradient. In other words, we try to find the negative gradient, change the weight accordingly, then find negative gradient again, until we reach the minimal point of <code>Ek</code>. This algorithm is called <a href="[An Introduction to Gradient Descent and Linear Regression](https://spin.atomicobject.com/2014/06/24/gradient-descent-linear-regression/)" target="_blank"><em>gradient descent</em></a>.</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/gd.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/gd.png" width="400px" />
+    
+    
+</figure>
+
 
 <p>You might remember from secondary school calculus, in order to find the gradient of a point in a function we use <a href="[Introduction to Derivatives](https://www.mathsisfun.com/calculus/derivatives-introduction.html)" target="_blank">differentiation</a> to get the derivative of the function. This allows us to find out how much we need to tweak <code>wjk</code>. To find the minimum value of <code>Ek</code>, we subtract this amount from <code>wjk</code> and we do this repeatedly.</p>
 
@@ -228,65 +366,170 @@ This is because computer programs are really good at executing algorithms &ndash
 
 <p>In order to calculate the change that we need for the output weights <code>wjk</code> we should compute the derivative of the final output error <code>Ek</code> with respect to the output weights <code>wjk</code>. This means:</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/d1.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/d1.png" width="200px" />
+    
+    
+</figure>
+
 
 <p>That’s neat but how do we get our results using the other variables we have? To do that we need to use the <a href="[Chain rule - Wikipedia](https://en.wikipedia.org/wiki/Chain_rule)" target="_blank"><em>chain rule</em></a>:</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/d2.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/d2.png" width="300px" />
+    
+    
+</figure>
+
 
 <p>That looks slightly better, but we can go even one step further:</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/d3.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/d3.png" width="400px" />
+    
+    
+</figure>
+
 
 <p>Let’s get to work. First, we need to find the derivative of <code>Ek</code> with respect to the final output <code>ok</code>.</p>
 
 <p>From earlier, we know <code>Ek</code> is the squared error:</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/errork.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/errork.png" width="250px" />
+    
+    
+</figure>
+
 
 <p>But to differentiate nicely we scale it down by half (I know it’s a bit like cheating but it makes our lives easier):</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/d4.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/d4.png" width="300px" />
+    
+    
+</figure>
+
 
 <p>The derivative of this is:</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/d5.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/d5.png" width="300px" />
+    
+    
+</figure>
+
 
 <p>That’s easy enough! Let’s look at the derivative of the final output <code>ok</code> with respect to the summation of the product of the intermediate outputs and the weights, <code>sumk</code>. We know the summation is passed through a sigmoid function <code>sig</code> in order to get the final output <code>ok</code>:</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/d6.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/d6.png" width="200px" />
+    
+    
+</figure>
+
 
 <p>Therefore the derivative of the final output <code>ok</code> with respect to the summation <code>sumk</code>is:</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/d7.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/d7.png" width="400px" />
+    
+    
+</figure>
+
 
 <p>This is because we know the derivative of a sigmoid is:</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/dsigmoid.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/dsigmoid.png" width="400px" />
+    
+    
+</figure>
+
 
 <p>I mentioned earlier above that there are good reasons why we use a sigmoid function — easy differentiation is one of them! The proof of this can be found <a href="[How to Compute the Derivative of a Sigmoid Function (fully worked example) - kawahara.ca](http://kawahara.ca/how-to-compute-the-derivative-of-a-sigmoid-function-fully-worked-example/)" target="_blank">here</a>.  Now since:</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/d6.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/d6.png" width="200px" />
+    
+    
+</figure>
+
 
 <p>we can further simplify the equation to:</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/d8.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/d8.png" width="350px" />
+    
+    
+</figure>
+
 
 <p>Finally we want to find the derivative of the summation <code>sumk</code> with respect to the output weight <code>wjk</code>.  We know the summation is the sum of the product of the output weight <code>wjk</code> and the previous output <code>oj</code>:</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/d9.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/d9.png" width="300px" />
+    
+    
+</figure>
+
 
 <p>So the derivative of the summation <code>sumk</code> with respect to the output weight <code>wjk</code> is:</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/d10.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/d10.png" width="200px" />
+    
+    
+</figure>
+
 
 <p>Now that we have all the 3 derivatives, let’s put them together. Earlier, we said:</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/d3.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/d3.png" width="400px" />
+    
+    
+</figure>
+
 
 <p>Therefore:</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/d11.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/d11.png" width="500px" />
+    
+    
+</figure>
+
 
 <p>With that we have the equation to change the weights for the output layer. What about the weights for the hidden layer(s)? We simply use the same equation but going backwards one layer. This algorithm is called <a href="[Neural networks and deep learning](http://neuralnetworksanddeeplearning.com/chap2.html)" target="_blank"><em>back propagation</em></a> because it calculates the weights backwards from the final output.</p>
 
@@ -296,15 +539,46 @@ This is because computer programs are really good at executing algorithms &ndash
 
 <p>If you think about it, the error at the output layer is contributed by the errors from the hidden layer according to the connections from the previous hidden layer. In other words, the combination of the errors for the hidden layer forms the errors for the output layer. And since the weights represent the importance of the input, it also represents the contribution of the error.</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/error.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/error.png" width="400px" />
+    
+    
+    <figcaption>
+        <h4>Contribution of errors</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>As as result, we can use the ratio of the weights to calculate the change to make for each weight.  And because the denominator is constant, we can simplify this further by simply drop the denominators.</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/error_backpropagate.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/error_backpropagate.png" width="500px" />
+    
+    
+    <figcaption>
+        <h4>Back propagating error</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>Now let’s see how we can back propagate the errors from the output layer using matrices.</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/matrix.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/matrix2.png" width="700px" />
+    
+    
+</figure>
+
 
 <p>Once we have the errors from the hidden layer, we can use the same equation as before, but substituting the final output error with the hidden output error.</p>
 
@@ -312,7 +586,14 @@ This is because computer programs are really good at executing algorithms &ndash
 
 <p>So an artificial neural network learns through back propagation using gradient descent. During gradient descent iterations it’s often easy to overshoot, which results in the moving too quickly and stepping over the minimal <code>wjk</code>. To prevent that we use a <em>learning rate</em> <code>l</code> to scale down the amount we want to change for the weights.  This results in the change of our earlier equation:</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/l.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/l.png" width="600px" />
+    
+    
+</figure>
+
 
 <p><code>l</code> is generally a small value so that we are more cautious about overshooting the minimum but we can’t make it too small either, or else it will take too long to train.  There is quite a bit of research literature on setting the <a href="[Setting the learning rate of your neural network.](https://www.jeremyjordan.me/nn-learning-rate/)" target="_blank">best learning rate</a>.</p>
 
@@ -507,17 +788,38 @@ This is because computer programs are really good at executing algorithms &ndash
 
 <p>The first thing we need to do after getting the final outputs is to determine the output errors. This is relatively simple, we simply subtract our target data from the final outputs to get <code>outputErrors</code>:</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/errork1.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/errork1.png" width="250px" />
+    
+    
+</figure>
+
 
 <p>The hidden errors from the hidden layer is a bit trickier. Remember this?</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/matrix.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/matrix1.png" width="600px" />
+    
+    
+</figure>
+
 
 <p>We use back propagation to calculate the hidden errors by applying the dot product on the transpose of the output weights and the output errors. This will give us <code>hiddenErrors</code>.</p>
 
 <p>Now that we have the errors, we simply use the formula we derived earlier (including the learning rate) for changes to the weights we need to do:</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/l.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/l.png" width="600px" />
+    
+    
+</figure>
+
 
 <p>Remember that we are subtracting this number from the weights. Since this is a negative number, we end up adding this to the weights, which is what we did.</p>
 
