@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy; &lt;a href=&#34;https://github.com/sausheong&#34;&gt;Chang Sau Sheong&lt;/a&gt; 2018</copyright>
-    <lastBuildDate>Thu, 01 Feb 2018 01:15:07 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 24 Mar 2018 01:51:07 +0800</lastBuildDate>
     
 	<atom:link href="https://sausheong.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>How to build a simple artificial neural network with Go</title>
+      <link>https://sausheong.github.io/posts/how-to-build-a-simple-artificial-neural-network-with-go/</link>
+      <pubDate>Sat, 24 Mar 2018 01:51:07 +0800</pubDate>
+      
+      <guid>https://sausheong.github.io/posts/how-to-build-a-simple-artificial-neural-network-with-go/</guid>
+      <description>I have written a lot of computer programs in my career, most of the time to solve various problems or perform some tasks (or sometimes just for fun). For most part, other than bugs, as long as I tell the computer what to do very clearly (in whichever the programming language I use) it will obediently follow my instructions.
+This is because computer programs are really good at executing algorithms &amp;ndash; instructions that follow defined steps and patterns that are precise and often repetitious.</description>
+    </item>
     
     <item>
       <title>Writing Space Invaders with Go</title>
