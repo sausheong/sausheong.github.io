@@ -105,7 +105,14 @@ This is because computer programs are really good at executing algorithms &ndash
 
 <p>What computer programs are not so good at doing though, are tasks that are not so well defined, and doesn’t follow precise patterns.</p>
 
-<p><img src="https://imgs.xkcd.com/comics/tasks.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://imgs.xkcd.com/comics/tasks.png" width="250px" />
+    
+    
+</figure>
+
 
 <p>So how can we use computers to do such tasks? Just think about how <em>you</em> do this task. You probably learned about birds when you&rsquo;re young, and you&rsquo;ve been told certain animals are birds and certain animals are not, mostly through seeing them either in real life or through picture books. When you get it wrong, you&rsquo;ll be told and you remember that. Over time you have a <em>mental model</em> of what&rsquo;s a bird and what&rsquo;s not. Every time you see something parts of a bird (clawed feet, feathered wings, sharp beak) you don&rsquo;t even need to see the whole animal anymore, you&rsquo;ll automatically identify it correctly by comparing it with your mental model.</p>
 
@@ -245,7 +252,19 @@ This is because computer programs are really good at executing algorithms &ndash
 
 <p>For now, we will assume the use of a common activation function, the <a href="[Sigmoid function](https://ipfs.io/ipfs/QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6uco/wiki/Sigmoid_function.html)" target="_blank">sigmoid function</a>.</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/sigmoid.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/sigmoid.png" width="600px" />
+    
+    
+    <figcaption>
+        <h4>Sigmoid function</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>The interesting thing to note about this function is that the output is always within the range between 0 and 1 but never reaches either.</p>
 
@@ -253,7 +272,19 @@ This is because computer programs are really good at executing algorithms &ndash
 
 <p>Just like we had neurons forming neural networks, we can also connect our artificial neurons to form artificial neural networks.</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/ann.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/ann.png" width="600px" />
+    
+    
+    <figcaption>
+        <h4>Artificial neural network with 3 layers</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>It seems quite a bit more complicated now!</p>
 
@@ -601,15 +632,51 @@ This is because computer programs are really good at executing algorithms &ndash
 
 <p>With our current neural network, the activation function is a sigmoid that cuts though <code>y</code> at 0.5. Any changes to the weights simply changes the the steepness of the sigmoid. As a result there is a limitation to how the neuron is being triggered. For example, to make the sigmoid return a low value of 0.1 when <code>x</code> is 2 is going to be impossible.</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/nobias.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/nobias.png" width="600px" />
+    
+    
+    <figcaption>
+        <h4>Sigmoid functions without bias</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>However if we add a <a href="[Make Your Own Neural Network: Bias Nodes in Neural Networks](http://makeyourownneuralnetwork.blogspot.sg/2016/06/bias-nodes-in-neural-networks.html)" target="_blank"><em>bias</em></a> value to <code>x</code> this changes things altogether.</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/bias.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/bias.png" width="600px" />
+    
+    
+    <figcaption>
+        <h4>Sigmoid functions with bias</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>How we do this is by adding something called a <em>bias neuron</em> to the neural network. This bias neuron always outputs 1.0 and is added to a layer but doesn’t have any have any input.</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/ann_bias.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/ann_bias.png" width="600px" />
+    
+    
+    <figcaption>
+        <h4>Artificial neural network with bias</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>Not all neural networks need bias neurons. In the simple neural network we’re going to write later, we’ll not be using any bias neurons (and it works pretty ok).</p>
 
@@ -718,7 +785,19 @@ This is because computer programs are really good at executing algorithms &ndash
 
 <p>If you remember from above, the weights we are creating is a matrix with the number of columns represented by <em>from</em> layer, and the number of rows represented by the <em>to</em> layer. This is because the number of rows in the weight must the same as the number of neurons in the <em>to</em> layer and the number of columns must be the same number of neurons as the <em>from</em> layer (in order to multiply with the outputs of the <em>from</em> layer). Take a while to look at the diagrams below again — it will make more sense.</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/weights.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/weights.png" width="600px" />
+    
+    
+    <figcaption>
+        <h4>Neural network and matrices</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>Initializing the weights with a random set of numbers is one of the important parameters. For this we’re going to use a function <code>randomArray</code> to create this random array of float64.</p>
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nx">randomArray</span><span class="p">(</span><span class="nx">size</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">v</span> <span class="kt">float64</span><span class="p">)</span> <span class="p">(</span><span class="nx">data</span> <span class="p">[]</span><span class="kt">float64</span><span class="p">)</span> <span class="p">{</span>
@@ -751,7 +830,19 @@ This is because computer programs are really good at executing algorithms &ndash
 <span class="p">}</span></code></pre></div>
 <p>We start off with the inputs first, by creating a matrix called <code>inputs</code> to represent the input values. Next we find the inputs to hidden layer by applying the dot product between the hidden weights and the inputs, creating a matrix called <code>hiddenInputs</code>. In other words, given a 2 neuron input layer and a 3 neuron hidden layer, this is what we get:</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/matrix.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/matrix2.png" width="700px" />
+    
+    
+    <figcaption>
+        <h4>Using matrices with bias</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>Next, we apply our activation function, <code>sigmoid</code>  on the hidden inputs to produce <code>hiddenOutputs</code>.</p>
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nx">sigmoid</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span> <span class="nx">c</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">z</span> <span class="kt">float64</span><span class="p">)</span> <span class="kt">float64</span> <span class="p">{</span>
@@ -881,7 +972,19 @@ This is because computer programs are really good at executing algorithms &ndash
 
 <p>Let’s start with a ‘hello world’ of machine learning — using the MNIST dataset  to recognise handwritten numeric digits. The MNIST dataset is a set of 60,000 scanned handwritten digit images used for training and 10,000 similar images used for testing. It’s a subset of a larger set from NIST (National Institute of Standards and Technology)  that has been size-normalised and centered. The images are in black and white and are 28 x 28 pixels. The original dataset are stored in a format is that more difficult to work with, so people have come up with <a href="[MNIST in CSV](https://pjreddie.com/projects/mnist-in-csv/)" target="_blank">simpler CSV formatted datasets</a>, which is what we’re using.</p>
 
-<p><img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/mnist_dataset.png" alt="MNIST dataset" /></p>
+
+<figure >
+    
+        <img src="https://raw.githubusercontent.com/sausheong/gonn/master/imgs/mnist_dataset.png" width="700px" />
+    
+    
+    <figcaption>
+        <h4>MNIST dataset</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>In the CSV format every line is an image, and each column except the first represents a pixel. The first column is the label, which is the actual digit that the image is supposed to represent. In other words, this is the target output. Since there are 28 x 28 pixels, this means there are 785 columns in every row.</p>
 
