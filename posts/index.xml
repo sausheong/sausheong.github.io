@@ -18,8 +18,8 @@
       <pubDate>Tue, 01 May 2018 23:33:07 +0800</pubDate>
       
       <guid>https://sausheong.github.io/posts/building-neural-networks-with-tensorflow-keras-pytorch-mxnet/</guid>
-      <description>A few weeks ago I went through the steps of building a very simple neural network and implemented it from scratch in Go. While I am a Go enthusiast, I must admit that if I want to focus on using deep learning to solve problems, it&amp;rsquo;s probably not the best tool given the many deep learning frameworks that are already out there.
-There are many ways to compare deep learning frameworks.</description>
+      <description>A few weeks ago I went through the steps of building a very simple neural network and implemented it from scratch in Go. However there are many deep learning frameworks that are already available, so doing it from scratch isn&amp;rsquo;t normally what you&amp;rsquo;ll do if you want to use deep learning as a tool to solve problems.
+The question is with the many that deep learning frameworks, which one should I use?</description>
     </item>
     
     <item>
