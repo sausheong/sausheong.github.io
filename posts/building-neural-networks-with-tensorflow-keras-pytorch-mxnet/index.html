@@ -11,7 +11,7 @@
 There are many ways to compare deep learning frameworks.'>
 <meta property='og:url' content='https://sausheong.github.io/posts/building-neural-networks-with-tensorflow-keras-pytorch-mxnet/'>
 <meta property='og:site_name' content='sausheong&#39;s space'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://www.gravatar.com/avatar/ee191858f0d96ad93098694537f71998?s=256'><meta property='article:author' content='https://facebook.com/sausheong'><meta property='article:section' content='Posts'><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@sausheong'><meta name='twitter:creator' content='@sausheong'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://www.gravatar.com/avatar/ee191858f0d96ad93098694537f71998?s=256'><meta property='article:author' content='https://facebook.com/sausheong'><meta property='article:section' content='Posts'><meta property='article:published_time' content='2018-05-01T23:33:07&#43;08:00'/><meta property='article:modified_time' content='2018-05-01T23:33:07&#43;08:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@sausheong'><meta name='twitter:creator' content='@sausheong'>
 <link rel="stylesheet" href="https://sausheong.github.io/css/style.css"/><link rel='stylesheet' href='/css/custom.css'></head>
 <body>
 
@@ -84,7 +84,7 @@ There are many ways to compare deep learning frameworks.'>
     <div class="subtitle is-6 is-pulled-right">
       
     </div>
-    <h2 class="subtitle is-6">January 1, 0001</h2>
+    <h2 class="subtitle is-6">May 1, 2018</h2>
     <h1 class="title">Building simple artificial neural networks with TensorFlow, Keras, PyTorch and MXNet/Gluon</h1>
       
     <div class="content">
@@ -92,9 +92,21 @@ There are many ways to compare deep learning frameworks.'>
 
 <p>A few weeks ago I <a href="https://sausheong.github.io/posts/how-to-build-a-simple-artificial-neural-network-with-go/" target="_blank">went through the steps of building a very simple neural network</a> and implemented it from scratch in Go. While I am a Go enthusiast, I must admit that if I want to focus on using deep learning to solve problems, it&rsquo;s probably not the best tool given the many deep learning frameworks that are already out there.</p>
 
-<p>There are many ways to compare deep learning frameworks. Here’s a relatively recent (September 2017) <a href="[data-science-blogs/deep-learning-libraries.md at master · thedataincubator/data-science-blogs · GitHub](https://github.com/thedataincubator/data-science-blogs/blob/master/deep-learning-libraries.md)" target="_blank">ranking by Data Incubator</a> that gives an interesting popularity ranking based on their Github, Stack Overflow and Google search results scores.</p>
+<p>There are many ways to compare deep learning frameworks. Here’s a relatively recent (September 2017) <a href="[data-science-blogs/deep-learning-libraries.md at master · thedataincubator/data-science-blogs · GitHub](https://github.com/thedataincubator/data-science-blogs/raw/master/deep-learning-libraries.md)" target="_blank">ranking by Data Incubator</a> that gives an interesting popularity ranking based on their Github, Stack Overflow and Google search results scores.</p>
 
-<p><img src="https://github.com/sausheong/pynn/blob/master/imgs/table.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://github.com/sausheong/pynn/raw/master/imgs/table.png" width="600px" />
+    
+    
+    <figcaption>
+        <h4>Deep learning frameworks popularity</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>From the results, it’s quite clear that TensorFlow is easily the most popular framework and with Keras now being a part of TensorFlow itself, it looks like things won’t change much in the near future. Also, almost all popular deep learning frameworks have Python APIs, so it seems a combination of TensorFlow/Keras with Python seems the way to go.</p>
 
@@ -102,7 +114,19 @@ There are many ways to compare deep learning frameworks.'>
 
 <p>As a quick refresher, the neural network I created was a simple feed-forward neural network, also commonly called a multi-level perceptron (MLP). Using this simple MLP, I took the MNIST dataset of 60,000 handwritten digits and trained the neural network with it. After that I used the test dataset of 10,000 handwritten digits to test the accuracy of the neural network.</p>
 
-<p><img src="https://github.com/sausheong/pynn/blob/master/imgs/nn.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://github.com/sausheong/pynn/raw/master/imgs/nn.png" />
+    
+    
+    <figcaption>
+        <h4>Our simple artificial neural network</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>The neural network had 3 layers, the first (input) layer has 784 neurons (28 x 28 pixels), the second (hidden) layer has 200 neurons and the final (output) layer has 10 neurons. I used the sigmoid function as the activation function, and also mean square error as the loss function. Finally, I used 0.1 as the learning rate and didn’t use any bias neurons at all.</p>
 
@@ -160,7 +184,19 @@ There are many ways to compare deep learning frameworks.'>
     <span class="k">return</span> <span class="n">final_outputs</span></code></pre></div>
 <p>This is where we define the neural network.  It’s relatively straightforward. If the hidden and output weights are not passed in, the weights are randomly generated using the <code>tf.random_uniform</code> function.  This happens when we train the neural network.</p>
 
-<p><img src="imgs/neuron.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://github.com/sausheong/pynn/raw/master/imgs/neuron.png" width="400px" />
+    
+    
+    <figcaption>
+        <h4>How a neuron works</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>As in <a href="https://sausheong.github.io/posts/how-to-build-a-simple-artificial-neural-network-with-go/" target="_blank">the previous neural network I created</a>, we first multiply (using <code>tf.matmul</code>) the input <code>x</code> with the hidden weights to get the hidden outputs .  Remember we’re working with matrices so <code>tf.matmul</code> is actually a dot product function and the hidden weights and the inputs are both matrices.</p>
 
@@ -237,7 +273,19 @@ There are many ways to compare deep learning frameworks.'>
 
 <p>Here’s the results.</p>
 
-<p><img src="https://github.com/sausheong/pynn/blob/master/imgs/nn_tf.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://github.com/sausheong/pynn/raw/master/imgs/nn_tf.png" />
+    
+    
+    <figcaption>
+        <h4>Results</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>The model predicts correctly 97.25% of the time, which is not too good but ok. Now let’s look at Keras next.</p>
 
@@ -306,11 +354,35 @@ There are many ways to compare deep learning frameworks.'>
 
 <p>Here’s what you see when training.</p>
 
-<p><img src="https://github.com/sausheong/pynn/blob/master/imgs/nn_keras_1.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://github.com/sausheong/pynn/raw/master/imgs/nn_keras_1.png" />
+    
+    
+    <figcaption>
+        <h4>Results - training</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>And here’s the results when predicting.</p>
 
-<p><img src="https://github.com/sausheong/pynn/blob/master/imgs/nn_keras_2.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://github.com/sausheong/pynn/raw/master/imgs/nn_keras_2.png" />
+    
+    
+    <figcaption>
+        <h4>Results - predicting</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>The accuracy here is much better, we have 99.42% accuracy in detecting the correct images.</p>
 
@@ -414,7 +486,19 @@ There are many ways to compare deep learning frameworks.'>
 
 <p>Here’s the results.</p>
 
-<p><img src="https://github.com/sausheong/pynn/blob/master/imgs/nn_pytorch.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://github.com/sausheong/pynn/raw/master/imgs/nn_pytorch.png" />
+    
+    
+    <figcaption>
+        <h4>Results</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>As you can see, the network couldn’t converge properly within 50 epochs with the same learning rate.  The prediction accuracy here is quite poor, only 95.17%. On the other hand when I switched over to using the SGD optimizer, the accuracy was better at 98.29%.</p>
 
@@ -509,7 +593,19 @@ There are many ways to compare deep learning frameworks.'>
 
 <p>Here’s the result of the prediction using the MXNet framework with Gluon.</p>
 
-<p><img src="https://github.com/sausheong/pynn/blob/master/imgs/nn_mxnet.png" alt="" /></p>
+
+<figure >
+    
+        <img src="https://github.com/sausheong/pynn/raw/master/imgs/nn_mxnet.png" />
+    
+    
+    <figcaption>
+        <h4>Results</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>The accuracy is 97.49% which is pretty much the same as the rest of the frameworks.</p>
 
