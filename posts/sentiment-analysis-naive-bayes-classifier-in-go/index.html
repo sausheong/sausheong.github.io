@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>Sentiment analysis with a simple naive Bayes classifier in Go | sausheong&#39;s space</title>
+
+<meta property='og:title' content='Sentiment analysis with a simple naive Bayes classifier in Go - sausheong&#39;s space'>
+<meta property='og:description' content='I was reading the Master Algorithm by Pedro Domingos recently. It&rsquo;s a fascinating read, with some interesting ideas. In the book, Domingos proposed that machine learning algorithms can be placed into one of 5 tribes &ndash; symbolists, connectionists, evolutionaries, Bayesians and analogizers. Each one of these tribes has a master algorithm of its own. The symbolists&rsquo; is the inverse deduction (decision tree), the connectionists&rsquo; is the backpropagation (neural network), the evolutionaries is genetic programming (genetic algorithms), the Bayesians is Bayes&rsquo; theorem and the analogizers&rsquo; is the support vector machine (SVM).'>
+<meta property='og:url' content='https://sausheong.github.io/posts/sentiment-analysis-naive-bayes-classifier-in-go/'>
+<meta property='og:site_name' content='sausheong&#39;s space'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://www.gravatar.com/avatar/ee191858f0d96ad93098694537f71998?s=256'><meta property='article:author' content='https://facebook.com/sausheong'><meta property='article:section' content='Posts'><meta property='article:published_time' content='2018-05-29T16:06:07&#43;08:00'/><meta property='article:modified_time' content='2018-05-29T16:06:07&#43;08:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@sausheong'><meta name='twitter:creator' content='@sausheong'>
+<link rel="stylesheet" href="https://sausheong.github.io/css/style.css"/><link rel='stylesheet' href='/css/custom.css'></head>
+<body>
+
+<section class="section">
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="nav-item" href="https://sausheong.github.io"><h1 class="title is-4">sausheong&#39;s space</h1></a>
+      </div>
+      <div class="nav-right">
+        <nav class="nav-item level is-mobile"><a class="level-item" href='mailto:sausheong@gmail.com' target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+    <polyline points="22,6 12,13 2,6"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" href='https://facebook.com/sausheong' target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" href='https://github.com/sausheong' target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" href='https://instagram.com/sausheong' target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+    <line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" href='https://linkedin.com/in/sausheong' target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path stroke-width="1.8" d="m5.839218,4.101561c0,1.211972 -0.974141,2.194011 -2.176459,2.194011s-2.176459,-0.982039 -2.176459,-2.194011c0,-1.211094 0.974141,-2.194011 2.176459,-2.194011s2.176459,0.982917 2.176459,2.194011zm0.017552,3.94922l-4.388022,0l0,14.04167l4.388022,0l0,-14.04167zm7.005038,0l-4.359939,0l0,14.04167l4.360816,0l0,-7.370999c0,-4.098413 5.291077,-4.433657 5.291077,0l0,7.370999l4.377491,0l0,-8.89101c0,-6.915523 -7.829986,-6.66365 -9.669445,-3.259423l0,-1.891237z"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" href='https://twitter.com/sausheong' target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+    
+  </svg></i>
+            </span>
+          </a></nav>
+      </div>
+    </nav>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="subtitle is-6 is-pulled-right">
+      
+    </div>
+    <h2 class="subtitle is-6">May 29, 2018</h2>
+    <h1 class="title">Sentiment analysis with a simple naive Bayes classifier in Go</h1>
+      
+    <div class="content">
+      
+
+
+<figure >
+    
+        <img src="https://github.com/sausheong/gonb/raw/master/imgs/smiley.jpg" />
+    
+    
+</figure>
+
+
+<p>I was reading the <a href="https://www.amazon.com/Master-Algorithm-Ultimate-Learning-Machine/dp/1501299387" target="_blank">Master Algorithm</a> by Pedro Domingos recently. It&rsquo;s a fascinating read, with some interesting ideas. In the book, Domingos proposed that machine learning algorithms can be placed into one of 5 tribes &ndash; symbolists, connectionists, evolutionaries, Bayesians and analogizers. Each one of these tribes has a master algorithm of its own. The symbolists&rsquo; is the inverse deduction (decision tree), the connectionists&rsquo; is the backpropagation (neural network), the evolutionaries is genetic programming (genetic algorithms), the Bayesians is Bayes&rsquo; theorem and the analogizers&rsquo; is the support vector machine (SVM).</p>
+
+<p>As I was reading the chapter on the Bayesians, I remembered I wrote a <a href="https://blog.saush.com/2009/02/11/naive-bayesian-classifiers-and-ruby/" target="_blank">blog post in my old blog</a> almost 10 years ago on a naive Bayes classifier. So I dug that up (my old blog is dormant now, haven&rsquo;t touched it for years), dusted it and decided to refresh and revisit this topic.</p>
+
+<p>I wanted to do a few things. Firstly, I&rsquo;ll re-write it in Go. The Ruby code works perfectly fine but it always feels good to revisit old code and see how I can improve it. Secondly, I&rsquo;ll use it for a pretty popular purpose &ndash; for sentiment analysis (I&rsquo;ll talk about that in a while). Lastly I&rsquo;ll train and test it with a proper train and test dataset (my previous blog post didn&rsquo;t have that).</p>
+
+<h2 id="bayes-theorem">Bayes&rsquo; Theorem</h2>
+
+<p>Before we start with Bayes&rsquo; Theorem, let&rsquo;s go way back to the basics and talk about probabilities. A <em>probability</em> is the likelihood of something happening, in mathematics we represent it as a number between 0 and 1 where 0 means it will never happen and 1 means it will always happen.</p>
+
+<p>A <em>conditional probability</em> is a special kind of probability that affected by certain conditions, or some background information. For example, you might or might not go out with your friends (a probability) but it is affected by the weather &ndash; if it is raining heavily you might not want to go out. So the probability of you going out is a conditional probability, based on the weather.</p>
+
+
+<figure >
+    
+        <img src="https://github.com/sausheong/gonb/raw/master/imgs/rain.jpg" />
+    
+    
+    <figcaption>
+        <h4>Probability of going out in the rain</h4>
+        
+    </figcaption>
+    
+</figure>
+
+
+<p>To represent this mathematically, let&rsquo;s say the probability of you going out regardless what happens is <code>A</code> and the probability of bad weather is <code>B</code>, the conditional probability of you going out, depending on the weather is then <code>p(A|B)</code> or read out loud is &ldquo;the probability of A, given B&rdquo;.</p>
+
+<p>A <em>conjoint probability</em> is the probability of both events coming true. In our example above, the probability of you going out in bad weather is <code>p(A and B)</code>. You might have learned (or have some vague recollections from your secondary school mathematics) that if both probabilities are independent from each other, then <code>p(A and B) = p(A)p(B)</code>, that is the probability of <code>A</code> and <code>B</code> is the multiple of the independent probability of <code>A</code> and the independent probability of <code>B</code>.</p>
+
+<p>However we just learnt that <code>A</code> is actually not independent of <code>B</code> so <code>p(A)</code> is actually a special case of <code>p(A|B)</code>. If it rains, it reduces the probability of you going out therefore <code>p(A|B) &lt; p(A)</code>. In other words, a more generic mathematical description is:</p>
+
+<p><code>p(A and B) = p(A|B)p(B)</code></p>
+
+<p>Since <code>A</code> and <code>B</code> can be any event by generalisation, the conjunction probability of <code>A</code> and <code>B</code> are commutative:</p>
+
+<p><code>p(A and B) = p(B and A)</code></p>
+
+<p>If we substitute the equations:</p>
+
+<p><code>p(A|B)p(B) = p(B|A)p(A)</code></p>
+
+<p>Then to get the conditional probability of <code>p(A|B)</code>:</p>
+
+
+<figure >
+    
+        <img src="https://github.com/sausheong/gonb/raw/master/imgs/eq1.png" width="200px" />
+    
+    
+    <figcaption>
+        <h4>Bayes Theorem</h4>
+        
+    </figcaption>
+    
+</figure>
+
+
+<p>This is what is known as <a href="https://en.wikipedia.org/wiki/Bayes%27_theorem" target="_blank">Bayes&rsquo; Theorem</a> (or Bayes&rsquo; Law or Bayes&rsquo; Rule).</p>
+
+<h2 id="sentiment-analysis">Sentiment analysis</h2>
+
+<p>Now let&rsquo;s look at the problem we want to solve, before going back to seeing how Bayes&rsquo; Theorem is used to solve it. <a href="https://en.wikipedia.org/wiki/Sentiment_analysis" target="_blank">Sentiment analysis</a> is a technique used to determine the state of mind of a speaker or a writer based on what he/she has said or written down. It&rsquo;s often used to mine social media (tweets, comments, reviews etc) for sentiment on a brand or product or service where it&rsquo;s too difficult or expensive or slow to do so manually. Sentiment analysis has also been used in politics, to <a href="https://contently.com/strategist/2012/10/24/social-media-sentiment-becomes-factor-in-presidential-campaigns/" target="_blank">gauge the public&rsquo;s opinion on certain topics during election campaigning</a>.</p>
+
+<p>It&rsquo;s quite a complicated problem and there are many different types of algorithms used on it, some of which can be very sophisticated. In our case, we want to analyse different text reviews from Amazon, IMDB and Yelp and understand whether the sentiment is positive or negative. In other words, it&rsquo;s a classification problem and we&rsquo;re going to build a classifier based on Bayes&rsquo; Theorem.</p>
+
+<h2 id="document-classification-with-bayes-theorem">Document classification with Bayes Theorem</h2>
+
+<p>A classifier is simply something that classifies other things. A classifier is a function that takes in a set of data and tells us which category or classification the data belongs to. To classify a text document, we ask &ndash; given a particular document, what&rsquo;s the probability that it belongs to this category? When we find the probabilities of the given document in all categories, the classifier picks the category with the highest probability and announce it as the winner, that is, the document most probably belongs to that category.</p>
+
+<p>Let&rsquo;s convert our earlier mathematical formula to one that we can use for document classification:</p>
+
+
+<figure >
+    
+        <img src="https://github.com/sausheong/gonb/raw/master/imgs/eq2.png" width="500px" />
+    
+    
+    <figcaption>
+        <h4>Bayes Theorem for document classification</h4>
+        
+    </figcaption>
+    
+</figure>
+
+
+<p>In the formula above, <code>p(category|document)</code> is what we want to find &ndash; given a document, what is the probability that it belongs to this category?</p>
+
+<p>Similarly <code>p(document|category)</code> is the probability of that the document exists in that category, <code>p(category)</code> is the probability of the category irregardless of any documents, and <code>p(document)</code> is the probability of the document irregardless of any categories.</p>
+
+<p>What we actually need is just <code>p(document|category)</code> and <code>p(category)</code>. We can drop <code>p(document)</code> because it is the same for every category.</p>
+
+<p>So how do we find <code>p(document|category)</code>? A document is made of a bunch of words, so the probability of a document is the conjoint probability of all words in the document. The probability of a document given a category is then the conjoint probabilities of all the words in the document within a category.</p>
+
+<p>The probability of a word in a category is easy, that&rsquo;s just the number of times the word appears in the category. The conjoint part is pretty tricky because words don&rsquo;t randomly appear on a document, the sequence and appearance of a word depends on other words in the documents. So how do we solve this? This is where the <em>naive</em> part of the <em>naive Bayes classifier</em> comes in. We simply ignore the conditional probabilites of the words, and assume each word is independent of each other. In other words (pun intended), we assume words <em>do</em> randomly appear on a document. It might seem incredibly silly to make that assumption but let&rsquo;s see how it works out.</p>
+
+<p>The probability <code>p(category)</code> is relatively easy, it&rsquo;s just the number of documents in a category over the total number of documents in all categories.</p>
+
+<p>That&rsquo;s simple enough. Let&rsquo;s get to the code.</p>
+
+<h2 id="naive-bayes-classifier-in-go">Naive Bayes classifier in Go</h2>
+
+<h3 id="create-the-classifier">Create the classifier</h3>
+
+<p>We&rsquo;ll start off creating a generic naive Bayes text classifier, in a file named <code>classifier.go</code>.</p>
+
+<p>First, we create the <code>Classifier</code> struct.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Classifier is what we use to classify documents
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Classifier</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">words</span>               <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span>
+	<span class="nx">totalWords</span>          <span class="kt">int</span>
+	<span class="nx">categoriesDocuments</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span>
+	<span class="nx">totalDocuments</span>      <span class="kt">int</span>
+	<span class="nx">categoriesWords</span>     <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span>
+	<span class="nx">threshold</span>           <span class="kt">float64</span>
+<span class="p">}</span>
+
+<span class="c1">// create and initialize the classifier
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">createClassifier</span><span class="p">(</span><span class="nx">categories</span> <span class="p">[]</span><span class="kt">string</span><span class="p">,</span> <span class="nx">threshold</span> <span class="kt">float64</span><span class="p">)</span> <span class="p">(</span><span class="nx">c</span> <span class="nx">Classifier</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">c</span> <span class="p">=</span> <span class="nx">Classifier</span><span class="p">{</span>
+		<span class="nx">words</span><span class="p">:</span>               <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span><span class="p">),</span>
+		<span class="nx">totalWords</span><span class="p">:</span>          <span class="mi">0</span><span class="p">,</span>
+		<span class="nx">categoriesDocuments</span><span class="p">:</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span><span class="p">),</span>
+		<span class="nx">totalDocuments</span><span class="p">:</span>      <span class="mi">0</span><span class="p">,</span>
+		<span class="nx">categoriesWords</span><span class="p">:</span>     <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span><span class="p">),</span>
+		<span class="nx">threshold</span><span class="p">:</span>           <span class="nx">threshold</span><span class="p">,</span>
+	<span class="p">}</span>
+
+	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">category</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">categories</span> <span class="p">{</span>
+		<span class="nx">c</span><span class="p">.</span><span class="nx">words</span><span class="p">[</span><span class="nx">category</span><span class="p">]</span> <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span><span class="p">)</span>
+		<span class="nx">c</span><span class="p">.</span><span class="nx">categoriesDocuments</span><span class="p">[</span><span class="nx">category</span><span class="p">]</span> <span class="p">=</span> <span class="mi">0</span>
+		<span class="nx">c</span><span class="p">.</span><span class="nx">categoriesWords</span><span class="p">[</span><span class="nx">category</span><span class="p">]</span> <span class="p">=</span> <span class="mi">0</span>
+	<span class="p">}</span>
+	<span class="k">return</span>
+<span class="p">}</span></code></pre></div>
+<p>In the struct, <code>words</code> is a map of maps that represent the words that have been trained by the classifier. It looks something like this (not exactly):</p>
+
+<pre><code>{
+    &quot;1&quot;: {
+        &quot;good&quot;: 10,
+        &quot;wonderful&quot;: 5,
+        &quot;amazing&quot;: 7,
+    },
+    &quot;0&quot;: {
+        &quot;awful&quot;: 6,
+        &quot;loud&quot;: 4,
+    }
+}
+</code></pre>
+
+<p>The <code>totalWords</code> field is the total number of words altogether in the classifier, while the <code>totalDocuments</code> is the total number of documents in the classifier.</p>
+
+<p>The <code>categoriesDocuments</code> field is a map that gives the number of documents in each category:</p>
+
+<pre><code>{
+    &quot;1&quot;: 13,
+    &quot;0&quot;: 16,
+}
+</code></pre>
+
+<p>The <code>categoriesWords</code> field is a map that gives the number of words in each category:</p>
+
+<pre><code>{
+    &quot;1&quot;: 35,
+    &quot;0&quot;: 44,
+}
+</code></pre>
+
+<p>I&rsquo;ll describe <code>threshold</code> later.</p>
+
+<h3 id="counting-words">Counting words</h3>
+
+<p>The heart of the classifier is really in counting words, so let&rsquo;s look at that next. We have a function <code>funcWords</code> to do that, passing in a document, and returns a map of the number of times each word appears.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">var</span> <span class="nx">cleaner</span> <span class="p">=</span> <span class="nx">regexp</span><span class="p">.</span><span class="nx">MustCompile</span><span class="p">(</span><span class="s">`[^\w\s]`</span><span class="p">)</span>
+<span class="c1">// truncated list
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">stopWords</span> <span class="p">=</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">bool</span><span class="p">{</span><span class="s">&#34;a&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="s">&#34;able&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="s">&#34;about&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="s">&#34;you&#39;ve&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="s">&#34;z&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="s">&#34;zero&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">}</span>
+
+<span class="c1">// clean up and split words in document, then stem each word and count the occurrence
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">countWords</span><span class="p">(</span><span class="nx">document</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">wordCount</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">cleaned</span> <span class="o">:=</span> <span class="nx">cleaner</span><span class="p">.</span><span class="nx">ReplaceAllString</span><span class="p">(</span><span class="nx">document</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">)</span>
+	<span class="nx">words</span> <span class="o">:=</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">Split</span><span class="p">(</span><span class="nx">cleaned</span><span class="p">,</span> <span class="s">&#34; &#34;</span><span class="p">)</span>
+	<span class="nx">wordCount</span> <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span><span class="p">)</span>
+	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">word</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">words</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">!</span><span class="nx">stopWords</span><span class="p">[</span><span class="nx">word</span><span class="p">]</span> <span class="p">{</span>
+			<span class="nx">key</span> <span class="o">:=</span> <span class="nx">stem</span><span class="p">(</span><span class="nx">strings</span><span class="p">.</span><span class="nx">ToLower</span><span class="p">(</span><span class="nx">word</span><span class="p">))</span>
+			<span class="nx">wordCount</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span><span class="o">++</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">return</span>
+<span class="p">}</span>
+
+<span class="c1">// stem a word using the Snowball algorithm
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">stem</span><span class="p">(</span><span class="nx">word</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+	<span class="nx">stemmed</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">snowball</span><span class="p">.</span><span class="nx">Stem</span><span class="p">(</span><span class="nx">word</span><span class="p">,</span> <span class="s">&#34;english&#34;</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">stemmed</span>
+	<span class="p">}</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&#34;Cannot stem word:&#34;</span><span class="p">,</span> <span class="nx">word</span><span class="p">)</span>
+	<span class="k">return</span> <span class="nx">word</span>
+<span class="p">}</span></code></pre></div>
+<p>First, we clean up the document using regular expressions, removing anything that&rsquo;s not a word (includin punctuations etc). Then we split up the document into words.</p>
+
+<p>We don&rsquo;t want all the words in the document, we just want the key words, so we remove any words in the document that are commonly found, for example, we will ignore article words such as <em>a</em>, <em>the</em>, pronouns such as <em>he</em>, <em>she</em> and so on. So we use a list of stop words and filter out those common words. The remaining ones will be put to lower case to make the key consistent.</p>
+
+<p>Many words have different variations, for example, nouns can be in plural (<em>cat</em> and <em>cats</em> should be counted together), verbs can have tenses (<em>eat</em>, <em>eating</em> and <em>ate</em> should be counted together) and so on. In order not to double count word variations, we use a technique called <a href="https://en.wikipedia.org/wiki/Stemming" target="_blank">stemming</a>. In our classifier I used a stemmer library, <a href="https://github.com/kljensen/snowball" target="_blank">Snowball</a> based on the <a href="http://snowballstem.org/" target="_blank">Snowball algorithm</a>.</p>
+
+<p>Finally the word count is added up and returned.</p>
+
+<h3 id="training-the-classifier">Training the classifier</h3>
+
+<p>Training the classifier is really all abouting counting the words in the training dataset documents and the heavy lifting is done by the <code>countWords</code> function. The <code>Train</code> method in the classifier simply uses the <code>countWords</code> function and allocate the count according to the category.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Train the classifier
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">Classifier</span><span class="p">)</span> <span class="nx">Train</span><span class="p">(</span><span class="nx">category</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">document</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">for</span> <span class="nx">word</span><span class="p">,</span> <span class="nx">count</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">countWords</span><span class="p">(</span><span class="nx">document</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">c</span><span class="p">.</span><span class="nx">words</span><span class="p">[</span><span class="nx">category</span><span class="p">][</span><span class="nx">word</span><span class="p">]</span> <span class="o">+=</span> <span class="nx">count</span>
+		<span class="nx">c</span><span class="p">.</span><span class="nx">categoriesWords</span><span class="p">[</span><span class="nx">category</span><span class="p">]</span> <span class="o">+=</span> <span class="nx">count</span>
+		<span class="nx">c</span><span class="p">.</span><span class="nx">totalWords</span> <span class="o">+=</span> <span class="nx">count</span>
+	<span class="p">}</span>
+	<span class="nx">c</span><span class="p">.</span><span class="nx">categoriesDocuments</span><span class="p">[</span><span class="nx">category</span><span class="p">]</span><span class="o">++</span>
+	<span class="nx">c</span><span class="p">.</span><span class="nx">totalDocuments</span><span class="o">++</span>
+<span class="p">}</span></code></pre></div>
+<h3 id="classifying-documents">Classifying documents</h3>
+
+<p>This is where the actual action starts. Before jumping into the <code>Classify</code> method, let&rsquo;s look the equation again:</p>
+
+<p><code>p(category|document) = p(document|category)p(category)</code></p>
+
+<p>We&rsquo;ll create a method to calculate each of the probabilities. Let&rsquo;s start with <code>p(category)</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// p (category)
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">Classifier</span><span class="p">)</span> <span class="nx">pCategory</span><span class="p">(</span><span class="nx">category</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">float64</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nb">float64</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">categoriesDocuments</span><span class="p">[</span><span class="nx">category</span><span class="p">])</span> <span class="o">/</span> <span class="nb">float64</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">totalDocuments</span><span class="p">)</span>
+<span class="p">}</span></code></pre></div>
+<p>This is self-explanatory &ndash; we take the number of documents in the category and divide it by the total number of documents to get the probability of the category.</p>
+
+<p>Next we look at <code>p(document|category)</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// p (document | category)
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">Classifier</span><span class="p">)</span> <span class="nx">pDocumentCategory</span><span class="p">(</span><span class="nx">category</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">document</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">p</span> <span class="kt">float64</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">p</span> <span class="p">=</span> <span class="mf">1.0</span>
+	<span class="k">for</span> <span class="nx">word</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">countWords</span><span class="p">(</span><span class="nx">document</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">p</span> <span class="p">=</span> <span class="nx">p</span> <span class="o">*</span> <span class="nx">c</span><span class="p">.</span><span class="nx">pWordCategory</span><span class="p">(</span><span class="nx">category</span><span class="p">,</span> <span class="nx">word</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="nx">p</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">Classifier</span><span class="p">)</span> <span class="nx">pWordCategory</span><span class="p">(</span><span class="nx">category</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">word</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">float64</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nb">float64</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">words</span><span class="p">[</span><span class="nx">category</span><span class="p">][</span><span class="nx">stem</span><span class="p">(</span><span class="nx">word</span><span class="p">)]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float64</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">categoriesWords</span><span class="p">[</span><span class="nx">category</span><span class="p">])</span>
+<span class="p">}</span></code></pre></div>
+<p>First, we use <code>countWords</code> to give us the count of words in the document. We don&rsquo;t actually care about the word count here, we simply want a list of key words in the document. For every key word, we find its probability in the category. This is simply the number of occurences of that key word in the category divided by the total number of words in the category. For example after training the classifier, let&rsquo;s say for the category <code>1</code> (which is positive), we have 10 occurences of the word &lsquo;good&rsquo;. while we have a total of 100 words in category <code>1</code>. This means the probability of the word in the category is <code>0.1</code>.</p>
+
+<p>We do that for every key word in the document, then multiple all these probabilities and this will be <code>p(document|category)</code>.</p>
+
+<p>Finally we find <code>p(category|document)</code>, which is pretty trivial.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// p (category | document)
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">Classifier</span><span class="p">)</span> <span class="nx">pCategoryDocument</span><span class="p">(</span><span class="nx">category</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">document</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">float64</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nx">c</span><span class="p">.</span><span class="nx">pDocumentCategory</span><span class="p">(</span><span class="nx">category</span><span class="p">,</span> <span class="nx">document</span><span class="p">)</span> <span class="o">*</span> <span class="nx">c</span><span class="p">.</span><span class="nx">pCategory</span><span class="p">(</span><span class="nx">category</span><span class="p">)</span>
+<span class="p">}</span></code></pre></div>
+<p>Now that we have the conditional probabilities of each category, we put them together in a single map.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Probabilities of each category
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">Classifier</span><span class="p">)</span> <span class="nx">Probabilities</span><span class="p">(</span><span class="nx">document</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">p</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">float64</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">p</span> <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">float64</span><span class="p">)</span>
+	<span class="k">for</span> <span class="nx">category</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">c</span><span class="p">.</span><span class="nx">words</span> <span class="p">{</span>
+		<span class="nx">p</span><span class="p">[</span><span class="nx">category</span><span class="p">]</span> <span class="p">=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">pCategoryDocument</span><span class="p">(</span><span class="nx">category</span><span class="p">,</span> <span class="nx">document</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="k">return</span>
+<span class="p">}</span></code></pre></div>
+<p>This will be used by our <code>Classify</code> method.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Classify a document
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">Classifier</span><span class="p">)</span> <span class="nx">Classify</span><span class="p">(</span><span class="nx">document</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">category</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// get all the probabilities of each category
+</span><span class="c1"></span>	<span class="nx">prob</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">Probabilities</span><span class="p">(</span><span class="nx">document</span><span class="p">)</span>
+
+	<span class="c1">// sort the categories according to probabilities
+</span><span class="c1"></span>	<span class="kd">var</span> <span class="nx">sp</span> <span class="p">[]</span><span class="nx">sorted</span>
+	<span class="k">for</span> <span class="nx">c</span><span class="p">,</span> <span class="nx">p</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">prob</span> <span class="p">{</span>
+		<span class="nx">sp</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">sp</span><span class="p">,</span> <span class="nx">sorted</span><span class="p">{</span><span class="nx">c</span><span class="p">,</span> <span class="nx">p</span><span class="p">})</span>
+	<span class="p">}</span>
+	<span class="nx">sort</span><span class="p">.</span><span class="nx">Slice</span><span class="p">(</span><span class="nx">sp</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">j</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">sp</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">probability</span> <span class="p">&gt;</span> <span class="nx">sp</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">probability</span>
+	<span class="p">})</span>
+
+	<span class="c1">// if the highest probability is above threshold select that
+</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">sp</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">probability</span><span class="o">/</span><span class="nx">sp</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">probability</span> <span class="p">&gt;</span> <span class="nx">c</span><span class="p">.</span><span class="nx">threshold</span> <span class="p">{</span>
+		<span class="nx">category</span> <span class="p">=</span> <span class="nx">sp</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">category</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="nx">category</span> <span class="p">=</span> <span class="s">&#34;unknown&#34;</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span>
+<span class="p">}</span></code></pre></div>
+<p>Our <code>Classify</code> method sorts the categories by probabilities, and figures out the top category. But that&rsquo;s not the end. There could be a chance that the difference between the top and second categories is very small. For example, let&rsquo;s take an example of classifying emails to be spam and non-spam and say the probabilities are like this — spam is 51% and non-spam is 49%. Should the document be classified as spam? It depends on how strict you want the classifier to be.</p>
+
+<p>This is the reason for the <code>threshold</code> field, which is the threshold ratio for separating the categories. For exampleif <code>threshold</code> is <code>1.5</code> this means the category with the highest probability needs to be 1.5 times higher than the second highest probability. If the top category fails the threshold we will classify it as <code>unknown</code>.</p>
+
+<p>We&rsquo;re done with the classifier, let&rsquo;s look at how we can use it next.</p>
+
+<h2 id="sentiment-analysis-using-the-naive-bayes-classifier">Sentiment analysis using the naive Bayes classifier</h2>
+
+<p>For this blog post I&rsquo;m using the <a href="https://archive.ics.uci.edu/ml/datasets/Sentiment+Labelled+Sentences" target="_blank">Sentiment Labelled Sentences Data Set</a> created by Dimitrios Kotzias for the paper &lsquo;From Group to Individual Labels using Deep Features&rsquo;, Kotzias et. al,. KDD 2015. This dataset contains 1000 comments from each of Amazon, IMDB and Yelp web sites, labelled either <code>1</code> for positive or <code>0</code> for negative comments. The comments are extracted from reviews of products, movies and restaurants respectively.</p>
+
+<p>First, let&rsquo;s see how the data is being set up.</p>
+
+<h3 id="setting-up-the-data">Setting up the data</h3>
+
+<p>I split each dataset into training and test datasets and use the training dataset for training the classifier and the test dataset to validate the classifier. This is done with the <code>setupData</code> function.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// datasets
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">document</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">sentiment</span> <span class="kt">string</span>
+	<span class="nx">text</span>      <span class="kt">string</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">train</span> <span class="p">[]</span><span class="nx">document</span>
+<span class="kd">var</span> <span class="nx">test</span> <span class="p">[]</span><span class="nx">document</span>
+
+<span class="c1">// set up data for training and testing
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">setupData</span><span class="p">(</span><span class="nx">file</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">rand</span><span class="p">.</span><span class="nx">Seed</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">().</span><span class="nx">UTC</span><span class="p">().</span><span class="nx">UnixNano</span><span class="p">())</span>
+	<span class="nx">data</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">readLines</span><span class="p">(</span><span class="nx">file</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&#34;Cannot read file&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+		<span class="nx">os</span><span class="p">.</span><span class="nx">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">line</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">data</span> <span class="p">{</span>
+		<span class="nx">s</span> <span class="o">:=</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">Split</span><span class="p">(</span><span class="nx">line</span><span class="p">,</span> <span class="s">&#34;|&#34;</span><span class="p">)</span>
+		<span class="nx">doc</span><span class="p">,</span> <span class="nx">sentiment</span> <span class="o">:=</span> <span class="nx">s</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+		<span class="k">if</span> <span class="nx">rand</span><span class="p">.</span><span class="nx">Float64</span><span class="p">()</span> <span class="p">&gt;</span> <span class="nx">testPercentage</span> <span class="p">{</span>
+			<span class="nx">train</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">train</span><span class="p">,</span> <span class="nx">document</span><span class="p">{</span><span class="nx">sentiment</span><span class="p">,</span> <span class="nx">doc</span><span class="p">})</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="nx">test</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">test</span><span class="p">,</span> <span class="nx">document</span><span class="p">{</span><span class="nx">sentiment</span><span class="p">,</span> <span class="nx">doc</span><span class="p">})</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// read the file line by line
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">readLines</span><span class="p">(</span><span class="nx">path</span> <span class="kt">string</span><span class="p">)</span> <span class="p">([]</span><span class="kt">string</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">file</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+	<span class="p">}</span>
+	<span class="k">defer</span> <span class="nx">file</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+
+	<span class="kd">var</span> <span class="nx">lines</span> <span class="p">[]</span><span class="kt">string</span>
+	<span class="nx">scanner</span> <span class="o">:=</span> <span class="nx">bufio</span><span class="p">.</span><span class="nx">NewScanner</span><span class="p">(</span><span class="nx">file</span><span class="p">)</span>
+	<span class="k">for</span> <span class="nx">scanner</span><span class="p">.</span><span class="nx">Scan</span><span class="p">()</span> <span class="p">{</span>
+		<span class="nx">lines</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">lines</span><span class="p">,</span> <span class="nx">scanner</span><span class="p">.</span><span class="nx">Text</span><span class="p">())</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="nx">lines</span><span class="p">,</span> <span class="nx">scanner</span><span class="p">.</span><span class="nx">Err</span><span class="p">()</span>
+<span class="p">}</span></code></pre></div>
+<p>I use the variable <code>testPercentage</code> to get the percentage of the entire dataset to be the test dataset. This in turn is used to randomly pick a number of records to be in the test dataset.</p>
+
+<h3 id="create-the-document-classifier">Create the document classifier</h3>
+
+<p>Once we have set up the datasets, we start by creating the classifier with our parameters.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// parameters
+</span><span class="c1"></span><span class="kd">var</span> <span class="p">(</span>
+	<span class="nx">testPercentage</span> <span class="p">=</span> <span class="mf">0.1</span>
+	<span class="nx">datafile</span>       <span class="p">=</span> <span class="s">&#34;amazon.txt&#34;</span>
+	<span class="nx">threshold</span>      <span class="p">=</span> <span class="mf">1.1</span>
+<span class="p">)</span>
+
+<span class="kd">var</span> <span class="nx">categories</span> <span class="p">=</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;1&#34;</span><span class="p">,</span> <span class="s">&#34;0&#34;</span><span class="p">}</span>
+
+<span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">setupData</span><span class="p">(</span><span class="nx">datafile</span><span class="p">)</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&#34;Data file used:&#34;</span><span class="p">,</span> <span class="nx">datafile</span><span class="p">)</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&#34;no of docs in TRAIN dataset:&#34;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">train</span><span class="p">))</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&#34;no of docs in TEST dataset:&#34;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">test</span><span class="p">))</span>
+
+	<span class="nx">c</span> <span class="o">:=</span> <span class="nx">createClassifier</span><span class="p">(</span><span class="nx">categories</span><span class="p">,</span> <span class="nx">threshold</span><span class="p">)</span>
+
+<span class="o">...</span></code></pre></div>
+<h3 id="train-the-classifier-with-the-train-dataset">Train the classifier with the train dataset</h3>
+
+<p>Given the classifier, we start to train it using the training dataset.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="o">...</span>
+	<span class="c1">// train on train dataset
+</span><span class="c1"></span>	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">doc</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">train</span> <span class="p">{</span>
+		<span class="nx">c</span><span class="p">.</span><span class="nx">Train</span><span class="p">(</span><span class="nx">doc</span><span class="p">.</span><span class="nx">sentiment</span><span class="p">,</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">text</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="o">...</span>    </code></pre></div>
+<h3 id="test-classifier-on-the-test-dataset">Test classifier on the test dataset</h3>
+
+<p>After training the classifier, we use it to test on the test dataset.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="o">...</span>
+	<span class="c1">// validate on test dataset
+</span><span class="c1"></span>	<span class="nx">count</span><span class="p">,</span> <span class="nx">accurates</span><span class="p">,</span> <span class="nx">unknowns</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">doc</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">test</span> <span class="p">{</span>
+		<span class="nx">count</span><span class="o">++</span>
+		<span class="nx">sentiment</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">Classify</span><span class="p">(</span><span class="nx">doc</span><span class="p">.</span><span class="nx">text</span><span class="p">)</span>
+		<span class="k">if</span> <span class="nx">sentiment</span> <span class="o">==</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">sentiment</span> <span class="p">{</span>
+			<span class="nx">accurates</span><span class="o">++</span>
+		<span class="p">}</span>
+		<span class="k">if</span> <span class="nx">sentiment</span> <span class="o">==</span> <span class="s">&#34;unknown&#34;</span> <span class="p">{</span>
+			<span class="nx">unknowns</span><span class="o">++</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Accuracy on TEST dataset is %2.1f%% with %2.1f%% unknowns&#34;</span><span class="p">,</span> <span class="nb">float64</span><span class="p">(</span><span class="nx">accurates</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="o">/</span><span class="nb">float64</span><span class="p">(</span><span class="nx">count</span><span class="p">),</span> <span class="nb">float64</span><span class="p">(</span><span class="nx">unknowns</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="o">/</span><span class="nb">float64</span><span class="p">(</span><span class="nx">count</span><span class="p">))</span>
+<span class="o">...</span></code></pre></div>
+<p>We count the number of accurate classifications, as well as the unknown classifications.</p>
+
+<h3 id="test-classifier-on-the-training-dataset">Test classifier on the training dataset</h3>
+
+<p>We also test on some of the training dataset for a sanity check.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="o">...</span>
+	<span class="c1">// validate on the first 100 docs in the train dataset
+</span><span class="c1"></span>	<span class="nx">count</span><span class="p">,</span> <span class="nx">accurates</span><span class="p">,</span> <span class="nx">unknowns</span> <span class="p">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">doc</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">train</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">]</span> <span class="p">{</span>
+		<span class="nx">count</span><span class="o">++</span>
+		<span class="nx">sentiment</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">Classify</span><span class="p">(</span><span class="nx">doc</span><span class="p">.</span><span class="nx">text</span><span class="p">)</span>
+		<span class="k">if</span> <span class="nx">sentiment</span> <span class="o">==</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">sentiment</span> <span class="p">{</span>
+			<span class="nx">accurates</span><span class="o">++</span>
+		<span class="p">}</span>
+		<span class="k">if</span> <span class="nx">sentiment</span> <span class="o">==</span> <span class="s">&#34;unknown&#34;</span> <span class="p">{</span>
+			<span class="nx">unknowns</span><span class="o">++</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;\nAccuracy on TRAIN dataset is %2.1f%% with %2.1f%% unknowns&#34;</span><span class="p">,</span> <span class="nb">float64</span><span class="p">(</span><span class="nx">accurates</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="o">/</span><span class="nb">float64</span><span class="p">(</span><span class="nx">count</span><span class="p">),</span> <span class="nb">float64</span><span class="p">(</span><span class="nx">unknowns</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="o">/</span><span class="nb">float64</span><span class="p">(</span><span class="nx">count</span><span class="p">))</span>
+<span class="o">...</span></code></pre></div>
+<p>Let&rsquo;s look at the results.</p>
+
+
+<figure >
+    
+        <img src="https://github.com/sausheong/gonb/raw/master/imgs/classifier.png" />
+    
+    
+    <figcaption>
+        <h4>Sentiment analysis results</h4>
+        
+    </figcaption>
+    
+</figure>
+
+
+<p>The results are not too bad! You might realise if you run it multiple times you will get different results, this is because the order and the documents used in the training is actually important. You can try to tweak around the different parameters as well to see how the classifier behaves.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>You might be pretty surprised (if you didn&rsquo;t already know this) how such a simple algorithm can actually perform relatively well. However there is caveat to this particular exercise. First of all, the dataset used is cleaned and selected to be clearly positive or negative. In real-world cases sentiment analysis is fraught with many other issues and is really not a simple problem to solve at all. However, the point is just to show that the Bayes Theorem can be a pretty powerful tool in your toolkit.</p>
+
+<h2 id="source-code">Source code</h2>
+
+<p>You can find this code in Github at <a href="https://github.com/sausheong/gonb" target="_blank">https://github.com/sausheong/gonb</a></p>
+
+<h2 id="reference">Reference</h2>
+
+<ol>
+<li>My original blog post referenced heavily on Toby Segaran&rsquo;s <a href="http://shop.oreilly.com/product/9780596529321.do" target="_blank">Programming Collective Intelligence</a> book</li>
+<li>Pedros Domingos&rsquo; fascinating <a href="https://www.amazon.com/Master-Algorithm-Ultimate-Learning-Machine/dp/1501299387" target="_blank">Master Algorithm</a> book triggered this post and deserves a second mention</li>
+<li>Allen Downey&rsquo;s book, <a href="http://greenteapress.com/wp/think-bayes/" target="_blank">Think Bayes</a> is excellent in describing what Bayes&rsquo; Law is and I took some pointers from the book when describing it in this blog post</li>
+<li>I used the dataset from the paper &lsquo;From Group to Individual Labels using Deep Features&rsquo;, Kotzias et. al,. KDD 2015</li>
+</ol>
+
+    </div>
+    
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <aside><div id="disqus_thread"></div></aside>
+    <script type="text/javascript">
+      var disqus_shortname = 'space';
+      (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container has-text-centered">
+    <p>&copy; <a href="https://github.com/sausheong">Chang Sau Sheong</a> 2018</p>
+    
+  </div>
+</section>
+
+</body>
+</html>

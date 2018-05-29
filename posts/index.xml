@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy; &lt;a href=&#34;https://github.com/sausheong&#34;&gt;Chang Sau Sheong&lt;/a&gt; 2018</copyright>
-    <lastBuildDate>Tue, 01 May 2018 23:33:07 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 29 May 2018 16:06:07 +0800</lastBuildDate>
     
 	<atom:link href="https://sausheong.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Sentiment analysis with a simple naive Bayes classifier in Go</title>
+      <link>https://sausheong.github.io/posts/sentiment-analysis-naive-bayes-classifier-in-go/</link>
+      <pubDate>Tue, 29 May 2018 16:06:07 +0800</pubDate>
+      
+      <guid>https://sausheong.github.io/posts/sentiment-analysis-naive-bayes-classifier-in-go/</guid>
+      <description>I was reading the Master Algorithm by Pedro Domingos recently. It&amp;rsquo;s a fascinating read, with some interesting ideas. In the book, Domingos proposed that machine learning algorithms can be placed into one of 5 tribes &amp;ndash; symbolists, connectionists, evolutionaries, Bayesians and analogizers. Each one of these tribes has a master algorithm of its own. The symbolists&amp;rsquo; is the inverse deduction (decision tree), the connectionists&amp;rsquo; is the backpropagation (neural network), the evolutionaries is genetic programming (genetic algorithms), the Bayesians is Bayes&amp;rsquo; theorem and the analogizers&amp;rsquo; is the support vector machine (SVM).</description>
+    </item>
     
     <item>
       <title>Building simple artificial neural networks with TensorFlow, Keras, PyTorch and MXNet/Gluon</title>
