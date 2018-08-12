@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://sausheong.github.io/posts/cross-platform-games-with-go/</loc>
+    <lastmod>2018-08-12T16:06:07+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://sausheong.github.io/posts/sentiment-analysis-naive-bayes-classifier-in-go/</loc>
     <lastmod>2018-05-29T16:06:07+08:00</lastmod>
   </url>
@@ -34,7 +39,7 @@
   
   <url>
     <loc>https://sausheong.github.io/posts/</loc>
-    <lastmod>2018-05-29T16:06:07+08:00</lastmod>
+    <lastmod>2018-08-12T16:06:07+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -45,7 +50,7 @@
   
   <url>
     <loc>https://sausheong.github.io/</loc>
-    <lastmod>2018-05-29T16:06:07+08:00</lastmod>
+    <lastmod>2018-08-12T16:06:07+08:00</lastmod>
     <priority>0</priority>
   </url>
   

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>Create a simple cross-platform desktop Space Invaders game with Go | sausheong&#39;s space</title>
+
+<meta property='og:title' content='Create a simple cross-platform desktop Space Invaders game with Go - sausheong&#39;s space'>
+<meta property='og:description' content='A few months ago I fiddled around with writing Space Invaders using Go. I had a lot of fun writing it but the output only worked on iTerm2 because it used a specific feature of that terminal. In order to play the game you&rsquo;d really have to download iTerm2 and run it on the command line. I thought it&rsquo;d be fun to muck around it a bit more to see if I can bring it out as a proper desktop game.'>
+<meta property='og:url' content='https://sausheong.github.io/posts/cross-platform-games-with-go/'>
+<meta property='og:site_name' content='sausheong&#39;s space'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://www.gravatar.com/avatar/ee191858f0d96ad93098694537f71998?s=256'><meta property='article:author' content='https://facebook.com/sausheong'><meta property='article:section' content='Posts'><meta property='article:published_time' content='2018-08-12T16:06:07&#43;08:00'/><meta property='article:modified_time' content='2018-08-12T16:06:07&#43;08:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@sausheong'><meta name='twitter:creator' content='@sausheong'>
+<link rel="stylesheet" href="https://sausheong.github.io/css/style.css"/><link rel='stylesheet' href='/css/custom.css'></head>
+<body>
+
+<section class="section">
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="nav-item" href="https://sausheong.github.io"><h1 class="title is-4">sausheong&#39;s space</h1></a>
+      </div>
+      <div class="nav-right">
+        <nav class="nav-item level is-mobile"><a class="level-item" href='mailto:sausheong@gmail.com' target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+    <polyline points="22,6 12,13 2,6"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" href='https://facebook.com/sausheong' target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" href='https://github.com/sausheong' target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" href='https://instagram.com/sausheong' target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+    <line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" href='https://linkedin.com/in/sausheong' target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path stroke-width="1.8" d="m5.839218,4.101561c0,1.211972 -0.974141,2.194011 -2.176459,2.194011s-2.176459,-0.982039 -2.176459,-2.194011c0,-1.211094 0.974141,-2.194011 2.176459,-2.194011s2.176459,0.982917 2.176459,2.194011zm0.017552,3.94922l-4.388022,0l0,14.04167l4.388022,0l0,-14.04167zm7.005038,0l-4.359939,0l0,14.04167l4.360816,0l0,-7.370999c0,-4.098413 5.291077,-4.433657 5.291077,0l0,7.370999l4.377491,0l0,-8.89101c0,-6.915523 -7.829986,-6.66365 -9.669445,-3.259423l0,-1.891237z"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" href='https://twitter.com/sausheong' target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+    
+  </svg></i>
+            </span>
+          </a></nav>
+      </div>
+    </nav>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="subtitle is-6 is-pulled-right">
+      
+    </div>
+    <h2 class="subtitle is-6">August 12, 2018</h2>
+    <h1 class="title">Create a simple cross-platform desktop Space Invaders game with Go</h1>
+      
+    <div class="content">
+      
+
+
+<figure >
+    
+        <img src="https://github.com/sausheong/invadersapp/raw/master/images/space-invaders.jpg" />
+    
+    
+</figure>
+
+
+<p>A few months ago I fiddled around with <a href="https://sausheong.github.io/posts/space-invaders-with-go" target="_blank">writing Space Invaders using Go</a>. I had a lot of fun writing it but the output only worked on iTerm2 because it used a specific feature of that terminal. In order to play the game you&rsquo;d really have to download iTerm2 and run it on the command line. I thought it&rsquo;d be fun to muck around it a bit more to see if I can bring it out as a proper desktop game.</p>
+
+<p>Now, if you know much about Go at all you would know that there simply isn&rsquo;t any good GUI toolkit or library. Go wasn&rsquo;t designed with UI in mind so there certainly aren&rsquo;t any UI packages in the standary library. There is the usual GTK and QT bindings, but generally I try to avoid bindings if I can help it. The more popular way of writing desktop apps in Go is really to create a web app and then front it with a browser like interface. A common way of doing this is using <a href="https://electronjs.org" target="_blank">Electron</a>, a framework used to write cross-platform desktop apps using Javascript, HTML and CSS. Plenty of desktop apps have used Electron, including Slack and Github&rsquo;s desktop apps, and even the editor I&rsquo;m using now (Visual Studio Code).</p>
+
+<p>However, Electron is pretty heavy, uses quite a bit of Javascript and has tonnes of documentation to wade through. I was  looking for something Go-oriented and simple to just kickstart. More importantly I simply wanted to use what I already created earlier, which is nothing much more than simply displaying a series of images rapidly such that it looks properly animated.</p>
+
+<p>Then I stumbled on this little Go library called <a href="https://github.com/zserge/webview" target="_blank">webview</a>. Webview is tiny and simple library that wraps around webview (MacOS), MSHTML (Windows) and gtk-webkit2 (Linux). Its documentation for the Go part is just a page or so!</p>
+
+<p>Let&rsquo;s take stock at what we need to do:</p>
+
+<ol>
+<li>Build a web app that will serve out the frames</li>
+<li>Show the web app on the webview</li>
+<li>Make changes to the game logic to make it work</li>
+</ol>
+
+<p>That&rsquo;s all! Let&rsquo;s go.</p>
+
+<h1 id="build-the-web-app">Build the web app</h1>
+
+<p>We start off with spinning out a separate goroutine to run the web app, then displaying a static HTML page from the webview.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">var</span> <span class="nx">frame</span> <span class="kt">string</span>                         <span class="c1">// game frames
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">dir</span> <span class="kt">string</span>                           <span class="c1">// current directory
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">events</span> <span class="kd">chan</span> <span class="kt">string</span>                   <span class="c1">// keyboard events
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">gameOver</span> <span class="p">=</span> <span class="kc">false</span>                     <span class="c1">// end of game
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">windowWidth</span><span class="p">,</span> <span class="nx">windowHeight</span> <span class="p">=</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">300</span> <span class="c1">// width and height of the window
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">frameRate</span> <span class="kt">int</span>                        <span class="c1">// how many frames to show per second (fps)
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">gameDelay</span> <span class="kt">int</span>                        <span class="c1">// delay time added to each game loop
+</span><span class="c1"></span>
+<span class="kd">func</span> <span class="nx">init</span><span class="p">()</span> <span class="p">{</span>
+	<span class="c1">// events is a channel of string events that come from the front end
+</span><span class="c1"></span>	<span class="nx">events</span> <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">string</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+	<span class="c1">// getting the current directory to access resources
+</span><span class="c1"></span>	<span class="kd">var</span> <span class="nx">err</span> <span class="kt">error</span>
+	<span class="nx">dir</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">filepath</span><span class="p">.</span><span class="nx">Abs</span><span class="p">(</span><span class="nx">filepath</span><span class="p">.</span><span class="nx">Dir</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Args</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="nx">frameRate</span> <span class="p">=</span> <span class="mi">50</span>                                         <span class="c1">// 50 fps
+</span><span class="c1"></span>	<span class="nx">gameDelay</span> <span class="p">=</span> <span class="mi">20</span>                                         <span class="c1">// 20 ms delay
+</span><span class="c1"></span>	<span class="nx">sprites</span> <span class="p">=</span> <span class="nx">getImage</span><span class="p">(</span><span class="nx">dir</span> <span class="o">+</span> <span class="s">&#34;/public/images/sprites.png&#34;</span><span class="p">)</span> <span class="c1">// spritesheet
+</span><span class="c1"></span>	<span class="nx">background</span> <span class="p">=</span> <span class="nx">getImage</span><span class="p">(</span><span class="nx">dir</span> <span class="o">+</span> <span class="s">&#34;/public/images/bg.png&#34;</span><span class="p">)</span>   <span class="c1">// background image
+</span><span class="c1"></span><span class="p">}</span>
+
+<span class="c1">// main function
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="c1">// run the web server in a separate goroutine
+</span><span class="c1"></span>	<span class="k">go</span> <span class="nx">app</span><span class="p">()</span>
+	<span class="c1">// create a web view
+</span><span class="c1"></span>	<span class="nx">err</span> <span class="o">:=</span> <span class="nx">webview</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="s">&#34;Space Invaders&#34;</span><span class="p">,</span> <span class="s">&#34;http://127.0.0.1:12346/public/html/index.html&#34;</span><span class="p">,</span>
+		<span class="nx">windowWidth</span><span class="p">,</span> <span class="nx">windowHeight</span><span class="p">,</span> <span class="kc">false</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+<p>See how creating the webview is just a single line of code! If you compare this with Electron, this is pretty awesome. Electron has quite a bit more features of course, but for something simple and straightforward, you just can&rsquo;t beat this.</p>
+
+<p>The web app is simple and straightforward.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nx">app</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">mux</span> <span class="o">:=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">NewServeMux</span><span class="p">()</span>
+	<span class="nx">mux</span><span class="p">.</span><span class="nx">Handle</span><span class="p">(</span><span class="s">&#34;/public/&#34;</span><span class="p">,</span> <span class="nx">http</span><span class="p">.</span><span class="nx">StripPrefix</span><span class="p">(</span><span class="s">&#34;/public/&#34;</span><span class="p">,</span> <span class="nx">http</span><span class="p">.</span><span class="nx">FileServer</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nx">Dir</span><span class="p">(</span><span class="nx">dir</span><span class="o">+</span><span class="s">&#34;/public&#34;</span><span class="p">))))</span>
+	<span class="nx">mux</span><span class="p">.</span><span class="nx">HandleFunc</span><span class="p">(</span><span class="s">&#34;/start&#34;</span><span class="p">,</span> <span class="nx">start</span><span class="p">)</span>
+	<span class="nx">mux</span><span class="p">.</span><span class="nx">HandleFunc</span><span class="p">(</span><span class="s">&#34;/frame&#34;</span><span class="p">,</span> <span class="nx">getFrame</span><span class="p">)</span>
+	<span class="nx">mux</span><span class="p">.</span><span class="nx">HandleFunc</span><span class="p">(</span><span class="s">&#34;/key&#34;</span><span class="p">,</span> <span class="nx">captureKeys</span><span class="p">)</span>
+	<span class="nx">server</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">http</span><span class="p">.</span><span class="nx">Server</span><span class="p">{</span>
+		<span class="nx">Addr</span><span class="p">:</span>    <span class="s">&#34;127.0.0.1:12346&#34;</span><span class="p">,</span>
+		<span class="nx">Handler</span><span class="p">:</span> <span class="nx">mux</span><span class="p">,</span>
+	<span class="p">}</span>
+	<span class="nx">server</span><span class="p">.</span><span class="nx">ListenAndServe</span><span class="p">()</span>
+<span class="p">}</span></code></pre></div>
+<p>I didn&rsquo;t use anything fancy, it&rsquo;s just your typical Go web app with 3 handlers. It also serves out html and other assets through a directory named <code>public</code>.  The <code>start</code> handler starts the game, the <code>frame</code> handler returns the frame and the <code>key</code> handler receives the keyboard events.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// start the game
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">start</span><span class="p">(</span><span class="nx">w</span> <span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span> <span class="nx">r</span> <span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">t</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">template</span><span class="p">.</span><span class="nx">ParseFiles</span><span class="p">(</span><span class="nx">dir</span> <span class="o">+</span> <span class="s">&#34;/public/html/invaders.html&#34;</span><span class="p">)</span>
+	<span class="c1">// start generating frames in a new goroutine
+</span><span class="c1"></span>	<span class="k">go</span> <span class="nx">generateFrames</span><span class="p">()</span>
+	<span class="nx">t</span><span class="p">.</span><span class="nx">Execute</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="mi">1000</span><span class="o">/</span><span class="nx">frameRate</span><span class="p">)</span>
+<span class="p">}</span></code></pre></div>
+<p>The <code>start</code> handler starts generating frames in a separate goroutine, then calls the <code>invaders.html</code> template, passing it the frame rate.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// capture keyboard events
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">captureKeys</span><span class="p">(</span><span class="nx">w</span> <span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span> <span class="nx">r</span> <span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">ev</span> <span class="o">:=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">FormValue</span><span class="p">(</span><span class="s">&#34;event&#34;</span><span class="p">)</span>
+	<span class="c1">// what to react to when the game is over
+</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">gameOver</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="nx">ev</span> <span class="o">==</span> <span class="s">&#34;83&#34;</span> <span class="p">{</span> <span class="c1">// s
+</span><span class="c1"></span>			<span class="nx">gameOver</span> <span class="p">=</span> <span class="kc">false</span>
+			<span class="k">go</span> <span class="nx">generateFrames</span><span class="p">()</span>
+		<span class="p">}</span>
+		<span class="k">if</span> <span class="nx">ev</span> <span class="o">==</span> <span class="s">&#34;81&#34;</span> <span class="p">{</span> <span class="c1">// q
+</span><span class="c1"></span>			<span class="nx">os</span><span class="p">.</span><span class="nx">Exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+		<span class="p">}</span>
+
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="nx">events</span> <span class="o">&lt;-</span> <span class="nx">ev</span>
+	<span class="p">}</span>
+	<span class="nx">w</span><span class="p">.</span><span class="nx">Header</span><span class="p">().</span><span class="nx">Set</span><span class="p">(</span><span class="s">&#34;Cache-Control&#34;</span><span class="p">,</span> <span class="s">&#34;no-cache&#34;</span><span class="p">)</span>
+<span class="p">}</span></code></pre></div>
+<p>The <code>captureKeys</code> handler receives keyboard events from the webview and takes action accordingly. If the game ended, you can restart or quit the game. Otherwise all keyboard events are placed into the events channel.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// get the game frames
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">getFrame</span><span class="p">(</span><span class="nx">w</span> <span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span> <span class="nx">r</span> <span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">str</span> <span class="o">:=</span> <span class="s">&#34;data:image/png;base64,&#34;</span> <span class="o">+</span> <span class="nx">frame</span>
+	<span class="nx">w</span><span class="p">.</span><span class="nx">Header</span><span class="p">().</span><span class="nx">Set</span><span class="p">(</span><span class="s">&#34;Cache-Control&#34;</span><span class="p">,</span> <span class="s">&#34;no-cache&#34;</span><span class="p">)</span>
+	<span class="nx">w</span><span class="p">.</span><span class="nx">Write</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">str</span><span class="p">))</span>
+<span class="p">}</span></code></pre></div>
+<p>At every interval, the webview will call <code>getFrame</code> for the frame. The frame is a <a href="https://en.wikipedia.org/wiki/Data_URI_scheme" target="_blank">image data URI</a> with the base64 encoded image. This is then passed on to the <code>&lt;img&gt;</code> tag in the HTML template (which we&rsquo;ll see later). Notice that we set the <code>Cache-Control</code> header to <code>no-cache</code>. This is a workaround for MSHTML (in Windows specifically) because otherwise the image frame will cached and the game will be stuck at the first frame.</p>
+
+<h1 id="show-the-web-app-on-the-webview">Show the web app on the webview</h1>
+
+<p>The frames are shown on a HTML page that will be displayed on the webview. The start page, doesn&rsquo;t need to be animated (or can be animated through a video clip or a gif) so it can be a totally static HTML page.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="p">&lt;!</span><span class="nx">doctype</span> <span class="nx">html</span><span class="p">&gt;&lt;</span><span class="nx">meta</span> <span class="nx">charset</span><span class="p">=</span><span class="nx">utf</span><span class="o">-</span><span class="mi">8</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nx">html</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nx">head</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nx">style</span><span class="p">&gt;</span>
+        <span class="nx">body</span> <span class="p">{</span>
+            <span class="nx">background</span><span class="o">-</span><span class="nx">image</span><span class="p">:</span> <span class="nx">url</span><span class="p">(</span><span class="s">&#34;/public/images/start.png&#34;</span><span class="p">);</span>
+            <span class="nx">background</span><span class="o">-</span><span class="nx">repeat</span><span class="p">:</span> <span class="nx">no</span><span class="o">-</span><span class="nx">repeat</span><span class="p">;</span>
+        <span class="p">}</span>        
+        <span class="p">&lt;</span><span class="o">/</span><span class="nx">style</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="p">=</span><span class="s">&#34;/public/js/jquery-3.3.1.min.js&#34;</span><span class="p">&gt;&lt;</span><span class="o">/</span><span class="nx">script</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nx">script</span> <span class="kd">type</span><span class="p">=</span><span class="s">&#34;text/javascript&#34;</span><span class="p">&gt;</span>
+            <span class="err">$</span><span class="p">(</span><span class="s">&#34;body,html&#34;</span><span class="p">).</span><span class="nx">keydown</span><span class="p">(</span><span class="nx">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span> <span class="nx">event</span><span class="p">.</span><span class="nx">which</span> <span class="o">==</span> <span class="mi">13</span> <span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+                <span class="p">}</span>
+                <span class="k">if</span> <span class="p">(</span> <span class="nx">event</span><span class="p">.</span><span class="nx">which</span> <span class="o">==</span> <span class="mi">83</span> <span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">=</span><span class="s">&#34;/start&#34;</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">});</span>               
+        <span class="p">&lt;</span><span class="o">/</span><span class="nx">script</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="o">/</span><span class="nx">head</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="o">/</span><span class="nx">html</span><span class="p">&gt;</span></code></pre></div>
+<p>It just captures keyboard events through JQuery, and redirects to <code>start</code> handler when <code>s</code> is pressed. This will start the game.</p>
+
+<p>Once we start the game, the game loop is triggered and frames are created repeatedly. A <code>gameDelay</code> variable is introduced in the game loop to slow down the game if it becomes too fast. Displaying the frames is all about using JQuery and retrieving frame one at a time regular interval.</p>
+
+<p>To do this, I simply used <code>setInterval</code>, with the frequency provided by the <code>start</code> handler. The function in <code>setInterval</code> uses the Jquery <code>get</code> method to retrieve the data URI from the <code>frame</code> handler, and changes the value in the <code>src</code> attribute of the <code>&lt;img&gt;</code> tag with the <code>image</code> ID.</p>
+
+<p>I also monitor the <code>keydown</code> event and use the JQuery <code>get</code> method to send the value captured to the <code>key</code> handler.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="p">&lt;!</span><span class="nx">doctype</span> <span class="nx">html</span><span class="p">&gt;&lt;</span><span class="nx">meta</span> <span class="nx">charset</span><span class="p">=</span><span class="nx">utf</span><span class="o">-</span><span class="mi">8</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nx">html</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nx">head</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nx">style</span><span class="p">&gt;</span>
+        <span class="nx">body</span> <span class="p">{</span>
+            <span class="nx">background</span><span class="o">-</span><span class="nx">image</span><span class="p">:</span> <span class="nx">url</span><span class="p">(</span><span class="s">&#34;/public/images/background.jpg&#34;</span><span class="p">);</span>
+            <span class="nx">background</span><span class="o">-</span><span class="nx">repeat</span><span class="p">:</span> <span class="nx">no</span><span class="o">-</span><span class="nx">repeat</span><span class="p">;</span>
+            <span class="nx">margin</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="p">&lt;</span><span class="o">/</span><span class="nx">style</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="p">=</span><span class="s">&#34;/public/js/jquery-3.3.1.min.js&#34;</span><span class="p">&gt;&lt;</span><span class="o">/</span><span class="nx">script</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nx">script</span> <span class="kd">type</span><span class="p">=</span><span class="s">&#34;text/javascript&#34;</span><span class="p">&gt;</span>
+            <span class="nx">setInterval</span><span class="p">(</span><span class="nx">function</span><span class="p">()</span> <span class="p">{</span>
+                <span class="err">$</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="err">&#39;</span><span class="o">/</span><span class="nx">frame</span><span class="err">&#39;</span><span class="p">,</span> <span class="nx">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="err">$</span><span class="p">(</span><span class="err">&#39;#</span><span class="nx">image</span><span class="err">&#39;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">src</span><span class="err">&#39;</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+                <span class="p">});</span>
+            <span class="p">},</span> <span class="p">{{</span> <span class="p">.</span> <span class="p">}});</span>
+
+            <span class="err">$</span><span class="p">(</span><span class="s">&#34;body,html&#34;</span><span class="p">).</span><span class="nx">keydown</span><span class="p">(</span><span class="nx">function</span><span class="p">(</span> <span class="nx">event</span> <span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span> <span class="nx">event</span><span class="p">.</span><span class="nx">which</span> <span class="o">==</span> <span class="mi">13</span> <span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+                <span class="p">}</span>
+                <span class="err">$</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="err">&#39;</span><span class="o">/</span><span class="nx">key</span><span class="err">?</span><span class="nx">event</span><span class="p">=</span><span class="err">&#39;</span><span class="o">+</span><span class="nx">event</span><span class="p">.</span><span class="nx">which</span><span class="p">);</span>
+            <span class="p">});</span>
+        <span class="p">&lt;</span><span class="o">/</span><span class="nx">script</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="o">/</span><span class="nx">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nx">body</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nx">img</span> <span class="nx">id</span><span class="p">=</span><span class="s">&#34;image&#34;</span> <span class="nx">src</span><span class="p">=</span><span class="s">&#34;&#34;</span> <span class="nx">style</span><span class="p">=</span><span class="s">&#34;display: block;&#34;</span><span class="o">/</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="o">/</span><span class="nx">body</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="o">/</span><span class="nx">html</span><span class="p">&gt;</span></code></pre></div>
+<p>This is how the start screen looks on Windows.</p>
+
+
+<figure >
+    
+        <img src="https://github.com/sausheong/invadersapp/raw/master/images/win-invaders.png" />
+    
+    
+</figure>
+
+
+<p>This is how it looks on a Mac.</p>
+
+
+<figure >
+    
+        <img src="https://github.com/sausheong/invadersapp/raw/master/images/mac-invaders.png" />
+    
+    
+</figure>
+
+
+<h1 id="game-logic-changes">Game logic changes</h1>
+
+<p>Let&rsquo;s look at the changes I need to make to the game logic next. Most of the code doesn&rsquo;t change. However the game is on a webview so the controls will be also be on the webview itself. This means I don&rsquo;t need to use termbox any more. Instead, I just capture keyboard events sent to the webview using the JQuery <code>keydown</code> method and send it to the <code>key</code> handler. The <code>key</code> handler in turn adds it into the <code>event</code> channel (previously I send the termbox keyboard event into the channel).</p>
+
+<p>In the main game loop, instead of checking for the termbox keyboard events, I check for the keyboard events from the webview.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="k">for</span> <span class="p">!</span><span class="nx">gameOver</span> <span class="p">{</span>
+    <span class="c1">// to slow up or speed up the game
+</span><span class="c1"></span>    <span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span><span class="p">(</span><span class="nx">gameDelay</span><span class="p">))</span>
+    <span class="c1">// if any of the keyboard events are captured
+</span><span class="c1"></span>    <span class="k">select</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="nx">ev</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">events</span><span class="p">:</span>
+        <span class="c1">// exit the game
+</span><span class="c1"></span>        <span class="k">if</span> <span class="nx">ev</span> <span class="o">==</span> <span class="s">&#34;81&#34;</span> <span class="p">{</span> <span class="c1">// q
+</span><span class="c1"></span>            <span class="nx">gameOver</span> <span class="p">=</span> <span class="kc">true</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="nx">ev</span> <span class="o">==</span> <span class="s">&#34;32&#34;</span> <span class="p">{</span> <span class="c1">// space bar
+</span><span class="c1"></span>            <span class="k">if</span> <span class="nx">beam</span><span class="p">.</span><span class="nx">Status</span> <span class="o">==</span> <span class="kc">false</span> <span class="p">{</span>
+                <span class="nx">beamShot</span> <span class="p">=</span> <span class="kc">true</span>
+            <span class="p">}</span>
+            <span class="nx">playSound</span><span class="p">(</span><span class="s">&#34;shoot&#34;</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="nx">ev</span> <span class="o">==</span> <span class="s">&#34;39&#34;</span> <span class="p">{</span> <span class="c1">// right arrow key
+</span><span class="c1"></span>            <span class="nx">laserCannon</span><span class="p">.</span><span class="nx">Position</span><span class="p">.</span><span class="nx">X</span> <span class="o">+=</span> <span class="mi">10</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="nx">ev</span> <span class="o">==</span> <span class="s">&#34;37&#34;</span> <span class="p">{</span> <span class="c1">// left arrow key
+</span><span class="c1"></span>            <span class="nx">laserCannon</span><span class="p">.</span><span class="nx">Position</span><span class="p">.</span><span class="nx">X</span> <span class="o">-=</span> <span class="mi">10</span>
+        <span class="p">}</span>
+    <span class="k">default</span><span class="p">:</span>
+    <span class="p">}</span>
+    <span class="o">...</span>
+<span class="p">}</span></code></pre></div>
+<p>See how I play the sound after each time I detect the string <code>32</code> (captured from the keyboard event), which indicates the space bar being pressed.</p>
+
+<h2 id="play-some-sound">Play some sound</h2>
+
+<p>Games work better with game sounds and effects. I got the Space Invaders special effect sounds from <a href="http://www.classicgaming.cc/classics/space-invaders/sounds" target="_blank">Classics United</a> website and also used the <a href="https://github.com/faiface/beep" target="_blank">Beep</a> package to play them.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// play a sound
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">playSound</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">f</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="nx">dir</span> <span class="o">+</span> <span class="s">&#34;/public/sounds/&#34;</span> <span class="o">+</span> <span class="nx">name</span> <span class="o">+</span> <span class="s">&#34;.wav&#34;</span><span class="p">)</span>
+	<span class="nx">s</span><span class="p">,</span> <span class="nx">format</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">wav</span><span class="p">.</span><span class="nx">Decode</span><span class="p">(</span><span class="nx">f</span><span class="p">)</span>
+	<span class="nx">speaker</span><span class="p">.</span><span class="nx">Init</span><span class="p">(</span><span class="nx">format</span><span class="p">.</span><span class="nx">SampleRate</span><span class="p">,</span> <span class="nx">format</span><span class="p">.</span><span class="nx">SampleRate</span><span class="p">.</span><span class="nx">N</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="o">/</span><span class="mi">20</span><span class="p">))</span>
+	<span class="nx">speaker</span><span class="p">.</span><span class="nx">Play</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span>
+<span class="p">}</span></code></pre></div>
+<p>Playing the sound effect is simply getting the WAV file, decode it and play it back. Unfortunately the package closes the file after decoding it so I have to reopen the file every time, but it works well enough.</p>
+
+<h2 id="show-game-scores-at-the-end-game">Show game scores at the end game</h2>
+
+<p>Something else that changes in the game is the way the scores are displayed. When the game ended previously I simply showed the scores on the terminal. Now that I don&rsquo;t have a terminal to display the scores on, the best to do it is on the screen. What I need to is write text on the end game frame.</p>
+
+<p>To do this, I used the <code>image/font</code> package in the Go standard library sub-repositories. As a refresher, the Go standard library sub-repositories are experimental packages that are found under <code>golang.org/x/*</code>. In particular the <code>golang.org/x/image/font</code> package provides us with basic capabilities to create write lines of text on an image.</p>
+
+<p>When I said basic I really meant basic. While it can be used to do more complicated stuff, I ended up using the basic features only (primarily to keep the code simple).</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// print a line of text to the image
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">printLine</span><span class="p">(</span><span class="nx">img</span> <span class="o">*</span><span class="nx">image</span><span class="p">.</span><span class="nx">RGBA</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">label</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">col</span> <span class="nx">color</span><span class="p">.</span><span class="nx">RGBA</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">point</span> <span class="o">:=</span> <span class="nx">fixed</span><span class="p">.</span><span class="nx">Point26_6</span><span class="p">{</span><span class="nx">X</span><span class="p">:</span> <span class="nx">fixed</span><span class="p">.</span><span class="nx">Int26_6</span><span class="p">(</span><span class="nx">x</span> <span class="o">*</span> <span class="mi">64</span><span class="p">),</span> <span class="nx">Y</span><span class="p">:</span> <span class="nx">fixed</span><span class="p">.</span><span class="nx">Int26_6</span><span class="p">(</span><span class="nx">y</span> <span class="o">*</span> <span class="mi">64</span><span class="p">)}</span>
+	<span class="nx">d</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">font</span><span class="p">.</span><span class="nx">Drawer</span><span class="p">{</span>
+		<span class="nx">Dst</span><span class="p">:</span>  <span class="nx">img</span><span class="p">,</span>
+		<span class="nx">Src</span><span class="p">:</span>  <span class="nx">image</span><span class="p">.</span><span class="nx">NewUniform</span><span class="p">(</span><span class="nx">col</span><span class="p">),</span>
+		<span class="nx">Face</span><span class="p">:</span> <span class="nx">inconsolata</span><span class="p">.</span><span class="nx">Bold8x16</span><span class="p">,</span>
+		<span class="nx">Dot</span><span class="p">:</span>  <span class="nx">point</span><span class="p">,</span>
+	<span class="p">}</span>
+	<span class="nx">d</span><span class="p">.</span><span class="nx">DrawString</span><span class="p">(</span><span class="nx">label</span><span class="p">)</span>
+<span class="p">}</span></code></pre></div>
+<p>The <code>printLine</code> function takes in an image, the coordinates to write the text, the text itself and the color of the text, then draws a lines of text with the given color at the specified coordinates. The font used is a ready-made one from the <code>inconsolata</code> package.</p>
+
+<p>This is how it&rsquo;s used in the game code.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// show end screen and score
+</span><span class="c1"></span><span class="nx">endScreen</span> <span class="o">:=</span> <span class="nx">getImage</span><span class="p">(</span><span class="nx">dir</span> <span class="o">+</span> <span class="s">&#34;/public/images/gameover.png&#34;</span><span class="p">).(</span><span class="o">*</span><span class="nx">image</span><span class="p">.</span><span class="nx">RGBA</span><span class="p">)</span>
+<span class="nx">printLine</span><span class="p">(</span><span class="nx">endScreen</span><span class="p">,</span> <span class="mi">137</span><span class="p">,</span> <span class="mi">220</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">&#34;Your score is %d&#34;</span><span class="p">,</span> <span class="nx">score</span><span class="p">),</span> <span class="nx">color</span><span class="p">.</span><span class="nx">RGBA</span><span class="p">{</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">})</span>
+<span class="nx">printLine</span><span class="p">(</span><span class="nx">endScreen</span><span class="p">,</span> <span class="mi">104</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="s">&#34;Press &#39;s&#39; to play again&#34;</span><span class="p">,</span> <span class="nx">color</span><span class="p">.</span><span class="nx">RGBA</span><span class="p">{</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">})</span>
+<span class="nx">printLine</span><span class="p">(</span><span class="nx">endScreen</span><span class="p">,</span> <span class="mi">137</span><span class="p">,</span> <span class="mi">260</span><span class="p">,</span> <span class="s">&#34;Press &#39;q&#39; to quit&#34;</span><span class="p">,</span> <span class="nx">color</span><span class="p">.</span><span class="nx">RGBA</span><span class="p">{</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">})</span>
+
+<span class="nx">createFrame</span><span class="p">(</span><span class="nx">endScreen</span><span class="p">)</span></code></pre></div>
+<h1 id="building-the-app">Building the app</h1>
+
+<p>To build the app on Mac, just use the <code>build-macOS</code> script. It should build the app and then place it accordingly into the <code>invaders.app</code> application package. With that you can just double-click on the app and start playing!</p>
+
+<p>To build the app on Windows, use this command:</p>
+
+<pre><code>go build -ldflags=&quot;-H windowsgui&quot; -o invaders.exe
+</code></pre>
+
+<p>After that you should have an <code>invaders.exe</code> binary executable file which you can then double-click to start playing.</p>
+
+<h1 id="source-code">Source code</h1>
+
+<p>You can find the source code here.</p>
+
+<p><a href="https://github.com/sausheong/invadersapp" target="_blank">https://github.com/sausheong/invadersapp</a></p>
+
+<h1 id="how-it-looks">How it looks</h1>
+
+<p>That&rsquo;s all there is to it! I didn&rsquo;t go through the game code because I&rsquo;ve already explained it in the previous <a href="https://sausheong.github.io/posts/space-invaders-with-go" target="_blank">blog post</a>.</p>
+
+<p>In the mean time, here&rsquo;s how it looks on Windows. The response is a bit shaky because I don&rsquo;t actually own a Windows machine and tested it and created the video on a VirtualBox VM.</p>
+
+
+<figure >
+    
+        <img src="https://github.com/sausheong/invadersapp/raw/master/images/win-invaders.gif" />
+    
+    
+</figure>
+
+
+<p>This is how it looks on a Mac.</p>
+
+
+<figure >
+    
+        <img src="https://github.com/sausheong/invadersapp/raw/master/images/mac-invaders.gif" />
+    
+    
+</figure>
+
+
+<p>Have fun!</p>
+
+<h1 id="thank-yous">Thank yous</h1>
+
+<ul>
+<li>A shout-out to Ibrahim Wu, who helped me to debug the app on Windows and also discovered the problem with MSHTML caching.</li>
+<li>Thanks to Serge Zaitsev for his amazing <a href="https://github.com/zserge/webview" target="_blank">webview</a> package!</li>
+</ul>
+
+    </div>
+    
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <aside><div id="disqus_thread"></div></aside>
+    <script type="text/javascript">
+      var disqus_shortname = 'space';
+      (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container has-text-centered">
+    <p>&copy; <a href="https://github.com/sausheong">Chang Sau Sheong</a> 2018</p>
+    
+  </div>
+</section>
+
+</body>
+</html>

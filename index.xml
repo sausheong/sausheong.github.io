@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy; &lt;a href=&#34;https://github.com/sausheong&#34;&gt;Chang Sau Sheong&lt;/a&gt; 2018</copyright>
-    <lastBuildDate>Tue, 29 May 2018 16:06:07 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 12 Aug 2018 16:06:07 +0800</lastBuildDate>
     
 	<atom:link href="https://sausheong.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Create a simple cross-platform desktop Space Invaders game with Go</title>
+      <link>https://sausheong.github.io/posts/cross-platform-games-with-go/</link>
+      <pubDate>Sun, 12 Aug 2018 16:06:07 +0800</pubDate>
+      
+      <guid>https://sausheong.github.io/posts/cross-platform-games-with-go/</guid>
+      <description>A few months ago I fiddled around with writing Space Invaders using Go. I had a lot of fun writing it but the output only worked on iTerm2 because it used a specific feature of that terminal. In order to play the game you&amp;rsquo;d really have to download iTerm2 and run it on the command line. I thought it&amp;rsquo;d be fun to muck around it a bit more to see if I can bring it out as a proper desktop game.</description>
+    </item>
     
     <item>
       <title>Sentiment analysis with a simple naive Bayes classifier in Go</title>
