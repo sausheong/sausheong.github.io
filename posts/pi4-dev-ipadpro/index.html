@@ -455,19 +455,21 @@ public=no
 <p>The Pi4 is a great improvement from before but it’s far from perfect. Some things you should be aware of when you’re using the Pi4 for development:</p>
 
 <ol>
-<li><strong>It’s not very powerful</strong>. Remember this is a lot less powerful than your laptop or desktop. The Pi4 has a max of 4GB of RAM and the OS itself runs of an SD card</li>
-<li><strong>It’s an ARM machine</strong>. For some packages that aren’t compiled for the ARM you will need to compile them from source or find someone else who has done it</li>
+<li><strong>It’s not very powerful</strong>. Remember this is a lot less powerful than your laptop or desktop. The Pi4 has a max of 4GB of RAM and the OS itself runs of an SD card. The performance will not be the same as your programming laptop or desktop.</li>
+<li><strong>It’s an ARM machine</strong>. For some packages that aren’t compiled for the ARM you will need to compile them from source or find someone else who has done it.</li>
 
-<li><p><strong>The Pi4 drains power from the iPad Pro</strong>. If you run intensive jobs especially with the GUI running, you’ll run out of juice pretty quickly. Seven if you’re not, just leaving it running means it will continue drawing power from the iPad Pro. There’s a workaround though. If you have a USB-C adapter with pass through USC-C power, you can power the iPad Pro even as it powers the Pi4!</p>
+<li><p><strong>The Pi4 drains power from the iPad Pro</strong>. If you run intensive jobs especially with the GUI running, you’ll run out of juice pretty quickly. Even if you’re not, just leaving it running means it will continue drawing power from the iPad Pro. There’s a workaround though. If you have a USB-C adapter with pass through USC-C power, you can power the iPad Pro even as it powers the Pi4!</p>
 
 <p><img src="/pi4dev/adapter.jpg" alt="Using the Apple USB-C connector to charge the iPad Pro and access the Pi4 at the same time" />
 <em>Using the Apple USB-C connector to charge the iPad Pro and access the Pi4 at the same time</em></p></li>
 
-<li><p><strong>VNC from the iPad Pro is usable but can be a bit laggy</strong>. I haven’t figured a way to make it perform better. If you’re comfortable coding from the terminal using vi or emacs, you should use it instead because it’s much faster.</p></li>
+<li><p><strong>VNC from the iPad Pro is usable but can be a bit laggy</strong>. This is compared with hooking up the Pi4 with my MacBook Pro. I haven’t figured a way to make it perform better. If you’re comfortable coding from the terminal using vi or emacs, you should use it instead because it’s faster.</p></li>
 
-<li><p><strong>The Pi4 can run pretty hot</strong>. I used passive cooling with heat sinks and I tried a small in-case fan and it helps quite a bit but with the fan it can be a bit noisy (depends on your fan). There are probably more things you can do to reduce the heat but I haven&rsquo;t tried them</p></li>
+<li><p><strong>The 11&rdquo; iPad Pro screen isn&rsquo;t designed for a desktop experience when running VNC</strong>. I haven&rsquo;t tried it with a 12.9&rdquo; iPad Pro but running a desktop interface on the 11&rdquo; can be a bit small.</p></li>
 
-<li><p><a href="https://hackaday.com/2019/07/16/exploring-the-raspberry-pi-4-usb-c-issue-in-depth/" target="_blank"><strong>Not all USB-C cables work with the Pi4</strong></a>. Surprisingly it’s the cheaper cables that mostly work because e-marked USB-C cables can detect what it’s connected to and because of a particular way the Pi4 was designed, it is detected as an audio adapter accessory and won’t power it.</p></li>
+<li><p><strong>The Pi4 can run pretty hot</strong>. I used passive cooling with heat sinks and I tried a small in-case fan and it helps quite a bit but with the fan it can be a bit noisy (depends on your fan). There are probably more things you can do to reduce the heat but I haven&rsquo;t tried them.</p></li>
+
+<li><p><a href="https://hackaday.com/2019/07/16/exploring-the-raspberry-pi-4-usb-c-issue-in-depth/" target="_blank"><strong>Not all USB-C cables work with the Pi4</strong></a>. This is a known issue. Surprisingly it’s the cheaper cables that mostly work because e-marked USB-C cables can detect what it’s connected to and because of a particular way the Pi4 was designed, it is detected as an audio adapter accessory and won’t power it.</p></li>
 </ol>
 
 <h2 id="happy-coding">Happy coding!</h2>
