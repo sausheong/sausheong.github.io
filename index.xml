@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy; &lt;a href=&#34;https://github.com/sausheong&#34;&gt;Chang Sau Sheong&lt;/a&gt; 2018</copyright>
-    <lastBuildDate>Sun, 12 Aug 2018 16:06:07 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 25 Dec 2019 22:33:07 +0800</lastBuildDate>
     
 	<atom:link href="https://sausheong.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Setting up a Raspberry Pi 4 as an development machine for your iPad Pro</title>
+      <link>https://sausheong.github.io/posts/pi4-dev-ipadpro/</link>
+      <pubDate>Wed, 25 Dec 2019 22:33:07 +0800</pubDate>
+      
+      <guid>https://sausheong.github.io/posts/pi4-dev-ipadpro/</guid>
+      <description>My Raspberry Pi 4 dev machine
+Years ago when I was just starting out in my career, a couple of friends and I came together with a new startup idea. The plan was to take a few days off from work, get a hotel room somewhere (co-working spaces were almost non-existent then) and start hacking out our new exciting prototype. However, we were a bit stuck because of our computers.</description>
+    </item>
     
     <item>
       <title>Create a simple cross-platform desktop game with Go</title>
