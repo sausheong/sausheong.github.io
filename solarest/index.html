@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Solar Estimator</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 90%;
+        margin: 0;
+        padding: 0;
+      }
+    
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-md navbar-light">
+        <a class="navbar-brand" href="#"> <i class="fas fa-solar-panel"></i> Solar Estimator</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+          <ul class="navbar-nav mr-auto">
+            <li id="measure" class="nav-item">
+              <a class="nav-link" href="#" id="start" onclick="measure()">Measure</a>
+            </li> 
+          </ul> 
+          <button class="btn btn-outline-danger" type="button" id="end" onclick="clear_measure()">Clear</button>
+        </div>
+      </nav>
+      
+    <div id="map"></div>
+
+    <div class="container pt-5 pb-5 mb-5">
+        <div class="row">
+          <div class="col-sm">
+            <div class="media">
+                <img src="building.png" class="mr-3" alt="...">
+                <div class="media-body">
+                  <h5 class="mt-0">Measured area</h5>
+                  <div class="input-group mb-3">
+                    <input type="text" style="text-align:right;" id="area" class="form-control" placeholder="0" aria-label="measured-area" aria-describedby="basic-addon2" readonly>
+                    <div class="input-group-append">
+                      <span class="input-group-text" id="basic-addon2">sqm</span>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div class="col-sm">
+            <div class="media">
+                <img src="solar.png" class="mr-3" alt="...">
+                <div class="media-body">
+                  <h5 class="mt-0">Daily solar output</h5>
+                  <div class="input-group mb-3">
+                    <input type="text" style="text-align:right;" id="solar" class="form-control" placeholder="0" aria-label="solar" aria-describedby="basic-addon2" readonly>
+                    <div class="input-group-append">
+                      <span class="input-group-text" id="basic-addon2">kWh</span>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    <script src="MeasureTool.min.js"></script>
+    <script src="map.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCclgc-foKpXT3NkMWB0WmgQnsEgQoDEac&libraries=geometry&callback=initMap"
+    async defer></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/feff1cc6db.js" crossorigin="anonymous"></script>
+  </body>
+</html>
