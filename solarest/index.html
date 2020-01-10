@@ -5,14 +5,12 @@
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
+
       #map {
         height: 100%;
       }
-      /* Optional: Makes the sample page fill the window. */
       html, body {
-        height: 80%;
+        height: 90%;
         margin: 0;
         padding: 0;
       }
@@ -37,39 +35,70 @@
       </nav>
       
     <div id="map"></div>
-
-    <div class="container pt-5 pb-5 mb-5">
-        <div class="row">
-          <div class="col-sm">
-            <div class="media">
-                <img src="building.png" class="mr-3" alt="...">
-                <div class="media-body">
-                  <h5 class="mt-0">Measured area</h5>
-                  <div class="input-group mb-3">
-                    <input type="text" style="text-align:right;" id="area" class="form-control" placeholder="0" aria-label="measured-area" aria-describedby="basic-addon2" readonly>
-                    <div class="input-group-append">
-                      <span class="input-group-text" id="basic-addon2">sqm</span>
-                    </div>
-                  </div>
-                </div>
-            </div>
-          </div>
-          <div class="col-sm">
-            <div class="media">
-                <img src="solar.png" class="mr-3" alt="...">
-                <div class="media-body">
-                  <h5 class="mt-0">Daily solar output</h5>
-                  <div class="input-group mb-3">
-                    <input type="text" style="text-align:right;" id="solar" class="form-control" placeholder="0" aria-label="solar" aria-describedby="basic-addon2" readonly>
-                    <div class="input-group-append">
-                      <span class="input-group-text" id="basic-addon2">kWh</span>
-                    </div>
-                  </div>
-                </div>
-            </div>
-          </div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-2">
+          <i class="lead">Measured area</i>
+        </div>
+        <div class="col" style="text-align:center;">X</div>
+        <div class="col-2">
+          <i class="lead">Module efficiency</i>
+        </div>
+        <div class="col" style="text-align:center;">X</div>
+        <div class="col-2">
+          <i class="lead">Sun-hours per day</i>
+        </div>
+        <div class="col" style="text-align:center;">X</div>
+        <div class="col-2">
+          <i class="lead">Performance ratio</i>
+        </div>
+        <div class="col" style="text-align:center;">=</div>
+        <div class="col-2">
+          <i class="lead">Generation per day</i>
         </div>
       </div>
+
+      <form>
+        <div class="form-row">
+          <div class="col-2">
+            <div class="input-group">
+              <input type="text" style="text-align:right;" id="area" class="form-control" placeholder="0">
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">sqm</span>
+              </div>              
+            </div>
+            
+          </div>
+          <div class="col" style="text-align:center;"></div>
+          <div class="col-2">
+            <input type="text" style="text-align:right;" id="efficiency" class="form-control" value="0.17" placeholder="module efficiency">
+          </div>
+          <div class="col" style="text-align:center;"></div>
+          <div class="col-2">
+            <div class="input-group">
+              <input type="text" style="text-align:right;" id="insol" class="form-control" value="4.284" placeholder="average sun hours per day">
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">hours</span>
+              </div>
+            </div>            
+          </div>
+          <div class="col" style="text-align:center;"></div>
+          <div class="col-2">
+            <input type="text" style="text-align:right;" id="performance" class="form-control" value="0.84" placeholder="system performance ratio">
+          </div>
+          <div class="col" style="text-align:center;"></div>
+          <div class="col-2">
+            <div class="input-group">
+              <input type="text" style="text-align:right;" id="solar" class="form-control" placeholder="0" readonly>
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">kWh</span>
+              </div>              
+            </div>            
+          </div>
+        </div>
+      </form>
+  
+    </div>
 
 
     <script src="MeasureTool.min.js"></script>

@@ -1,7 +1,9 @@
 var pos, map, measureTool;
+var singapore = {lat: 1.3521, lng: 103.8198};
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 1.3521, lng: 103.8198},
+    center: singapore,
+    mapTypeId: 'satellite',
     zoom: 17
   });
   infoWindow = new google.maps.InfoWindow;
@@ -39,12 +41,28 @@ function initMap() {
     console.log('changed', e.result);
     if (e.result.area) {
         area = Math.round(e.result.area);
-        solar = Math.round((area * 200 * 5.6)/1000);
         $("#area").val(area);
-        $("#solar").val(solar);        
+        calc();
     }
   }); 
-   
+
+  $( "#area" ).change(function() {
+    calc();
+  });
+
+  $( "#efficiency" ).change(function() {
+    calc();
+  });
+
+  $( "#insol" ).change(function() {
+    calc();
+  });
+
+  $( "#performance" ).change(function() {
+    calc();
+  });
+
+
 }
 
 function measure() {
@@ -55,4 +73,13 @@ function measure() {
 function clear_measure() {
     $("#measure").attr("class", "d-block");
     measureTool.end();
+}
+
+function calc() {
+  area = Number($("#area").val())
+  efficiency = Number($("#efficiency").val())
+  insol = Number($("#insol").val())
+  performance = Number($("#performance").val())
+  solar = Math.round(area * efficiency * insol * performance);
+  $("#solar").val(solar);
 }
