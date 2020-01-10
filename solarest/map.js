@@ -4,7 +4,7 @@ function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: singapore,
     mapTypeId: 'satellite',
-    zoom: 17
+    zoom: 18,
   });
   infoWindow = new google.maps.InfoWindow;
   
@@ -61,8 +61,6 @@ function initMap() {
   $( "#performance" ).change(function() {
     calc();
   });
-
-
 }
 
 function measure() {
@@ -75,6 +73,9 @@ function clear_measure() {
     measureTool.end();
 }
 
+function help() {
+  $("#help").toggleClass("d-block");
+}
 function calc() {
   area = Number($("#area").val())
   efficiency = Number($("#efficiency").val())

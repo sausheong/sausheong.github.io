@@ -19,88 +19,119 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-md navbar-light">
-        <a class="navbar-brand" href="#"> <i class="fas fa-solar-panel"></i> Solar Estimator</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      
-        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-          <ul class="navbar-nav mr-auto">
-            <li id="measure" class="nav-item">
-              <a class="nav-link" href="#" id="start" onclick="measure()">Measure</a>
-            </li> 
-          </ul> 
-          <button class="btn btn-outline-danger" type="button" id="end" onclick="clear_measure()">Clear</button>
-        </div>
-      </nav>
-      
-    <div id="map"></div>
-
-    <div class="container-fluid pt-3 pb-5">
-      <div class="row pb-2">
-        <div class="col-2">
-          <i class="lead">Measured area</i>
-        </div>
-        <div class="col" style="text-align:center;">X</div>
-        <div class="col-2">
-          <i class="lead">Module efficiency</i>
-        </div>
-        <div class="col" style="text-align:center;">X</div>
-        <div class="col-2">
-          <i class="lead">Sun-hours per day</i>
-        </div>
-        <div class="col" style="text-align:center;">X</div>
-        <div class="col-2">
-          <i class="lead">Performance ratio</i>
-        </div>
-        <div class="col" style="text-align:center;">=</div>
-        <div class="col-2">
-          <i class="lead">Generation per day</i>
-        </div>
-      </div>
-
-      
-      <div class="form-row">
-        <div class="col-2">
-          <div class="input-group">
-            <input type="text" style="text-align:right;" id="area" class="form-control" placeholder="0">
-            <div class="input-group-append">
-              <span class="input-group-text" id="basic-addon2">sqm</span>
-            </div>              
-          </div>
-          
-        </div>
-        <div class="col" style="text-align:center;"></div>
-        <div class="col-2">
-          <input type="text" style="text-align:right;" id="efficiency" class="form-control" value="0.17" placeholder="module efficiency">
-        </div>
-        <div class="col" style="text-align:center;"></div>
-        <div class="col-2">
-          <div class="input-group">
-            <input type="text" style="text-align:right;" id="insol" class="form-control" value="4.284" placeholder="average sun hours per day">
-            <div class="input-group-append">
-              <span class="input-group-text" id="basic-addon2">hours</span>
+      <a class="navbar-brand" href="#"> <i class="fas fa-solar-panel"></i> Solar Estimator</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>      
+    </nav>
+    
+    <div class="container pb-5">  
+      <div class="row" style="height: 480px;">
+        <div class="col-8">
+          <div id="map"></div>
+        </div>  
+        <div class="col-4">
+          <div class="row">
+            <div class="btn-group" role="group">
+              <button class="btn btn-outline-primary" type="button" id="measure" onclick="measure()"><i class="fas fa-ruler-combined"></i> Measure</button>
+              <button class="btn btn-outline-danger" type="button" id="end" onclick="clear_measure()"><i class="fas fa-eraser"></i> Clear</button>  
+              <button class="btn btn-outline-info" type="button" id="end" onclick="help()"><i class="fas fa-info-circle"></i> Info</button>
             </div>
-          </div>            
-        </div>
-        <div class="col" style="text-align:center;"></div>
-        <div class="col-2">
-          <input type="text" style="text-align:right;" id="performance" class="form-control" value="0.84" placeholder="system performance ratio">
-        </div>
-        <div class="col" style="text-align:center;"></div>
-        <div class="col-2">
-          <div class="input-group">
-            <input type="text" style="text-align:right;" id="solar" class="form-control" placeholder="0" readonly>
-            <div class="input-group-append">
-              <span class="input-group-text" id="basic-addon2">kWh</span>
-            </div>              
-          </div>            
+          </div>
+          <div class="row">
+            <form>
+              <div class="form-group">
+                <label for="measured-area">Measured rooftop area</label>
+                <div class="input-group">
+                  <input type="text" style="text-align:right;" id="area" class="form-control" placeholder="0">
+                  <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2">sqm</span>
+                  </div>              
+                </div>    
+              </div>
+              <div class="form-group">
+                <label for="efficiency">Module efficiency</label>
+                <input type="text" style="text-align:right;" id="efficiency" class="form-control" value="0.17" placeholder="module efficiency">
+              </div>
+              <div class="form-group">
+                <label for="insol">Sun-hours per day</label>
+                <div class="input-group">
+                  <input type="text" style="text-align:right;" id="insol" class="form-control" value="4.284" placeholder="average sun hours per day">
+                  <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2">hours</span>
+                  </div>
+                </div> 
+              </div>
+              <div class="form-group">
+                <label for="performance">Performance ratio</label>
+                <input type="text" style="text-align:right;" id="performance" class="form-control" value="0.84" placeholder="system performance ratio">
+              </div>
+
+              <div class="form-group">
+                <label for="solar">Electricity generate per day</label>
+                <div class="input-group">
+                  <input type="text" style="text-align:right;" id="solar" class="form-control" placeholder="0" readonly>
+                  <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2">kWh</span>
+                  </div>              
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-      
-  
+      <div class="row pt-3 d-none" id="help">
+        <h3>Estimate the solar capacity of your rooftop</h3>
+
+        <p>
+          This tool allows you to estimate the amount of electricity generated on your rooftop should you install solar panels on it. The tool is defaulted to values that would work for locations based in Singapore. The measured area should be rooftops only where the assumption is to pack the number of solar panels in a small area. 
+          <em>Note that this tool provides only an high level estimation.</em>
+        </p>
+        <blockquote class="blockquote">
+          <p class="pl-5 pr-5"><em>electricity generated per day = rooftop area x module efficiency x sun-hours per day x system performance ratio</em></p>
+        </blockquote>
+        <h4>Steps</h4>
+        <p>
+          <ol>
+            <li>
+              <strong>Navigate the map to the location you want to measure.</strong> You can use toggle between map and satellite mode on the map in order to better see the area you want to measure.
+            </li>
+            <li>
+              <strong>Click on the measure button.</strong> This sets the tool to measure mode and allow you to measure the area of your rooftop.              
+            </li>
+            <li>
+              <strong>Click on the first point on the map.</strong> Then click on the next few to set up the polygon that covers your rooftop. You can move the points around to adjust accordingly. Use the clear button to clear all the points and exit the measure mode.
+            </li>
+            <li>
+              <strong>The area measured should be shown to your right.</strong> The amount of electricity generated per day is automatically calculated.
+            </li>            
+          </ol>
+        </p>
+        <h4>Parameters</h4>
+        <p>
+          The following are the parameters used:
+        </p>
+        <p>
+          <ul>
+            <li>
+              <strong>Rooftop Area.</strong> This is the area of your rooftop.              
+            </li>
+            <li>
+              <strong>Module efficiency.</strong> This is the efficiency of the solar panels you might deploy on your rooftop. The value comes from the solar panel manufacturer and is typically between 0.15 to 0.22. The value 0.17 is chosen arbitrarily and you can change it accordingly.
+            </li>
+            <li>
+              <strong>Sun-hours per day.</strong> This is the average number of hours of sun in a day that you can get. The value 4.284 hours is the average of 10 years between Mar 2009 to Mar 2019 as derived from <a href="https://power.larc.nasa.gov/docs/v1/">https://power.larc.nasa.gov/docs/v1/</a>
+            </li>
+            <li>
+              <strong>System performance ratio.</strong> This is the average performance of the system. The value 0.84 is an industry average.
+            </li>            
+          </ul>
+        </p>       
+      </div>
+      <div><small>copyright Chang Sau Sheong 2020</small></div>
     </div>
 
+    
 
     <script src="MeasureTool.min.js"></script>
     <script src="map.js"></script>
