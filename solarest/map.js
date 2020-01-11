@@ -81,6 +81,6 @@ function calc() {
   efficiency = Number($("#efficiency").val())
   insol = Number($("#insol").val())
   performance = Number($("#performance").val())
-  solar = Math.round(area * efficiency * insol * performance * 365);
+  solar = (area * efficiency * insol * performance * 365/1000).toFixed(2);
   $("#solar").val(solar);
 }
