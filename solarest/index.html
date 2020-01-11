@@ -10,7 +10,7 @@
         height: 100%;
       }
       html, body {
-        height: 90%;
+        height: 100%;
         margin: 0;
         padding: 0;
       }
@@ -32,13 +32,12 @@
         </div>  
         <div class="col-4">
           <div class="row">
-            <div class="btn-group" role="group">
-              <button class="btn btn-outline-primary" type="button" id="measure" onclick="measure()"><i class="fas fa-ruler-combined"></i> Measure</button>
-              <button class="btn btn-outline-danger" type="button" id="end" onclick="clear_measure()"><i class="fas fa-eraser"></i> Clear</button>  
-              <button class="btn btn-outline-info" type="button" id="end" onclick="help()"><i class="fas fa-info-circle"></i> Info</button>
-            </div>
-          </div>
-          <div class="row">
+              <div class="btn-group mb-3" role="group">
+                <button class="btn btn-outline-primary" type="button" id="measure" onclick="measure()"><i class="fas fa-ruler-combined"></i> Measure</button>
+                <button class="btn btn-outline-danger" type="button" id="end" onclick="clear()"><i class="fas fa-eraser"></i> Clear</button>  
+                <button class="btn btn-outline-info" type="button" id="end" onclick="info()"><i class="fas fa-info-circle"></i> Info</button>
+              </div>
+            
             <form>
               <div class="form-group">
                 <label for="measured-area">Measured rooftop area</label>
@@ -58,7 +57,7 @@
                 <div class="input-group">
                   <input type="text" style="text-align:right;" id="insol" class="form-control" value="4.284" placeholder="average sun hours per day">
                   <div class="input-group-append">
-                    <span class="input-group-text" id="basic-addon2">hours</span>
+                    <span class="input-group-text">hours</span>
                   </div>
                 </div> 
               </div>
@@ -72,7 +71,7 @@
                 <div class="input-group">
                   <input type="text" style="text-align:right;" id="solar" class="form-control" placeholder="0" readonly>
                   <div class="input-group-append">
-                    <span class="input-group-text" id="basic-addon2">kWh</span>
+                    <span class="input-group-text">kWh</span>
                   </div>              
                 </div>
               </div>
@@ -80,7 +79,7 @@
           </div>
         </div>
       </div>
-      <div class="row pt-3 d-none" id="help">
+      <div class="row pt-3 d-none" id="info">
         <h3>Estimate the solar capacity of your rooftop</h3>
 
         <p>
@@ -130,8 +129,6 @@
       </div>
       <div><small>copyright Chang Sau Sheong 2020</small></div>
     </div>
-
-    
 
     <script src="MeasureTool.min.js"></script>
     <script src="map.js"></script>

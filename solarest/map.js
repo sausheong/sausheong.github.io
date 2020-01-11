@@ -68,13 +68,13 @@ function measure() {
     measureTool.start();
 }
 
-function clear_measure() {
-    $("#measure").attr("class", "d-block");
+function clear() {
+    $("#measure").attr("class", "btn btn-outline-primary");
     measureTool.end();
 }
 
-function help() {
-  $("#help").toggleClass("d-block");
+function info() {
+  $("#info").toggleClass("d-block");
 }
 function calc() {
   area = Number($("#area").val())
