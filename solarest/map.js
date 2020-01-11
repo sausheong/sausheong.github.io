@@ -68,7 +68,7 @@ function measure() {
     measureTool.start();
 }
 
-function clear() {
+function clearMeasure() {
     $("#measure").attr("class", "btn btn-outline-primary");
     measureTool.end();
 }
