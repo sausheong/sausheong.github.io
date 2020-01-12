@@ -1,4 +1,4 @@
-var pos, map, measureTool;
+var pos, map, measureTool, geocoder;
 var singapore = {lat: 1.274318, lng: 103.842987};
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -7,6 +7,8 @@ function initMap() {
     zoom: 18,
   });
   
+  geocoder = new google.maps.Geocoder();
+
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
       var pos = {
@@ -50,6 +52,17 @@ function initMap() {
 
   $( "#performance" ).change(function() {
     calc();
+  });
+}
+
+function gothere() {
+  var address = document.getElementById("address").value;
+  geocoder.geocode({"address": address}, function(results, status) {
+    if (status === "OK") {
+      map.setCenter(results[0].geometry.location);
+    } else {
+      alert("Cannot go there because: "  + status);
+    }
   });
 }
 
