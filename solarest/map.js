@@ -16,13 +16,8 @@ function initMap() {
       };
 
       map.setCenter(pos);
-    }, function() {
-      handleLocationError(true, infoWindow, map.getCenter());
     });
-  } else {
-    // Browser doesn't support Geolocation
-    handleLocationError(false, infoWindow, map.getCenter());
-  }  
+  }
 
   measureTool = new MeasureTool(map, {
     contextMenu: false,
@@ -38,7 +33,6 @@ function initMap() {
     $("#solar").val("0");
   });
   measureTool.addListener('measure_change', (e) => {
-    console.log('changed', e.result);
     if (e.result.area) {
         area = Math.round(e.result.area);
         $("#area").val(area);
