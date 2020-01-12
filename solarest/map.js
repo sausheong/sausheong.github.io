@@ -6,7 +6,6 @@ function initMap() {
     mapTypeId: 'satellite',
     zoom: 18,
   });
-  infoWindow = new google.maps.InfoWindow;
   
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -26,9 +25,7 @@ function initMap() {
     unit: MeasureTool.UnitTypeId.METRIC // metric, imperial, or nautical
   });
 
-  measureTool.addListener('measure_start', () => {
-  });
-  measureTool.addListener('measure_end', (e) => {
+  measureTool.addListener('measure_end', () => {
     $("#area").val("0");
     $("#solar").val("0");
   });
