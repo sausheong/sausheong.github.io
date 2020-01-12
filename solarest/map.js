@@ -38,6 +38,12 @@ function initMap() {
     }
   }); 
 
+  $("#address").keypress(function (e) {
+    if (e.which == 13) {
+      gothere();
+      return false;
+    }
+  });
   $( "#area" ).change(function() {
     calc();
   });
