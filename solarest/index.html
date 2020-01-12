@@ -50,7 +50,7 @@
               </div>
               <div class="form-group">
                 <label for="efficiency">Panel efficiency</label>
-                <input type="text" style="text-align:right;" id="efficiency" class="form-control" value="0.18" placeholder="module efficiency">
+                <input type="text" style="text-align:right;" id="efficiency" class="form-control" value="0.17" placeholder="module efficiency">
               </div>
               <div class="form-group">
                 <label for="insol">Average insolation</label>
@@ -87,7 +87,7 @@
           <em>Note that this tool provides only a high level estimation.</em>
         </p>
         <blockquote class="blockquote">
-          <p class="pl-5 pr-5"><em>electricity generated per year = rooftop area x module efficiency x sun-hours per day x system performance ratio x 365</em></p>
+          <p class="pl-5 pr-5"><em>electricity generated per year = rooftop area x module efficiency x average insolation x system performance ratio x 365</em></p>
         </blockquote>
         <h4>Steps</h4>
         <p>
@@ -119,7 +119,7 @@
               <strong>Panel efficiency.</strong> This is the efficiency of the solar panels you might deploy on your rooftop. The value comes from the solar panel manufacturer and is typically between 0.15 to 0.22. The value 0.17 is chosen arbitrarily and you can change it accordingly.
             </li>
             <li>
-              <strong>Average insolation.</strong> This is the average number of hours of solar energy that hits an area each day, measured in kWh/sqm/day. The value 4.284 hours is the average of 10 years between Mar 2009 to Mar 2019 as derived from <a href="https://power.larc.nasa.gov/docs/v1/">https://power.larc.nasa.gov/docs/v1/</a>
+              <strong>Average insolation.</strong> This is the average amount of solar energy that hits an area each day, measured in kWh/sqm/day. The value 4.284 hours is the average of 10 years between Mar 2009 to Mar 2019 as derived from <a href="https://power.larc.nasa.gov/docs/v1/">https://power.larc.nasa.gov/docs/v1/</a>
             </li>
             <li>
               <strong>System performance ratio.</strong> This is the average performance of the system. The value 0.85 is from the upper value given by the <a href="https://www.solar-repository.sg/solar-basics">National Solar Repository of Singapore</a>.

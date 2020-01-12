@@ -13,7 +13,6 @@ function initMap() {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
-
       map.setCenter(pos);
     });
   }
@@ -22,7 +21,7 @@ function initMap() {
     contextMenu: false,
     showSegmentLength: true,
     tooltip: true,
-    unit: MeasureTool.UnitTypeId.METRIC // metric, imperial, or nautical
+    unit: MeasureTool.UnitTypeId.METRIC
   });
 
   measureTool.addListener('measure_end', () => {
