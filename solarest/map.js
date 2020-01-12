@@ -1,5 +1,5 @@
 var pos, map, measureTool;
-var singapore = {lat: 1.3521, lng: 103.8198};
+var singapore = {lat: 1.274318, lng: 103.842987};
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: singapore,
