@@ -78,26 +78,15 @@
     <h1 class="title">A gentle introduction to genetic algorithms</h1>
       
     <div class="content">
-      
-
-<p>It may not seem obvious at first glance, but computer science algorithms are often inspired by nature and biological processes. Some of these algorithms include neural networks, particle swarm optimization, artificial bee colony, ant colony optimization, evolutionary algorithms and many more. In fact, you can consider biological processes to be simply algorithms that nature have come up with to solve problems. From that point of view it&rsquo;s easy to see why many of these algorithms are optimization heuristics and metaheuristics. After all, nature optimizes for survival.</p>
-
-<p><a href="https://stackoverflow.com/questions/2334225/what-is-the-difference-between-a-heuristic-and-an-algorithm" target="_blank">Heuristics</a>, in case the term is not familiar to you, are algorithms that try to solve the problem faster by making some assumptions. As a result, heuristics are often not optimal but are more useful in cases when getting the best results take way too long. <a href="https://www.researchgate.net/post/What_are_the_differences_between_heuristics_and_metaheuristics" target="_blank">Metaheuristics</a> take this to the next level &ndash; they are a heuristic that generates or finds heuristics.</p>
-
+      <p>It may not seem obvious at first glance, but computer science algorithms are often inspired by nature and biological processes. Some of these algorithms include neural networks, particle swarm optimization, artificial bee colony, ant colony optimization, evolutionary algorithms and many more. In fact, you can consider biological processes to be simply algorithms that nature have come up with to solve problems. From that point of view it&rsquo;s easy to see why many of these algorithms are optimization heuristics and metaheuristics. After all, nature optimizes for survival.</p>
+<p><a href="https://stackoverflow.com/questions/2334225/what-is-the-difference-between-a-heuristic-and-an-algorithm">Heuristics</a>, in case the term is not familiar to you, are algorithms that try to solve the problem faster by making some assumptions. As a result, heuristics are often not optimal but are more useful in cases when getting the best results take way too long. <a href="https://www.researchgate.net/post/What_are_the_differences_between_heuristics_and_metaheuristics">Metaheuristics</a> take this to the next level &ndash; they are a heuristic that generates or finds heuristics.</p>
 <h2 id="genetic-algorithms">Genetic algorithms</h2>
-
-<p>Genetic algorithms are metaheuristics that are based on the process of <a href="https://en.wikipedia.org/wiki/Natural_selection" target="_blank">natural selection</a>. Genetic algorithms are a type of evolutionary algorithm.</p>
-
+<p>Genetic algorithms are metaheuristics that are based on the process of <a href="https://en.wikipedia.org/wiki/Natural_selection">natural selection</a>. Genetic algorithms are a type of evolutionary algorithm.</p>
 <p>Natural selection, as a refresher, is a key mechanism in evolution. It is a natural process that causes populations (of organisms) to adapt to their environment over time. These populations have variations in traits. Individual organisms with more suitable traits have higher chances of survival in the environment. The next generations reproduced from these surviving organisms will inherit their traits, resulting eventualy in a population with these more suitable traits.</p>
-
 <p>However if the entire population have the same traits, and the environment changes, the population will go extinction. Fortunately mutations that occur occasionally causes variations in traits and these allow organisms with traits that are more suited for the changed environment to survive and become dominant.</p>
-
-<p>A popularly used illustration is the <a href="https://en.wikipedia.org/wiki/Peppered_moth_evolution" target="_blank">variation in color in the peppered moths in England</a>. Before the early 1800s, the peppered moth in England were mostly of the white variety and its coloration helped it to hide from predatory birds as it blended well with light-colored lichens and English trees. However during the Industrial Revolution, light-colored lichens died due to pollution and many of the trees on which the moths rested became blackened by soot. This gave the dark colored moths an advantage in hiding from predators while the light colored moths were easily spotted. By the mid 1800s, the number of dark colored moths increased and by the end of the century, almost all peppered moths were of the dark variety. The balance was reversed by the effect of the Clean Air Act 1956, and the dark colored moths became rare again.</p>
-
-<p><img src="https://github.com/sausheong/ga/raw/master/imgs/moths.jpg" alt="Dark and light colored peppered moths" /></p>
-
+<p>A popularly used illustration is the <a href="https://en.wikipedia.org/wiki/Peppered_moth_evolution">variation in color in the peppered moths in England</a>. Before the early 1800s, the peppered moth in England were mostly of the white variety and its coloration helped it to hide from predatory birds as it blended well with light-colored lichens and English trees. However during the Industrial Revolution, light-colored lichens died due to pollution and many of the trees on which the moths rested became blackened by soot. This gave the dark colored moths an advantage in hiding from predators while the light colored moths were easily spotted. By the mid 1800s, the number of dark colored moths increased and by the end of the century, almost all peppered moths were of the dark variety. The balance was reversed by the effect of the Clean Air Act 1956, and the dark colored moths became rare again.</p>
+<p><img src="https://github.com/sausheong/ga/raw/master/imgs/moths.jpg" alt="Dark and light colored peppered moths"></p>
 <p>So that&rsquo;s natural selection. How does genetic algorithms come into the picture? Genetic algorithms are heuristics that uses the same mechanisms as natural selection &ndash;  DNA, population, variation, fitness, selection, reproduction, inheritance and mutation.</p>
-
 <ul>
 <li>DNA &ndash; define organisms that have one or more DNA</li>
 <li>Population &ndash; start with an initial population of organisms with different genes (values) for their DNA</li>
@@ -107,55 +96,44 @@
 <li>Inheritance &ndash; the next generation of the population must inherit the values of the genes</li>
 <li>Mutation &ndash; with each generation, there is a small chance that the values of the genes changes</li>
 </ul>
-
 <h2 id="monkeys-typewriters-and-shakespeare">Monkeys, typewriters and Shakespeare</h2>
-
-<p>The <a href="http://www.ietf.org/rfc/rfc2795.txt" target="_blank">infinite monkey theorem</a> says that an infinite number of monkeys sitting at an infinite number of typewriters randomly hitting keys, given enough time, will eventually reproduce the complete works of Shakespeare. Let&rsquo;s say we want just one monkey to reproduce this quote: <em>&ldquo;To be or not to be&rdquo;</em> How long do you think it will take the monkey to randomly hammer this out?</p>
-
-<p><img src="https://github.com/sausheong/ga/raw/master/imgs/monkey.jpg" alt="Infinite monkey theorem" /></p>
-
-<p>The quote has 18 characters (including space). The probability of the monkey typing <em>&rsquo;t&rsquo;</em> (let&rsquo;s be generous and say it&rsquo;s ok to be all small caps) is 1 out of 26. So the probability of typing the exact sequence <em>&ldquo;To be or not to be&rdquo;</em> is 1 out of 26 to the power of 18 or 1 out of about 29,479,510,200,013,920,000,000,000. If let&rsquo;s say the monkey type a letter every second, there is just 1 chance out of 934,789,136,225,707,600 years that it will type out that quote. That&rsquo;s 1 time in 934 trillion years.</p>
-
+<p>The <a href="http://www.ietf.org/rfc/rfc2795.txt">infinite monkey theorem</a> says that an infinite number of monkeys sitting at an infinite number of typewriters randomly hitting keys, given enough time, will eventually reproduce the complete works of Shakespeare. Let&rsquo;s say we want just one monkey to reproduce this quote: <em>&ldquo;To be or not to be&rdquo;</em> How long do you think it will take the monkey to randomly hammer this out?</p>
+<p><img src="https://github.com/sausheong/ga/raw/master/imgs/monkey.jpg" alt="Infinite monkey theorem"></p>
+<p>The quote has 18 characters (including space). The probability of the monkey typing <em>&rsquo;t'</em> (let&rsquo;s be generous and say it&rsquo;s ok to be all small caps) is 1 out of 26. So the probability of typing the exact sequence <em>&ldquo;To be or not to be&rdquo;</em> is 1 out of 26 to the power of 18 or 1 out of about 29,479,510,200,013,920,000,000,000. If let&rsquo;s say the monkey type a letter every second, there is just 1 chance out of 934,789,136,225,707,600 years that it will type out that quote. That&rsquo;s 1 time in 934 trillion years.</p>
 <p>Obviously the brute force way of doing this is not going to get us anywhere. What if we try to &lsquo;evolve&rsquo; the quote? Let&rsquo;s look at how we can use genetic algorithms to do this. Here are the steps for a genetic algorithm used to solve the problem:</p>
-
 <h3 id="define-a-organism-consisting-of-one-or-more-dna">Define a organism consisting of one or more DNA</h3>
-
 <p>An organism in our Shakespeare-spouting algorithm consists of a single DNA, which is a byte array and a number representing the fitness of the Organism.</p>
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">Organism</span> <span class="kd">struct</span> <span class="p">{</span>
 	<span class="nx">DNA</span>    <span class="p">[]</span><span class="kt">byte</span>
 	<span class="nx">Fitness</span> <span class="kt">float64</span>
-<span class="p">}</span></code></pre></div>
-<h3 id="start-with-an-initial-population-of-organisms">Start with an initial population of organisms</h3>
-
+<span class="p">}</span>
+</code></pre></div><h3 id="start-with-an-initial-population-of-organisms">Start with an initial population of organisms</h3>
 <p>We need to create organisms for our initial population, so here&rsquo;s a function to do that.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nx">createOrganism</span><span class="p">(</span><span class="nx">target</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="nx">organism</span> <span class="nx">Organism</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">createOrganism</span><span class="p">(</span><span class="nx">target</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="nx">organism</span> <span class="nx">Organism</span><span class="p">)</span> <span class="p">{</span>
 	<span class="nx">ba</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">target</span><span class="p">))</span>
 	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">target</span><span class="p">);</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
-		<span class="nx">ba</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nb">byte</span><span class="p">(</span><span class="nx">rand</span><span class="p">.</span><span class="nx">Intn</span><span class="p">(</span><span class="mi">95</span><span class="p">)</span> <span class="o">+</span> <span class="mi">32</span><span class="p">)</span>
+		<span class="nx">ba</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nb">byte</span><span class="p">(</span><span class="nx">rand</span><span class="p">.</span><span class="nf">Intn</span><span class="p">(</span><span class="mi">95</span><span class="p">)</span> <span class="o">+</span> <span class="mi">32</span><span class="p">)</span>
 	<span class="p">}</span>
 	<span class="nx">organism</span> <span class="p">=</span> <span class="nx">Organism</span><span class="p">{</span>
 		<span class="nx">DNA</span><span class="p">:</span>    <span class="nx">ba</span><span class="p">,</span>
 		<span class="nx">Fitness</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
 	<span class="p">}</span>
-	<span class="nx">organism</span><span class="p">.</span><span class="nx">calcFitness</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span>
+	<span class="nx">organism</span><span class="p">.</span><span class="nf">calcFitness</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span>
 	<span class="k">return</span>
-<span class="p">}</span></code></pre></div>
-<p>The <code>target</code> is what we want to achieve, in this case it is the byte array representation of the string &lsquo;to be or not to be&rsquo;. In this function we randomly create a byte array of the same length as the target and set that as the value of the gene in the newly created Organism.</p>
-
+<span class="p">}</span>
+</code></pre></div><p>The <code>target</code> is what we want to achieve, in this case it is the byte array representation of the string &lsquo;to be or not to be&rsquo;. In this function we randomly create a byte array of the same length as the target and set that as the value of the gene in the newly created Organism.</p>
 <p>Now that we can create Organisms, we need to create a population of them.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nx">createPopulation</span><span class="p">(</span><span class="nx">target</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="nx">population</span> <span class="p">[]</span><span class="nx">Organism</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">createPopulation</span><span class="p">(</span><span class="nx">target</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="nx">population</span> <span class="p">[]</span><span class="nx">Organism</span><span class="p">)</span> <span class="p">{</span>
 	<span class="nx">population</span> <span class="p">=</span> <span class="nb">make</span><span class="p">([]</span><span class="nx">Organism</span><span class="p">,</span> <span class="nx">PopSize</span><span class="p">)</span>
 	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">PopSize</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
-		<span class="nx">population</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nx">createOrganism</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span>
+		<span class="nx">population</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nf">createOrganism</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span>
 	<span class="p">}</span>
 	<span class="k">return</span>
-<span class="p">}</span></code></pre></div>
-<p>The <code>population</code> is an array of Organisms while <code>PopSize</code> is a global variable defining the size of the population.</p>
-
+<span class="p">}</span>
+</code></pre></div><p>The <code>population</code> is an array of Organisms while <code>PopSize</code> is a global variable defining the size of the population.</p>
 <h3 id="find-the-fitness-of-the-organisms">Find the fitness of the organisms</h3>
-
 <p>We need to calculate the fitness of organisms in our population. This was called earlier in when we created the Organism but will also be called later when we crossover Organisms.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">d</span> <span class="o">*</span><span class="nx">Organism</span><span class="p">)</span> <span class="nx">calcFitness</span><span class="p">(</span><span class="nx">target</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">d</span> <span class="o">*</span><span class="nx">Organism</span><span class="p">)</span> <span class="nf">calcFitness</span><span class="p">(</span><span class="nx">target</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">{</span>
 	<span class="nx">score</span> <span class="o">:=</span> <span class="mi">0</span>
 	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">DNA</span><span class="p">);</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
 		<span class="k">if</span> <span class="nx">d</span><span class="p">.</span><span class="nx">DNA</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">==</span> <span class="nx">target</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">{</span>
@@ -164,54 +142,49 @@
 	<span class="p">}</span>
 	<span class="nx">d</span><span class="p">.</span><span class="nx">Fitness</span> <span class="p">=</span> <span class="nb">float64</span><span class="p">(</span><span class="nx">score</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float64</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">DNA</span><span class="p">))</span>
 	<span class="k">return</span>
-<span class="p">}</span></code></pre></div>
-<p>This fitness function is relatively simple. We simply count the number of times the bytes in the gene matches the target. The score is divided by the total number of bytes in the target in order to get the fitness to be a percentage i.e. a number between 0.0 and 1.0. This means if the fitness is 1.0, we would have evolved the Organism&rsquo;s gene to match the quote &lsquo;to be or not to be&rsquo;.</p>
-
+<span class="p">}</span>
+</code></pre></div><p>This fitness function is relatively simple. We simply count the number of times the bytes in the gene matches the target. The score is divided by the total number of bytes in the target in order to get the fitness to be a percentage i.e. a number between 0.0 and 1.0. This means if the fitness is 1.0, we would have evolved the Organism&rsquo;s gene to match the quote &lsquo;to be or not to be&rsquo;.</p>
 <h3 id="select-the-organisms-with-the-best-fitness-and-give-them-higher-chances-to-reproduce">Select the organisms with the best fitness and give them higher chances to reproduce</h3>
-
 <p>Now that we have a population, and we can figure out which organisms have the best fitness, we want to pick the best fit organisms and let them reproduce to create the next generation of population. There are many different ways of doing this but in this case we&rsquo;re using a &lsquo;breeding pool&rsquo; mechanism.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nx">createPool</span><span class="p">(</span><span class="nx">population</span> <span class="p">[]</span><span class="nx">Organism</span><span class="p">,</span> <span class="nx">target</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">,</span> <span class="nx">maxFitness</span> <span class="kt">float64</span><span class="p">)</span> <span class="p">(</span><span class="nx">pool</span> <span class="p">[]</span><span class="nx">Organism</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">createPool</span><span class="p">(</span><span class="nx">population</span> <span class="p">[]</span><span class="nx">Organism</span><span class="p">,</span> <span class="nx">target</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">,</span> <span class="nx">maxFitness</span> <span class="kt">float64</span><span class="p">)</span> <span class="p">(</span><span class="nx">pool</span> <span class="p">[]</span><span class="nx">Organism</span><span class="p">)</span> <span class="p">{</span>
 	<span class="nx">pool</span> <span class="p">=</span> <span class="nb">make</span><span class="p">([]</span><span class="nx">Organism</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 	<span class="c1">// create a pool for next generation
 </span><span class="c1"></span>	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">population</span><span class="p">);</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
-		<span class="nx">population</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">calcFitness</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span>
+		<span class="nx">population</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nf">calcFitness</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span>
 		<span class="nx">num</span> <span class="o">:=</span> <span class="nb">int</span><span class="p">((</span><span class="nx">population</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">Fitness</span> <span class="o">/</span> <span class="nx">maxFitness</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
 		<span class="k">for</span> <span class="nx">n</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">n</span> <span class="p">&lt;</span> <span class="nx">num</span><span class="p">;</span> <span class="nx">n</span><span class="o">++</span> <span class="p">{</span>
 			<span class="nx">pool</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">pool</span><span class="p">,</span> <span class="nx">population</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span>
 		<span class="p">}</span>
 	<span class="p">}</span>
 	<span class="k">return</span>
-<span class="p">}</span></code></pre></div>
-<p>What we do is to create a sort of breeding pool where I place a number of copies of the same organism according to its fitness into the pool. The higher the fitness of the organism, the more copies of the organism end up in the pool.</p>
-
+<span class="p">}</span>
+</code></pre></div><p>What we do is to create a sort of breeding pool where I place a number of copies of the same organism according to its fitness into the pool. The higher the fitness of the organism, the more copies of the organism end up in the pool.</p>
 <h3 id="create-the-next-generation-of-the-population-from-the-selected-best-fit-organisms">Create the next generation of the population from the selected best-fit organisms</h3>
-
 <p>After that we randomly pick 2 organisms from the breeding pool and use them as the parents to create the next generation of organism for the population.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nx">naturalSelection</span><span class="p">(</span><span class="nx">pool</span> <span class="p">[]</span><span class="nx">Organism</span><span class="p">,</span> <span class="nx">population</span> <span class="p">[]</span><span class="nx">Organism</span><span class="p">,</span> <span class="nx">target</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">[]</span><span class="nx">Organism</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">naturalSelection</span><span class="p">(</span><span class="nx">pool</span> <span class="p">[]</span><span class="nx">Organism</span><span class="p">,</span> <span class="nx">population</span> <span class="p">[]</span><span class="nx">Organism</span><span class="p">,</span> <span class="nx">target</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">[]</span><span class="nx">Organism</span> <span class="p">{</span>
 	<span class="nx">next</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="nx">Organism</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">population</span><span class="p">))</span>
 
 	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">population</span><span class="p">);</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
-		<span class="nx">r1</span><span class="p">,</span> <span class="nx">r2</span> <span class="o">:=</span> <span class="nx">rand</span><span class="p">.</span><span class="nx">Intn</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">pool</span><span class="p">)),</span> <span class="nx">rand</span><span class="p">.</span><span class="nx">Intn</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">pool</span><span class="p">))</span>
+		<span class="nx">r1</span><span class="p">,</span> <span class="nx">r2</span> <span class="o">:=</span> <span class="nx">rand</span><span class="p">.</span><span class="nf">Intn</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">pool</span><span class="p">)),</span> <span class="nx">rand</span><span class="p">.</span><span class="nf">Intn</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">pool</span><span class="p">))</span>
 		<span class="nx">a</span> <span class="o">:=</span> <span class="nx">pool</span><span class="p">[</span><span class="nx">r1</span><span class="p">]</span>
 		<span class="nx">b</span> <span class="o">:=</span> <span class="nx">pool</span><span class="p">[</span><span class="nx">r2</span><span class="p">]</span>
 
-		<span class="nx">child</span> <span class="o">:=</span> <span class="nx">crossover</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span>
-		<span class="nx">child</span><span class="p">.</span><span class="nx">mutate</span><span class="p">()</span>
-		<span class="nx">child</span><span class="p">.</span><span class="nx">calcFitness</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span>
+		<span class="nx">child</span> <span class="o">:=</span> <span class="nf">crossover</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span>
+		<span class="nx">child</span><span class="p">.</span><span class="nf">mutate</span><span class="p">()</span>
+		<span class="nx">child</span><span class="p">.</span><span class="nf">calcFitness</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span>
 
 		<span class="nx">next</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nx">child</span>
 	<span class="p">}</span>
 	<span class="k">return</span> <span class="nx">next</span>
-<span class="p">}</span></code></pre></div>
-<h3 id="the-next-generation-of-the-population-must-inherit-the-values-of-the-genes">The next generation of the population must inherit the values of the genes</h3>
-
+<span class="p">}</span>
+</code></pre></div><h3 id="the-next-generation-of-the-population-must-inherit-the-values-of-the-genes">The next generation of the population must inherit the values of the genes</h3>
 <p>The <code>child</code> in the next generation is then bred from the the crossover between 2 randomly picked organisms, and <em>inherits</em> the DNA from both organisms.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nx">crossover</span><span class="p">(</span><span class="nx">d1</span> <span class="nx">Organism</span><span class="p">,</span> <span class="nx">d2</span> <span class="nx">Organism</span><span class="p">)</span> <span class="nx">Organism</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">crossover</span><span class="p">(</span><span class="nx">d1</span> <span class="nx">Organism</span><span class="p">,</span> <span class="nx">d2</span> <span class="nx">Organism</span><span class="p">)</span> <span class="nx">Organism</span> <span class="p">{</span>
 	<span class="nx">child</span> <span class="o">:=</span> <span class="nx">Organism</span><span class="p">{</span>
 		<span class="nx">DNA</span><span class="p">:</span>    <span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">d1</span><span class="p">.</span><span class="nx">DNA</span><span class="p">)),</span>
 		<span class="nx">Fitness</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
 	<span class="p">}</span>
-	<span class="nx">mid</span> <span class="o">:=</span> <span class="nx">rand</span><span class="p">.</span><span class="nx">Intn</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">d1</span><span class="p">.</span><span class="nx">DNA</span><span class="p">))</span>
+	<span class="nx">mid</span> <span class="o">:=</span> <span class="nx">rand</span><span class="p">.</span><span class="nf">Intn</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">d1</span><span class="p">.</span><span class="nx">DNA</span><span class="p">))</span>
 	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">d1</span><span class="p">.</span><span class="nx">DNA</span><span class="p">);</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
 		<span class="k">if</span> <span class="nx">i</span> <span class="p">&gt;</span> <span class="nx">mid</span> <span class="p">{</span>
 			<span class="nx">child</span><span class="p">.</span><span class="nx">DNA</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nx">d1</span><span class="p">.</span><span class="nx">DNA</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
@@ -221,113 +194,92 @@
 
 	<span class="p">}</span>
 	<span class="k">return</span> <span class="nx">child</span>
-<span class="p">}</span></code></pre></div>
-<p>For crossover, I simply picked a mid-point <code>mid</code> and use the first <code>mid</code> bytes from the first organism and the rest of the bytes from the second organism.</p>
-
+<span class="p">}</span>
+</code></pre></div><p>For crossover, I simply picked a mid-point <code>mid</code> and use the first <code>mid</code> bytes from the first organism and the rest of the bytes from the second organism.</p>
 <h2 id="randomly-mutate-each-generation">Randomly mutate each generation</h2>
-
 <p>After a new child organism has been reproduced from the 2 parent organisms, we see if mutation happens to the child organism.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">d</span> <span class="o">*</span><span class="nx">Organism</span><span class="p">)</span> <span class="nx">mutate</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">d</span> <span class="o">*</span><span class="nx">Organism</span><span class="p">)</span> <span class="nf">mutate</span><span class="p">()</span> <span class="p">{</span>
 	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">DNA</span><span class="p">);</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
-		<span class="k">if</span> <span class="nx">rand</span><span class="p">.</span><span class="nx">Float64</span><span class="p">()</span> <span class="p">&lt;</span> <span class="nx">MutationRate</span> <span class="p">{</span>
-			<span class="nx">d</span><span class="p">.</span><span class="nx">DNA</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nb">byte</span><span class="p">(</span><span class="nx">rand</span><span class="p">.</span><span class="nx">Intn</span><span class="p">(</span><span class="mi">95</span><span class="p">)</span> <span class="o">+</span> <span class="mi">32</span><span class="p">)</span>
+		<span class="k">if</span> <span class="nx">rand</span><span class="p">.</span><span class="nf">Float64</span><span class="p">()</span> <span class="p">&lt;</span> <span class="nx">MutationRate</span> <span class="p">{</span>
+			<span class="nx">d</span><span class="p">.</span><span class="nx">DNA</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nb">byte</span><span class="p">(</span><span class="nx">rand</span><span class="p">.</span><span class="nf">Intn</span><span class="p">(</span><span class="mi">95</span><span class="p">)</span> <span class="o">+</span> <span class="mi">32</span><span class="p">)</span>
 		<span class="p">}</span>
 	<span class="p">}</span>
-<span class="p">}</span></code></pre></div>
-<p>Here mutation simply means determine if a randomly generated number is below <code>MutationRate</code>. Why do we need to mutate the child organism? If mutation never occurs, the DNA within the population will always remain the same as the original population. This means if the original population doesn&rsquo;t have a particular gene(value) that is needed, the optimal result will never be achieved. As in the example, if the letter <code>t</code> is not found in the initial population at all, we will never be able to come up with the quote no matter how many generations we go through. In other words, natural selection doesn&rsquo;t work without mutations.</p>
-
+<span class="p">}</span>
+</code></pre></div><p>Here mutation simply means determine if a randomly generated number is below <code>MutationRate</code>. Why do we need to mutate the child organism? If mutation never occurs, the DNA within the population will always remain the same as the original population. This means if the original population doesn&rsquo;t have a particular gene(value) that is needed, the optimal result will never be achieved. As in the example, if the letter <code>t</code> is not found in the initial population at all, we will never be able to come up with the quote no matter how many generations we go through. In other words, natural selection doesn&rsquo;t work without mutations.</p>
 <p>More technically speaking, mutations get us out of a local maximum in order to find the global maximum. If we look at genetic algorithms as a mechanism to find the optimal solution, if we don&rsquo;t have mutation, once a local maximum is found the mechanism will simply settle on that and never moves on to find the global maximum. Mutations can jolt the population out of a local maximum and therefore provide an opportunity for the algorithm to continue looking for the global maximum.</p>
-
 <p>Once we check for mutation, we calculate the fitness of the child organism and insert it into the next generation of population.</p>
-
 <p>That&rsquo;s all there is to the genetic algorithm! Now let&rsquo;s put it all together in the <code>main</code> function.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="nx">start</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">()</span>
-	<span class="nx">rand</span><span class="p">.</span><span class="nx">Seed</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">().</span><span class="nx">UTC</span><span class="p">().</span><span class="nx">UnixNano</span><span class="p">())</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">start</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">()</span>
+	<span class="nx">rand</span><span class="p">.</span><span class="nf">Seed</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">().</span><span class="nf">UTC</span><span class="p">().</span><span class="nf">UnixNano</span><span class="p">())</span>
 
 	<span class="nx">target</span> <span class="o">:=</span> <span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&#34;To be or not to be&#34;</span><span class="p">)</span>
-	<span class="nx">population</span> <span class="o">:=</span> <span class="nx">createPopulation</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span>
+	<span class="nx">population</span> <span class="o">:=</span> <span class="nf">createPopulation</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span>
 
 	<span class="nx">found</span> <span class="o">:=</span> <span class="kc">false</span>
 	<span class="nx">generation</span> <span class="o">:=</span> <span class="mi">0</span>
 	<span class="k">for</span> <span class="p">!</span><span class="nx">found</span> <span class="p">{</span>
 		<span class="nx">generation</span><span class="o">++</span>
-		<span class="nx">bestOrganism</span> <span class="o">:=</span> <span class="nx">getBest</span><span class="p">(</span><span class="nx">population</span><span class="p">)</span>
-		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;\r generation: %d | %s | fitness: %2f&#34;</span><span class="p">,</span> <span class="nx">generation</span><span class="p">,</span> <span class="nb">string</span><span class="p">(</span><span class="nx">bestOrganism</span><span class="p">.</span><span class="nx">DNA</span><span class="p">),</span> <span class="nx">bestOrganism</span><span class="p">.</span><span class="nx">Fitness</span><span class="p">)</span>
+		<span class="nx">bestOrganism</span> <span class="o">:=</span> <span class="nf">getBest</span><span class="p">(</span><span class="nx">population</span><span class="p">)</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;\r generation: %d | %s | fitness: %2f&#34;</span><span class="p">,</span> <span class="nx">generation</span><span class="p">,</span> <span class="nb">string</span><span class="p">(</span><span class="nx">bestOrganism</span><span class="p">.</span><span class="nx">DNA</span><span class="p">),</span> <span class="nx">bestOrganism</span><span class="p">.</span><span class="nx">Fitness</span><span class="p">)</span>
 
-		<span class="k">if</span> <span class="nx">bytes</span><span class="p">.</span><span class="nx">Compare</span><span class="p">(</span><span class="nx">bestOrganism</span><span class="p">.</span><span class="nx">DNA</span><span class="p">,</span> <span class="nx">target</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="nx">bytes</span><span class="p">.</span><span class="nf">Compare</span><span class="p">(</span><span class="nx">bestOrganism</span><span class="p">.</span><span class="nx">DNA</span><span class="p">,</span> <span class="nx">target</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
 			<span class="nx">found</span> <span class="p">=</span> <span class="kc">true</span>
 		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
 			<span class="nx">maxFitness</span> <span class="o">:=</span> <span class="nx">bestOrganism</span><span class="p">.</span><span class="nx">Fitness</span>
-			<span class="nx">pool</span> <span class="o">:=</span> <span class="nx">createPool</span><span class="p">(</span><span class="nx">population</span><span class="p">,</span> <span class="nx">target</span><span class="p">,</span> <span class="nx">maxFitness</span><span class="p">)</span>
-			<span class="nx">population</span> <span class="p">=</span> <span class="nx">naturalSelection</span><span class="p">(</span><span class="nx">pool</span><span class="p">,</span> <span class="nx">population</span><span class="p">,</span> <span class="nx">target</span><span class="p">)</span>
+			<span class="nx">pool</span> <span class="o">:=</span> <span class="nf">createPool</span><span class="p">(</span><span class="nx">population</span><span class="p">,</span> <span class="nx">target</span><span class="p">,</span> <span class="nx">maxFitness</span><span class="p">)</span>
+			<span class="nx">population</span> <span class="p">=</span> <span class="nf">naturalSelection</span><span class="p">(</span><span class="nx">pool</span><span class="p">,</span> <span class="nx">population</span><span class="p">,</span> <span class="nx">target</span><span class="p">)</span>
 		<span class="p">}</span>
 
 	<span class="p">}</span>
-	<span class="nx">elapsed</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Since</span><span class="p">(</span><span class="nx">start</span><span class="p">)</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;\nTime taken: %s\n&#34;</span><span class="p">,</span> <span class="nx">elapsed</span><span class="p">)</span>
-<span class="p">}</span></code></pre></div>
-<p>In the main function we go through generations and for each generation we try to find the best fit organism. If the best fit organism&rsquo;s gene is the same as the target we would have found our answer.</p>
-
+	<span class="nx">elapsed</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nf">Since</span><span class="p">(</span><span class="nx">start</span><span class="p">)</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;\nTime taken: %s\n&#34;</span><span class="p">,</span> <span class="nx">elapsed</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><p>In the main function we go through generations and for each generation we try to find the best fit organism. If the best fit organism&rsquo;s gene is the same as the target we would have found our answer.</p>
 <p>Now run the software program! How long did it take you?</p>
-
-<p><img src="https://github.com/sausheong/ga/raw/master/imgs/shakespeare.png" alt="Evolving Hamlet" /></p>
-
+<p><img src="https://github.com/sausheong/ga/raw/master/imgs/shakespeare.png" alt="Evolving Hamlet"></p>
 <p>Because the initial population is randomly generated, you will get different answers each time but most of the time we can evolve the quote in less than a second! That&rsquo;s quite a vast difference from the 934 trillion years if we had to brute force it.</p>
-
 <h2 id="evolving-mona-lisa">Evolving Mona Lisa</h2>
-
 <p>Evolving Shakespeare seems pretty simple. It&rsquo;s just a string after all. How about something different, say an image? Or the most famous painting of all time, the <em>Mona Lisa</em> by Leonardo Da Vinci? Can we evolve that?</p>
-
-<p><img src="https://github.com/sausheong/ga/raw/master/imgs/monalisa.png" alt="Evolving Mona Lisa" /></p>
-
+<p><img src="https://github.com/sausheong/ga/raw/master/imgs/monalisa.png" alt="Evolving Mona Lisa"></p>
 <p>Let&rsquo;s give it the same treatment. We&rsquo;ll start from defining the organism to represent the picture of Mona Lisa.</p>
-
 <h3 id="define-a-organism-consisting-of-one-or-more-dna-1">Define a organism consisting of one or more DNA</h3>
-
 <p>Instead of a byte array, our DNA is now a struct from the <code>image</code> standard library.</p>
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">Organism</span> <span class="kd">struct</span> <span class="p">{</span>
 	<span class="nx">DNA</span>     <span class="o">*</span><span class="nx">image</span><span class="p">.</span><span class="nx">RGBA</span>
 	<span class="nx">Fitness</span> <span class="kt">int64</span>
-<span class="p">}</span></code></pre></div>
-<h3 id="start-with-an-initial-population-of-organisms-1">Start with an initial population of organisms</h3>
-
+<span class="p">}</span>
+</code></pre></div><h3 id="start-with-an-initial-population-of-organisms-1">Start with an initial population of organisms</h3>
 <p>As before let&rsquo;s look at creating an organism first.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nx">createOrganism</span><span class="p">(</span><span class="nx">target</span> <span class="o">*</span><span class="nx">image</span><span class="p">.</span><span class="nx">RGBA</span><span class="p">)</span> <span class="p">(</span><span class="nx">organism</span> <span class="nx">Organism</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">createOrganism</span><span class="p">(</span><span class="nx">target</span> <span class="o">*</span><span class="nx">image</span><span class="p">.</span><span class="nx">RGBA</span><span class="p">)</span> <span class="p">(</span><span class="nx">organism</span> <span class="nx">Organism</span><span class="p">)</span> <span class="p">{</span>
 	<span class="nx">organism</span> <span class="p">=</span> <span class="nx">Organism</span><span class="p">{</span>
-		<span class="nx">DNA</span><span class="p">:</span>     <span class="nx">createRandomImageFrom</span><span class="p">(</span><span class="nx">target</span><span class="p">),</span>
+		<span class="nx">DNA</span><span class="p">:</span>     <span class="nf">createRandomImageFrom</span><span class="p">(</span><span class="nx">target</span><span class="p">),</span>
 		<span class="nx">Fitness</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
 	<span class="p">}</span>
-	<span class="nx">organism</span><span class="p">.</span><span class="nx">calcFitness</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span>
+	<span class="nx">organism</span><span class="p">.</span><span class="nf">calcFitness</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span>
 	<span class="k">return</span>
-<span class="p">}</span></code></pre></div>
-<p>Instead of creating a random byte array, we call another function to create a random image.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nx">createRandomImageFrom</span><span class="p">(</span><span class="nx">img</span> <span class="o">*</span><span class="nx">image</span><span class="p">.</span><span class="nx">RGBA</span><span class="p">)</span> <span class="p">(</span><span class="nx">created</span> <span class="o">*</span><span class="nx">image</span><span class="p">.</span><span class="nx">RGBA</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">}</span>
+</code></pre></div><p>Instead of creating a random byte array, we call another function to create a random image.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">createRandomImageFrom</span><span class="p">(</span><span class="nx">img</span> <span class="o">*</span><span class="nx">image</span><span class="p">.</span><span class="nx">RGBA</span><span class="p">)</span> <span class="p">(</span><span class="nx">created</span> <span class="o">*</span><span class="nx">image</span><span class="p">.</span><span class="nx">RGBA</span><span class="p">)</span> <span class="p">{</span>
 	<span class="nx">pix</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">uint8</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">img</span><span class="p">.</span><span class="nx">Pix</span><span class="p">))</span>
-	<span class="nx">rand</span><span class="p">.</span><span class="nx">Read</span><span class="p">(</span><span class="nx">pix</span><span class="p">)</span>
+	<span class="nx">rand</span><span class="p">.</span><span class="nf">Read</span><span class="p">(</span><span class="nx">pix</span><span class="p">)</span>
 	<span class="nx">created</span> <span class="p">=</span> <span class="o">&amp;</span><span class="nx">image</span><span class="p">.</span><span class="nx">RGBA</span><span class="p">{</span>
 		<span class="nx">Pix</span><span class="p">:</span>    <span class="nx">pix</span><span class="p">,</span>
 		<span class="nx">Stride</span><span class="p">:</span> <span class="nx">img</span><span class="p">.</span><span class="nx">Stride</span><span class="p">,</span>
 		<span class="nx">Rect</span><span class="p">:</span>   <span class="nx">img</span><span class="p">.</span><span class="nx">Rect</span><span class="p">,</span>
 	<span class="p">}</span>
 	<span class="k">return</span>
-<span class="p">}</span></code></pre></div>
-<p>An <code>image.RGBA</code> struct consists of a byte array <code>Pix</code> (<code>byte</code> and <code>uint8</code> are the same thing), a <code>Stride</code> and a <code>Rect</code>. What&rsquo;s important for us is the <code>Pix</code>, we use the same <code>Stride</code> and <code>Rect</code> as the target image (which is an image of Mona Lisa). Fortunately for us, the <code>math/rand</code> standard library has a method called <code>Read</code> that fills up a byte array nicely with random bytes.</p>
-
+<span class="p">}</span>
+</code></pre></div><p>An <code>image.RGBA</code> struct consists of a byte array <code>Pix</code> (<code>byte</code> and <code>uint8</code> are the same thing), a <code>Stride</code> and a <code>Rect</code>. What&rsquo;s important for us is the <code>Pix</code>, we use the same <code>Stride</code> and <code>Rect</code> as the target image (which is an image of Mona Lisa). Fortunately for us, the <code>math/rand</code> standard library has a method called <code>Read</code> that fills up a byte array nicely with random bytes.</p>
 <p>You might be curious, so how big a byte array are we talking about here? <code>Pix</code> is nothing more than a byte array with 4 bytes representing a pixel (R, G, B and A each represented by a byte).  With an image that is 800 x 600, we&rsquo;re talking about 1.92 million bytes in each image! To keep the program relatively speedy, we&rsquo;ll use a smaller image that is of size 67 x 100, which gives an array of 26,800 bytes. This, if you don&rsquo;t realise it by now, is far from the 18 bytes we were playing around with in the last program.</p>
-
 <p>Also, you might realise that because each pixel is now randomly colored, we&rsquo;d end up with a colored static snow pattern.</p>
-
-<p><img src="https://github.com/sausheong/ga/raw/master/imgs/rd_1.png" alt="randomly generated image" /></p>
-
+<p><img src="https://github.com/sausheong/ga/raw/master/imgs/rd_1.png" alt="randomly generated image"></p>
 <p>Let&rsquo;s move on.</p>
-
 <h3 id="find-the-fitness-of-the-organisms-1">Find the fitness of the organisms</h3>
-
 <p>The fitness of the organism is the difference between the two images.</p>
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// calculate the fitness of an organism
-</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">o</span> <span class="o">*</span><span class="nx">Organism</span><span class="p">)</span> <span class="nx">calcFitness</span><span class="p">(</span><span class="nx">target</span> <span class="o">*</span><span class="nx">image</span><span class="p">.</span><span class="nx">RGBA</span><span class="p">)</span> <span class="p">{</span>
-	<span class="nx">difference</span> <span class="o">:=</span> <span class="nx">diff</span><span class="p">(</span><span class="nx">o</span><span class="p">.</span><span class="nx">DNA</span><span class="p">,</span> <span class="nx">target</span><span class="p">)</span>
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">o</span> <span class="o">*</span><span class="nx">Organism</span><span class="p">)</span> <span class="nf">calcFitness</span><span class="p">(</span><span class="nx">target</span> <span class="o">*</span><span class="nx">image</span><span class="p">.</span><span class="nx">RGBA</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">difference</span> <span class="o">:=</span> <span class="nf">diff</span><span class="p">(</span><span class="nx">o</span><span class="p">.</span><span class="nx">DNA</span><span class="p">,</span> <span class="nx">target</span><span class="p">)</span>
 	<span class="k">if</span> <span class="nx">difference</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
 		<span class="nx">o</span><span class="p">.</span><span class="nx">Fitness</span> <span class="p">=</span> <span class="mi">1</span>
 	<span class="p">}</span>
@@ -336,46 +288,35 @@
 <span class="p">}</span>
 
 <span class="c1">// find the difference between 2 images
-</span><span class="c1"></span><span class="kd">func</span> <span class="nx">diff</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span> <span class="o">*</span><span class="nx">image</span><span class="p">.</span><span class="nx">RGBA</span><span class="p">)</span> <span class="p">(</span><span class="nx">d</span> <span class="kt">int64</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">diff</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span> <span class="o">*</span><span class="nx">image</span><span class="p">.</span><span class="nx">RGBA</span><span class="p">)</span> <span class="p">(</span><span class="nx">d</span> <span class="kt">int64</span><span class="p">)</span> <span class="p">{</span>
 	<span class="nx">d</span> <span class="p">=</span> <span class="mi">0</span>
 	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">Pix</span><span class="p">);</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
-		<span class="nx">d</span> <span class="o">+=</span> <span class="nb">int64</span><span class="p">(</span><span class="nx">squareDifference</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">Pix</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">b</span><span class="p">.</span><span class="nx">Pix</span><span class="p">[</span><span class="nx">i</span><span class="p">]))</span>
+		<span class="nx">d</span> <span class="o">+=</span> <span class="nb">int64</span><span class="p">(</span><span class="nf">squareDifference</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">Pix</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">b</span><span class="p">.</span><span class="nx">Pix</span><span class="p">[</span><span class="nx">i</span><span class="p">]))</span>
 	<span class="p">}</span>
-	<span class="k">return</span> <span class="nb">int64</span><span class="p">(</span><span class="nx">math</span><span class="p">.</span><span class="nx">Sqrt</span><span class="p">(</span><span class="nb">float64</span><span class="p">(</span><span class="nx">d</span><span class="p">)))</span>
+	<span class="k">return</span> <span class="nb">int64</span><span class="p">(</span><span class="nx">math</span><span class="p">.</span><span class="nf">Sqrt</span><span class="p">(</span><span class="nb">float64</span><span class="p">(</span><span class="nx">d</span><span class="p">)))</span>
 <span class="p">}</span>
 
 <span class="c1">// square the difference between 2 uint8s
-</span><span class="c1"></span><span class="kd">func</span> <span class="nx">squareDifference</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="kt">uint8</span><span class="p">)</span> <span class="kt">uint64</span> <span class="p">{</span>
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">squareDifference</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="kt">uint8</span><span class="p">)</span> <span class="kt">uint64</span> <span class="p">{</span>
 	<span class="nx">d</span> <span class="o">:=</span> <span class="nb">uint64</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="o">-</span> <span class="nb">uint64</span><span class="p">(</span><span class="nx">y</span><span class="p">)</span>
 	<span class="k">return</span> <span class="nx">d</span> <span class="o">*</span> <span class="nx">d</span>
-<span class="p">}</span></code></pre></div>
-<p>To find the difference, we can go back to the Pythagorean theorem. If you remember, we can find the distance between 2 points if we square the difference of the <code>x</code> and <code>y</code> values, add them up and then square root the results.</p>
-
-<p><img src="https://github.com/sausheong/ga/raw/master/imgs/pythagoras.png" alt="Pythagorean theorem" /></p>
-
+<span class="p">}</span>
+</code></pre></div><p>To find the difference, we can go back to the Pythagorean theorem. If you remember, we can find the distance between 2 points if we square the difference of the <code>x</code> and <code>y</code> values, add them up and then square root the results.</p>
+<p><img src="https://github.com/sausheong/ga/raw/master/imgs/pythagoras.png" alt="Pythagorean theorem"></p>
 <p>Give 2 points <code>a</code>(x1, y1) and <code>b</code>(x2, y2), the distance <code>d</code> between <code>a</code> and <code>b</code> is:</p>
-
-<p><img src="https://github.com/sausheong/ga/raw/master/imgs/distance.png" alt="distance between 2 points" /></p>
-
+<p><img src="https://github.com/sausheong/ga/raw/master/imgs/distance.png" alt="distance between 2 points"></p>
 <p>That&rsquo;s in 2 dimensional space. In 3 dimensional space, we simply do the Pythagorean theorem twice, and in 4 dimensional space, we do it 3 times. The RGBA values of a pixel is essentially a point in a 4 dimensional space, so to find the difference between 2 pixels, we square the difference between <code>r</code>, <code>g</code>, <code>b</code> and <code>a</code> values of two pixels, add them all up and then square root the results.</p>
-
-<p><img src="https://github.com/sausheong/ga/raw/master/imgs/diff_eq.png" alt="distance between 2 pixels" /></p>
-
+<p><img src="https://github.com/sausheong/ga/raw/master/imgs/diff_eq.png" alt="distance between 2 pixels"></p>
 <p>That&rsquo;s the difference between 2 pixels. To find the difference between all pixels, we just add up all the results together and we have the final difference. Because <code>Pix</code> is essentially one long byte array with consecutive RGBA values in it we can use a simple shortcut. We simply square the difference between each corresponding byte in the image and the target, then add them all up and square root the final number to find the difference between the 2 images.</p>
-
 <p>As a reference, if 2 images are exactly the same, the difference will be 0 and if the 2 images are complete opposites of each other, the difference will be 26,800. In other words, the best fit organisms should have fitness of 0 and the higher the number is, the less fit the organism is.</p>
-
 <h3 id="select-the-organisms-with-the-best-fitness-and-give-them-higher-chances-to-reproduce-1">Select the organisms with the best fitness and give them higher chances to reproduce</h3>
-
 <p>We&rsquo;re still using the breeding pool mechanism here but with a difference. First, we sort the population from best fitness to worst fitness. Then we take the top best organisms and put them into the breeding pool. We use a parameter <code>PoolSize</code> to indicate how many of the best fit organisms we want in the pool.</p>
-
 <p>To figure out what to put into the breeding pool, we subtract each of the top best organisms with the least fit organism in the top. This creates a differentiated ranking between the top best organisms and according to that differential ranking we place the corresponding number of copies of the organism in the breeding pool. For example, if the difference between the best fit organism and the least fit organism in the top best is 20, we place 20 organisms in the breeding pool.</p>
-
 <p>If there is no difference between the top best fit organisms, this means the population is stable and we can&rsquo;t really create a proper breeding pool. To overcome this, if the difference is 0, we set the pool to be the whole population.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nx">createPool</span><span class="p">(</span><span class="nx">population</span> <span class="p">[]</span><span class="nx">Organism</span><span class="p">,</span> <span class="nx">target</span> <span class="o">*</span><span class="nx">image</span><span class="p">.</span><span class="nx">RGBA</span><span class="p">)</span> <span class="p">(</span><span class="nx">pool</span> <span class="p">[]</span><span class="nx">Organism</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">createPool</span><span class="p">(</span><span class="nx">population</span> <span class="p">[]</span><span class="nx">Organism</span><span class="p">,</span> <span class="nx">target</span> <span class="o">*</span><span class="nx">image</span><span class="p">.</span><span class="nx">RGBA</span><span class="p">)</span> <span class="p">(</span><span class="nx">pool</span> <span class="p">[]</span><span class="nx">Organism</span><span class="p">)</span> <span class="p">{</span>
 	<span class="nx">pool</span> <span class="p">=</span> <span class="nb">make</span><span class="p">([]</span><span class="nx">Organism</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 	<span class="c1">// get top best fitting organisms
-</span><span class="c1"></span>	<span class="nx">sort</span><span class="p">.</span><span class="nx">SliceStable</span><span class="p">(</span><span class="nx">population</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">j</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+</span><span class="c1"></span>	<span class="nx">sort</span><span class="p">.</span><span class="nf">SliceStable</span><span class="p">(</span><span class="nx">population</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">j</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
 		<span class="k">return</span> <span class="nx">population</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">Fitness</span> <span class="p">&lt;</span> <span class="nx">population</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">Fitness</span>
 	<span class="p">})</span>
 	<span class="nx">top</span> <span class="o">:=</span> <span class="nx">population</span><span class="p">[</span><span class="mi">0</span> <span class="p">:</span> <span class="nx">PoolSize</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
@@ -394,15 +335,12 @@
 		<span class="p">}</span>
 	<span class="p">}</span>
 	<span class="k">return</span>
-<span class="p">}</span></code></pre></div>
-<h3 id="create-the-next-generation-of-the-population-from-the-selected-best-fit-organisms-1">Create the next generation of the population from the selected best-fit organisms</h3>
-
+<span class="p">}</span>
+</code></pre></div><h3 id="create-the-next-generation-of-the-population-from-the-selected-best-fit-organisms-1">Create the next generation of the population from the selected best-fit organisms</h3>
 <p>After we have the pool, we need to create the next generation. The code for natural selection here is no different from the previous program so we&rsquo;ll skip showing it here.</p>
-
 <h3 id="the-next-generation-of-the-population-must-inherit-the-values-of-the-genes-1">The next generation of the population must inherit the values of the genes</h3>
-
 <p>The <code>crossover</code> function is slightly different as the child&rsquo;s DNA is not a byte array but an image.RGBA. The actual crossover mechanism works on <code>Pix</code>, the byte array of pixels, instead.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nx">crossover</span><span class="p">(</span><span class="nx">d1</span> <span class="nx">Organism</span><span class="p">,</span> <span class="nx">d2</span> <span class="nx">Organism</span><span class="p">)</span> <span class="nx">Organism</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">crossover</span><span class="p">(</span><span class="nx">d1</span> <span class="nx">Organism</span><span class="p">,</span> <span class="nx">d2</span> <span class="nx">Organism</span><span class="p">)</span> <span class="nx">Organism</span> <span class="p">{</span>
 	<span class="nx">pix</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">uint8</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">d1</span><span class="p">.</span><span class="nx">DNA</span><span class="p">.</span><span class="nx">Pix</span><span class="p">))</span>
 	<span class="nx">child</span> <span class="o">:=</span> <span class="nx">Organism</span><span class="p">{</span>
 		<span class="nx">DNA</span><span class="p">:</span> <span class="o">&amp;</span><span class="nx">image</span><span class="p">.</span><span class="nx">RGBA</span><span class="p">{</span>
@@ -412,7 +350,7 @@
 		<span class="p">},</span>
 		<span class="nx">Fitness</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
 	<span class="p">}</span>
-	<span class="nx">mid</span> <span class="o">:=</span> <span class="nx">rand</span><span class="p">.</span><span class="nx">Intn</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">d1</span><span class="p">.</span><span class="nx">DNA</span><span class="p">.</span><span class="nx">Pix</span><span class="p">))</span>
+	<span class="nx">mid</span> <span class="o">:=</span> <span class="nx">rand</span><span class="p">.</span><span class="nf">Intn</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">d1</span><span class="p">.</span><span class="nx">DNA</span><span class="p">.</span><span class="nx">Pix</span><span class="p">))</span>
 	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">d1</span><span class="p">.</span><span class="nx">DNA</span><span class="p">.</span><span class="nx">Pix</span><span class="p">);</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
 		<span class="k">if</span> <span class="nx">i</span> <span class="p">&gt;</span> <span class="nx">mid</span> <span class="p">{</span>
 			<span class="nx">child</span><span class="p">.</span><span class="nx">DNA</span><span class="p">.</span><span class="nx">Pix</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nx">d1</span><span class="p">.</span><span class="nx">DNA</span><span class="p">.</span><span class="nx">Pix</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
@@ -422,118 +360,96 @@
 
 	<span class="p">}</span>
 	<span class="k">return</span> <span class="nx">child</span>
-<span class="p">}</span></code></pre></div>
-<h2 id="randomly-mutate-each-generation-1">Randomly mutate each generation</h2>
-
+<span class="p">}</span>
+</code></pre></div><h2 id="randomly-mutate-each-generation-1">Randomly mutate each generation</h2>
 <p>The <code>mutate</code> function is correspondingly different as well.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">o</span> <span class="o">*</span><span class="nx">Organism</span><span class="p">)</span> <span class="nx">mutate</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">o</span> <span class="o">*</span><span class="nx">Organism</span><span class="p">)</span> <span class="nf">mutate</span><span class="p">()</span> <span class="p">{</span>
 	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">o</span><span class="p">.</span><span class="nx">DNA</span><span class="p">.</span><span class="nx">Pix</span><span class="p">);</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
-		<span class="k">if</span> <span class="nx">rand</span><span class="p">.</span><span class="nx">Float64</span><span class="p">()</span> <span class="p">&lt;</span> <span class="nx">MutationRate</span> <span class="p">{</span>
-			<span class="nx">o</span><span class="p">.</span><span class="nx">DNA</span><span class="p">.</span><span class="nx">Pix</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nb">uint8</span><span class="p">(</span><span class="nx">rand</span><span class="p">.</span><span class="nx">Intn</span><span class="p">(</span><span class="mi">255</span><span class="p">))</span>
+		<span class="k">if</span> <span class="nx">rand</span><span class="p">.</span><span class="nf">Float64</span><span class="p">()</span> <span class="p">&lt;</span> <span class="nx">MutationRate</span> <span class="p">{</span>
+			<span class="nx">o</span><span class="p">.</span><span class="nx">DNA</span><span class="p">.</span><span class="nx">Pix</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nb">uint8</span><span class="p">(</span><span class="nx">rand</span><span class="p">.</span><span class="nf">Intn</span><span class="p">(</span><span class="mi">255</span><span class="p">))</span>
 		<span class="p">}</span>
 	<span class="p">}</span>
-<span class="p">}</span></code></pre></div>
-<p>Now that we have everything, we put it all together in the <code>main</code> function.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="nx">start</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">()</span>
-	<span class="nx">rand</span><span class="p">.</span><span class="nx">Seed</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">().</span><span class="nx">UTC</span><span class="p">().</span><span class="nx">UnixNano</span><span class="p">())</span>
-	<span class="nx">target</span> <span class="o">:=</span> <span class="nx">load</span><span class="p">(</span><span class="s">&#34;./ml.png&#34;</span><span class="p">)</span>
-	<span class="nx">printImage</span><span class="p">(</span><span class="nx">target</span><span class="p">.</span><span class="nx">SubImage</span><span class="p">(</span><span class="nx">target</span><span class="p">.</span><span class="nx">Rect</span><span class="p">))</span>
-	<span class="nx">population</span> <span class="o">:=</span> <span class="nx">createPopulation</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><p>Now that we have everything, we put it all together in the <code>main</code> function.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">start</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">()</span>
+	<span class="nx">rand</span><span class="p">.</span><span class="nf">Seed</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">().</span><span class="nf">UTC</span><span class="p">().</span><span class="nf">UnixNano</span><span class="p">())</span>
+	<span class="nx">target</span> <span class="o">:=</span> <span class="nf">load</span><span class="p">(</span><span class="s">&#34;./ml.png&#34;</span><span class="p">)</span>
+	<span class="nf">printImage</span><span class="p">(</span><span class="nx">target</span><span class="p">.</span><span class="nf">SubImage</span><span class="p">(</span><span class="nx">target</span><span class="p">.</span><span class="nx">Rect</span><span class="p">))</span>
+	<span class="nx">population</span> <span class="o">:=</span> <span class="nf">createPopulation</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span>
 
 	<span class="nx">found</span> <span class="o">:=</span> <span class="kc">false</span>
 	<span class="nx">generation</span> <span class="o">:=</span> <span class="mi">0</span>
 	<span class="k">for</span> <span class="p">!</span><span class="nx">found</span> <span class="p">{</span>
 		<span class="nx">generation</span><span class="o">++</span>
-		<span class="nx">bestOrganism</span> <span class="o">:=</span> <span class="nx">getBest</span><span class="p">(</span><span class="nx">population</span><span class="p">)</span>
+		<span class="nx">bestOrganism</span> <span class="o">:=</span> <span class="nf">getBest</span><span class="p">(</span><span class="nx">population</span><span class="p">)</span>
 		<span class="k">if</span> <span class="nx">bestOrganism</span><span class="p">.</span><span class="nx">Fitness</span> <span class="p">&lt;</span> <span class="nx">FitnessLimit</span> <span class="p">{</span>
 			<span class="nx">found</span> <span class="p">=</span> <span class="kc">true</span>
 		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-			<span class="nx">pool</span> <span class="o">:=</span> <span class="nx">createPool</span><span class="p">(</span><span class="nx">population</span><span class="p">,</span> <span class="nx">target</span><span class="p">)</span>
-			<span class="nx">population</span> <span class="p">=</span> <span class="nx">naturalSelection</span><span class="p">(</span><span class="nx">pool</span><span class="p">,</span> <span class="nx">population</span><span class="p">,</span> <span class="nx">target</span><span class="p">)</span>
+			<span class="nx">pool</span> <span class="o">:=</span> <span class="nf">createPool</span><span class="p">(</span><span class="nx">population</span><span class="p">,</span> <span class="nx">target</span><span class="p">)</span>
+			<span class="nx">population</span> <span class="p">=</span> <span class="nf">naturalSelection</span><span class="p">(</span><span class="nx">pool</span><span class="p">,</span> <span class="nx">population</span><span class="p">,</span> <span class="nx">target</span><span class="p">)</span>
 			<span class="k">if</span> <span class="nx">generation</span><span class="o">%</span><span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
-				<span class="nx">sofar</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Since</span><span class="p">(</span><span class="nx">start</span><span class="p">)</span>
-				<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;\nTime taken so far: %s | generation: %d | fitness: %d | pool size: %d&#34;</span><span class="p">,</span> 
+				<span class="nx">sofar</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nf">Since</span><span class="p">(</span><span class="nx">start</span><span class="p">)</span>
+				<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;\nTime taken so far: %s | generation: %d | fitness: %d | pool size: %d&#34;</span><span class="p">,</span> 
 				<span class="nx">sofar</span><span class="p">,</span> <span class="nx">generation</span><span class="p">,</span> <span class="nx">bestOrganism</span><span class="p">.</span><span class="nx">Fitness</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">pool</span><span class="p">))</span>
-				<span class="nx">save</span><span class="p">(</span><span class="s">&#34;./evolved.png&#34;</span><span class="p">,</span> <span class="nx">bestOrganism</span><span class="p">.</span><span class="nx">DNA</span><span class="p">)</span>
-				<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">()</span>
-				<span class="nx">printImage</span><span class="p">(</span><span class="nx">bestOrganism</span><span class="p">.</span><span class="nx">DNA</span><span class="p">.</span><span class="nx">SubImage</span><span class="p">(</span><span class="nx">bestOrganism</span><span class="p">.</span><span class="nx">DNA</span><span class="p">.</span><span class="nx">Rect</span><span class="p">))</span>
+				<span class="nf">save</span><span class="p">(</span><span class="s">&#34;./evolved.png&#34;</span><span class="p">,</span> <span class="nx">bestOrganism</span><span class="p">.</span><span class="nx">DNA</span><span class="p">)</span>
+				<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">()</span>
+				<span class="nf">printImage</span><span class="p">(</span><span class="nx">bestOrganism</span><span class="p">.</span><span class="nx">DNA</span><span class="p">.</span><span class="nf">SubImage</span><span class="p">(</span><span class="nx">bestOrganism</span><span class="p">.</span><span class="nx">DNA</span><span class="p">.</span><span class="nx">Rect</span><span class="p">))</span>
 			<span class="p">}</span>
 		<span class="p">}</span>
 	<span class="p">}</span>
-	<span class="nx">elapsed</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Since</span><span class="p">(</span><span class="nx">start</span><span class="p">)</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;\nTotal time taken: %s\n&#34;</span><span class="p">,</span> <span class="nx">elapsed</span><span class="p">)</span>
-<span class="p">}</span></code></pre></div>
-<p>Now run it and see. What do you get?</p>
-
-<p><img src="https://github.com/sausheong/ga/raw/master/imgs/evolving1.png" alt="Start evolving Mona Lisa" /></p>
-
+	<span class="nx">elapsed</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nf">Since</span><span class="p">(</span><span class="nx">start</span><span class="p">)</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;\nTotal time taken: %s\n&#34;</span><span class="p">,</span> <span class="nx">elapsed</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><p>Now run it and see. What do you get?</p>
+<p><img src="https://github.com/sausheong/ga/raw/master/imgs/evolving1.png" alt="Start evolving Mona Lisa"></p>
 <p>With the parameters I&rsquo;ve set, when I run it, I usually start with a fitness of 19,000 or so. On an average it takes me more than 20 minutes before I reach a fitness of less than 7500.</p>
-
-<p><img src="https://github.com/sausheong/ga/raw/master/imgs/evolving2.png" alt="Start evolving Mona Lisa" /></p>
-
+<p><img src="https://github.com/sausheong/ga/raw/master/imgs/evolving2.png" alt="Start evolving Mona Lisa"></p>
 <p>Here&rsquo;s a sequence of images that&rsquo;s been produced over time:</p>
-
-<p><img src="https://github.com/sausheong/ga/raw/master/imgs/rd_1.png" alt="generation 1" />
-<img src="https://github.com/sausheong/ga/raw/master/imgs/rd_100.png" alt="generation 100" />
-<img src="https://github.com/sausheong/ga/raw/master/imgs/rd_1000.png" alt="generation 1000" />
-<img src="https://github.com/sausheong/ga/raw/master/imgs/rd_2000.png" alt="generation 2000" />
-<img src="https://github.com/sausheong/ga/raw/master/imgs/rd_4000.png" alt="generation 4000" />
-<img src="https://github.com/sausheong/ga/raw/master/imgs/rd_7400.png" alt="generation 7400" /></p>
-
+<p><img src="https://github.com/sausheong/ga/raw/master/imgs/rd_1.png" alt="generation 1">
+<img src="https://github.com/sausheong/ga/raw/master/imgs/rd_100.png" alt="generation 100">
+<img src="https://github.com/sausheong/ga/raw/master/imgs/rd_1000.png" alt="generation 1000">
+<img src="https://github.com/sausheong/ga/raw/master/imgs/rd_2000.png" alt="generation 2000">
+<img src="https://github.com/sausheong/ga/raw/master/imgs/rd_4000.png" alt="generation 4000">
+<img src="https://github.com/sausheong/ga/raw/master/imgs/rd_7400.png" alt="generation 7400"></p>
 <h2 id="evolving-mona-lisa-with-circles-and-triangles">Evolving Mona Lisa with circles and triangles</h2>
-
 <p>I had a bit of fun with evolving Mona Lisa by drawing circles and also drawing triangles on an image. The results weren&rsquo;t as quick and the images were not as obvious but it shows a glimpse of what actually happens. You can check out the rest of the code from the repository and tweak the parameters yourselves to see if you can get better pictures but here are some images I got.</p>
-
 <h3 id="mona-lisa-triangles">Mona Lisa triangles</h3>
-
-<p><img src="https://github.com/sausheong/ga/raw/master/imgs/tri_10.png" alt="generation 10" />
-<img src="https://github.com/sausheong/ga/raw/master/imgs/tri_100.png" alt="generation 100" />
-<img src="https://github.com/sausheong/ga/raw/master/imgs/tri_300.png" alt="generation 300" />
-<img src="https://github.com/sausheong/ga/raw/master/imgs/tri_700.png" alt="generation 700" />
-<img src="https://github.com/sausheong/ga/raw/master/imgs/tri_2030.png" alt="generation 2030" />
-<img src="https://github.com/sausheong/ga/raw/master/imgs/tri_3160.png" alt="generation 3160" />
-<img src="https://github.com/sausheong/ga/raw/master/imgs/tri_11930.png" alt="generation 11930" /></p>
-
+<p><img src="https://github.com/sausheong/ga/raw/master/imgs/tri_10.png" alt="generation 10">
+<img src="https://github.com/sausheong/ga/raw/master/imgs/tri_100.png" alt="generation 100">
+<img src="https://github.com/sausheong/ga/raw/master/imgs/tri_300.png" alt="generation 300">
+<img src="https://github.com/sausheong/ga/raw/master/imgs/tri_700.png" alt="generation 700">
+<img src="https://github.com/sausheong/ga/raw/master/imgs/tri_2030.png" alt="generation 2030">
+<img src="https://github.com/sausheong/ga/raw/master/imgs/tri_3160.png" alt="generation 3160">
+<img src="https://github.com/sausheong/ga/raw/master/imgs/tri_11930.png" alt="generation 11930"></p>
 <h3 id="mona-lisa-circles">Mona Lisa circles</h3>
-
-<p><img src="https://github.com/sausheong/ga/raw/master/imgs/circles_10.png" alt="generation 10" />
-<img src="https://github.com/sausheong/ga/raw/master/imgs/circles_100.png" alt="generation 100" />
-<img src="https://github.com/sausheong/ga/raw/master/imgs/circles_300.png" alt="generation 300" />
-<img src="https://github.com/sausheong/ga/raw/master/imgs/circles_700.png" alt="generation 700" />
-<img src="https://github.com/sausheong/ga/raw/master/imgs/circles_2560.png" alt="generation 2560" />
-<img src="https://github.com/sausheong/ga/raw/master/imgs/circles_5240.png" alt="generation 5240" />
-<img src="https://github.com/sausheong/ga/raw/master/imgs/circles_6600.png" alt="generation 6600" />
-<img src="https://github.com/sausheong/ga/raw/master/imgs/circles_29280.png" alt="generation 29280" /></p>
-
+<p><img src="https://github.com/sausheong/ga/raw/master/imgs/circles_10.png" alt="generation 10">
+<img src="https://github.com/sausheong/ga/raw/master/imgs/circles_100.png" alt="generation 100">
+<img src="https://github.com/sausheong/ga/raw/master/imgs/circles_300.png" alt="generation 300">
+<img src="https://github.com/sausheong/ga/raw/master/imgs/circles_700.png" alt="generation 700">
+<img src="https://github.com/sausheong/ga/raw/master/imgs/circles_2560.png" alt="generation 2560">
+<img src="https://github.com/sausheong/ga/raw/master/imgs/circles_5240.png" alt="generation 5240">
+<img src="https://github.com/sausheong/ga/raw/master/imgs/circles_6600.png" alt="generation 6600">
+<img src="https://github.com/sausheong/ga/raw/master/imgs/circles_29280.png" alt="generation 29280"></p>
 <p>Have fun!</p>
-
 <h2 id="displaying-images-on-the-terminal">Displaying images on the terminal</h2>
-
 <p>You might have noticed in my screenshots that I actually displayed images on the terminal. I could have created a web application to show this but I wanted to keep things much simpler so I thought to display the images directly on the terminal. While the terminal console is not where you&rsquo;d normally expect images to be displayed, there are actually several ways of doing it.</p>
-
-<p>I chose one of the simplest. I happened to use the excellent <a href="https://www.iterm2.com/" target="_blank">iTerm2</a>, which is a replacement for the default Terminal application in MacOS, and there is an <a href="https://www.iterm2.com/documentation-images.html" target="_blank">interesting hack in iTerm2 that allows images to be displayed</a>.</p>
-
+<p>I chose one of the simplest. I happened to use the excellent <a href="https://www.iterm2.com/">iTerm2</a>, which is a replacement for the default Terminal application in MacOS, and there is an <a href="https://www.iterm2.com/documentation-images.html">interesting hack in iTerm2 that allows images to be displayed</a>.</p>
 <p>The trick is this &ndash; if you can encode your image in Base64, you can use a special command to print out images to the terminal. Here&rsquo;s the Go code to do this, but you can also do this in any other language. There are several scripts in the documentation above that shows how this can be done using simple shell scripting.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nx">printImage</span><span class="p">(</span><span class="nx">img</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Image</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">printImage</span><span class="p">(</span><span class="nx">img</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Image</span><span class="p">)</span> <span class="p">{</span>
 	<span class="kd">var</span> <span class="nx">buf</span> <span class="nx">bytes</span><span class="p">.</span><span class="nx">Buffer</span>
-	<span class="nx">png</span><span class="p">.</span><span class="nx">Encode</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">img</span><span class="p">)</span>
-	<span class="nx">imgBase64Str</span> <span class="o">:=</span> <span class="nx">base64</span><span class="p">.</span><span class="nx">StdEncoding</span><span class="p">.</span><span class="nx">EncodeToString</span><span class="p">(</span><span class="nx">buf</span><span class="p">.</span><span class="nx">Bytes</span><span class="p">())</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;\x1b]1337;File=inline=1:%s\a\n&#34;</span><span class="p">,</span> <span class="nx">imgBase64Str</span><span class="p">)</span>
-<span class="p">}</span></code></pre></div>
-<p>What this means unfortunately is that if you run this code in anything else other iTerm2, you won&rsquo;t be able to see the evolution of the images. However you can always tweak the output such that every few generations you capture the output.</p>
-
+	<span class="nx">png</span><span class="p">.</span><span class="nf">Encode</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">img</span><span class="p">)</span>
+	<span class="nx">imgBase64Str</span> <span class="o">:=</span> <span class="nx">base64</span><span class="p">.</span><span class="nx">StdEncoding</span><span class="p">.</span><span class="nf">EncodeToString</span><span class="p">(</span><span class="nx">buf</span><span class="p">.</span><span class="nf">Bytes</span><span class="p">())</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;\x1b]1337;File=inline=1:%s\a\n&#34;</span><span class="p">,</span> <span class="nx">imgBase64Str</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><p>What this means unfortunately is that if you run this code in anything else other iTerm2, you won&rsquo;t be able to see the evolution of the images. However you can always tweak the output such that every few generations you capture the output.</p>
 <h2 id="code">Code</h2>
-
-<p>All code and images in this post can be found here: <a href="https://github.com/sausheong/ga" target="_blank">https://github.com/sausheong/ga</a></p>
-
+<p>All code and images in this post can be found here: <a href="https://github.com/sausheong/ga">https://github.com/sausheong/ga</a></p>
 <h2 id="references">References</h2>
-
 <p>The example code has been inspired by the following work:</p>
-
 <ul>
-<li>Daniel Schiffman&rsquo;s excellent book <em>The Nature of Code</em> <a href="http://natureofcode.com" target="_blank">http://natureofcode.com</a> &ndash; it&rsquo;s a great and easy to understand read! I also took some of Daniel&rsquo;s code in Java and converted it to Go for the Shakespeare quote algorithm</li>
-<li>Roger Johansson&rsquo;s excellent work in the post <em>Genetic Programming: Evolutiono of Mona Lisa</em> <a href="https://rogerjohansson.blog/2008/12/07/genetic-programming-evolution-of-mona-lisa/" target="_blank">https://rogerjohansson.blog/2008/12/07/genetic-programming-evolution-of-mona-lisa/</a> &ndash; although I ended up using a completely different way of doing genetic algorithms, his original work gave me inspiration to use Mona Lisa and also to try doing it with triangles and circles</li>
+<li>Daniel Schiffman&rsquo;s excellent book <em>The Nature of Code</em> <a href="http://natureofcode.com">http://natureofcode.com</a> &ndash; it&rsquo;s a great and easy to understand read! I also took some of Daniel&rsquo;s code in Java and converted it to Go for the Shakespeare quote algorithm</li>
+<li>Roger Johansson&rsquo;s excellent work in the post <em>Genetic Programming: Evolutiono of Mona Lisa</em> <a href="https://rogerjohansson.blog/2008/12/07/genetic-programming-evolution-of-mona-lisa/">https://rogerjohansson.blog/2008/12/07/genetic-programming-evolution-of-mona-lisa/</a> &ndash; although I ended up using a completely different way of doing genetic algorithms, his original work gave me inspiration to use Mona Lisa and also to try doing it with triangles and circles</li>
 </ul>
 
     </div>

@@ -79,50 +79,25 @@ The question is with the many that deep learning frameworks, which one should I 
     <h1 class="title">Building simple artificial neural networks with TensorFlow, Keras, PyTorch and MXNet/Gluon</h1>
       
     <div class="content">
-      
-
-<p>A few weeks ago I <a href="https://sausheong.github.io/posts/how-to-build-a-simple-artificial-neural-network-with-go/" target="_blank">went through the steps of building a very simple neural network</a> and implemented it from scratch in Go. However there are many deep learning frameworks that are already available, so doing it from scratch isn&rsquo;t normally what you&rsquo;ll do if you want to use deep learning as a tool to solve problems.</p>
-
-<p>The question is with the many that deep learning frameworks, which one should I use? There are many ways to compare deep learning frameworks. Here’s a relatively recent (September 2017) <a href="[data-science-blogs/deep-learning-libraries.md at master · thedataincubator/data-science-blogs · GitHub](https://github.com/thedataincubator/data-science-blogs/raw/master/deep-learning-libraries.md)" target="_blank">ranking by Data Incubator</a> that gives an interesting popularity ranking based on their Github, Stack Overflow and Google search results scores.</p>
-
-
+      <p>A few weeks ago I <a href="https://sausheong.github.io/posts/how-to-build-a-simple-artificial-neural-network-with-go/">went through the steps of building a very simple neural network</a> and implemented it from scratch in Go. However there are many deep learning frameworks that are already available, so doing it from scratch isn&rsquo;t normally what you&rsquo;ll do if you want to use deep learning as a tool to solve problems.</p>
+<p>The question is with the many that deep learning frameworks, which one should I use? There are many ways to compare deep learning frameworks. Here’s a relatively recent (September 2017) [ranking by Data Incubator](<a href="https://github.com/thedataincubator/data-science-blogs/raw/master/deep-learning-libraries.md">data-science-blogs/deep-learning-libraries.md at master · thedataincubator/data-science-blogs · GitHub</a>) that gives an interesting popularity ranking based on their Github, Stack Overflow and Google search results scores.</p>
 <figure>
-    
-        <img src="https://github.com/sausheong/pynn/raw/master/imgs/table.png" width="500px" />
-    
-    
-    <figcaption>
-        <h4>Deep learning frameworks popularity</h4>
-        
-    </figcaption>
-    
+    <img src="https://github.com/sausheong/pynn/raw/master/imgs/table.png" width="500px"/> <figcaption>
+            <h4>Deep learning frameworks popularity</h4>
+        </figcaption>
 </figure>
-
 
 <p>From the results, it’s quite clear that TensorFlow is easily the most popular framework and with Keras now being a part of TensorFlow itself, things won’t change much in the near future. Also, almost all popular deep learning frameworks have Python APIs, so a combination of TensorFlow/Keras with Python seems the way to go.</p>
-
 <p>Nonetheless, I was curious about some of the other frameworks and so I began a mini-journey to write the same (or almost the same) simple artificial neural network I did in a few of these frameworks for comparison.</p>
-
 <p>As a quick refresher, the neural network I created was a simple feed-forward neural network, also commonly called a multi-level perceptron (MLP). Using this simple MLP, I took the MNIST dataset of 60,000 handwritten digits and trained the neural network with it. After that I used the test dataset of 10,000 handwritten digits to test the accuracy of the neural network.</p>
-
-
 <figure>
-    
-        <img src="https://github.com/sausheong/pynn/raw/master/imgs/nn.png" />
-    
-    
-    <figcaption>
-        <h4>Our simple artificial neural network</h4>
-        
-    </figcaption>
-    
+    <img src="https://github.com/sausheong/pynn/raw/master/imgs/nn.png"/> <figcaption>
+            <h4>Our simple artificial neural network</h4>
+        </figcaption>
 </figure>
 
-
 <p>The neural network had 3 layers, the first (input) layer has 784 neurons (28 x 28 pixels), the second (hidden) layer has 200 neurons and the final (output) layer has 10 neurons. I used the sigmoid function as the activation function, and also mean square error as the loss function. Finally, I used 0.1 as the learning rate and didn’t use any bias neurons at all.</p>
-
 <p>All the implementations below follow the same generic steps:</p>
-
 <ol>
 <li>Set up the parameters and load the datasets (most frameworks have a means to load standard datasets like MNIST)</li>
 <li>Define the neural network by creating a <code>mlp</code> function that creates and returns the neural network</li>
@@ -130,19 +105,12 @@ The question is with the many that deep learning frameworks, which one should I 
 <li>Define the <code>predict</code> function</li>
 <li>Create a main that allows the user to first train using the training dataset (60,000 images) then predict using the test dataset (10,000 images)</li>
 </ol>
-
 <p>This handwriting recognition of digits with the MNIST dataset is so often used in deep learning tutorials it&rsquo;s almost the &lsquo;hello world&rsquo; of writing deep learning programs. As a disclaimer though, the implementations you see below are not optimized in any way and are not the definitive way of doing it. In fact there are many other more optimal ways of doing it, these are just a few.</p>
-
 <p>Now let&rsquo;s start and see how to implement this in TensorFlow first.</p>
-
 <h1 id="tensorflow">TensorFlow</h1>
-
 <p>TensorFlow was originally developed by researchers and engineers who worked on the Google Brain project for internal use, and open sourced in 2015. It’s the most popular deep learning framework to date by far.</p>
-
-<p>Amongst the more famous projects that are running on TensorFlow includes <a href="[DeepMind](https://deepmind.com/)" target="_blank">DeepMind</a> (the Google-owned company that developed AlphaGo), which <a href="[Research Blog: DeepMind moves to TensorFlow](https://research.googleblog.com/2016/04/deepmind-moves-to-tensorflow.html)" target="_blank">converted from Torch to TensorFlow in 2016</a>.</p>
-
+<p>Amongst the more famous projects that are running on TensorFlow includes <a href="%5BDeepMind%5D(https://deepmind.com/)">DeepMind</a> (the Google-owned company that developed AlphaGo), which [converted from Torch to TensorFlow in 2016](<a href="https://research.googleblog.com/2016/04/deepmind-moves-to-tensorflow.html">Research Blog: DeepMind moves to TensorFlow</a>).</p>
 <p>This implementation uses TensorFlow 1.6. Let’s start.</p>
-
 <h2 id="set-up-parameters-and-load-the-dataset">Set up parameters and load the dataset</h2>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">TensorFlow</span> <span class="kn">as</span> <span class="nn">tf</span>
 <span class="kn">import</span> <span class="nn">argparse</span>
@@ -156,9 +124,8 @@ The question is with the many that deep learning frameworks, which one should I 
 <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">20</span>
 
 <span class="c1">#loading the datasets</span>
-<span class="n">mnist</span> <span class="o">=</span> <span class="n">input_data</span><span class="o">.</span><span class="n">read_data_sets</span><span class="p">(</span><span class="s2">&#34;./mnist/&#34;</span><span class="p">,</span> <span class="n">one_hot</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span></code></pre></div>
-<p>The is rather simple and self explanatory. Note that we’re setting up the data output to be <a href="[One-hot - Wikipedia](https://en.wikipedia.org/wiki/One-hot)" target="_blank">one-hot</a>. This just means the position of the ndarray element with the highest value is the correct one.</p>
-
+<span class="n">mnist</span> <span class="o">=</span> <span class="n">input_data</span><span class="o">.</span><span class="n">read_data_sets</span><span class="p">(</span><span class="s2">&#34;./mnist/&#34;</span><span class="p">,</span> <span class="n">one_hot</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div><p>The is rather simple and self explanatory. Note that we’re setting up the data output to be [one-hot](<a href="https://en.wikipedia.org/wiki/One-hot">One-hot - Wikipedia</a>). This just means the position of the ndarray element with the highest value is the correct one.</p>
 <h2 id="define-the-neural-network">Define the neural network</h2>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># a random generator using uniform</span>
 <span class="k">def</span> <span class="nf">random</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
@@ -174,29 +141,17 @@ The question is with the many that deep learning frameworks, which one should I 
     <span class="n">hidden_outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">hidden_outputs</span><span class="p">)</span>  
     <span class="n">final_outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">hidden_outputs</span><span class="p">,</span> <span class="n">output_weights</span><span class="p">)</span>
     <span class="n">final_outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">final_outputs</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">final_outputs</span></code></pre></div>
-<p>This is where we define the neural network.  It’s relatively straightforward. If the hidden and output weights are not passed in, the weights are randomly generated using the <code>tf.random_uniform</code> function.  This happens when we train the neural network.</p>
-
-
+    <span class="k">return</span> <span class="n">final_outputs</span>
+</code></pre></div><p>This is where we define the neural network.  It’s relatively straightforward. If the hidden and output weights are not passed in, the weights are randomly generated using the <code>tf.random_uniform</code> function.  This happens when we train the neural network.</p>
 <figure>
-    
-        <img src="https://github.com/sausheong/pynn/raw/master/imgs/neuron.png" width="400px" />
-    
-    
-    <figcaption>
-        <h4>How a neuron works</h4>
-        
-    </figcaption>
-    
+    <img src="https://github.com/sausheong/pynn/raw/master/imgs/neuron.png" width="400px"/> <figcaption>
+            <h4>How a neuron works</h4>
+        </figcaption>
 </figure>
 
-
-<p>As in <a href="https://sausheong.github.io/posts/how-to-build-a-simple-artificial-neural-network-with-go/" target="_blank">the previous neural network I created</a>, we first multiply (using <code>tf.matmul</code>) the input <code>x</code> with the hidden weights to get the hidden outputs .  Remember we’re working with matrices so <code>tf.matmul</code> is actually a dot product function and the hidden weights and the inputs are both matrices.</p>
-
+<p>As in <a href="https://sausheong.github.io/posts/how-to-build-a-simple-artificial-neural-network-with-go/">the previous neural network I created</a>, we first multiply (using <code>tf.matmul</code>) the input <code>x</code> with the hidden weights to get the hidden outputs .  Remember we’re working with matrices so <code>tf.matmul</code> is actually a dot product function and the hidden weights and the inputs are both matrices.</p>
 <p>The hidden outputs are then passed through an activation function, in this case a <code>sigmoid</code> function.  The output is then multiplied with the output weight to get the final outputs.</p>
-
 <p>The final outputs are returned after they have been passed through a sigmoid activation function again.</p>
-
 <h2 id="define-the-train-function">Define the train function</h2>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># training with the train dataset</span>
 <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
@@ -216,19 +171,13 @@ The question is with the many that deep learning frameworks, which one should I 
                 <span class="n">avg_error</span> <span class="o">+=</span> <span class="n">c</span> <span class="o">/</span> <span class="n">total_batch</span>
             <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Epoch [</span><span class="si">%d</span><span class="s2">/</span><span class="si">%d</span><span class="s2">], error: </span><span class="si">%.4f</span><span class="s2">&#34;</span> <span class="o">%</span><span class="p">(</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">epochs</span><span class="p">,</span> <span class="n">avg_error</span><span class="p">))</span>
         <span class="k">print</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">Training complete!&#34;</span><span class="p">)</span>
-        <span class="n">saver</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">sess</span><span class="p">,</span> <span class="s2">&#34;./model&#34;</span><span class="p">)</span></code></pre></div>
-<p>Let’s look at how we train our neural network model. First, we create it using the <code>mlp</code> function, passing it the inputs. We also define our error function aptly named <code>error</code> to be the squared difference between the target and the output (mean square error).</p>
-
-<p>Next, we define the optimizer, and we use the <a href="[Everything you need to know about Adam Optimizer – Nishant Nikhil – Medium](https://medium.com/@nishantnikhil/adam-optimizer-notes-ddac4fd7218)" target="_blank">Adam</a> optimizer here, passing it the learning rate and also our error function. When I first started dabbling with this, I used the gradient descent optimizer but the values take a very long time to converge. When when I switched over to the Adam optimizer it converged nicely so I used the Adam optimizer instead.</p>
-
+        <span class="n">saver</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">sess</span><span class="p">,</span> <span class="s2">&#34;./model&#34;</span><span class="p">)</span>
+</code></pre></div><p>Let’s look at how we train our neural network model. First, we create it using the <code>mlp</code> function, passing it the inputs. We also define our error function aptly named <code>error</code> to be the squared difference between the target and the output (mean square error).</p>
+<p>Next, we define the optimizer, and we use the [Adam](<a href="https://medium.com/@nishantnikhil/adam-optimizer-notes-ddac4fd7218">Everything you need to know about Adam Optimizer – Nishant Nikhil – Medium</a>) optimizer here, passing it the learning rate and also our error function. When I first started dabbling with this, I used the gradient descent optimizer but the values take a very long time to converge. When when I switched over to the Adam optimizer it converged nicely so I used the Adam optimizer instead.</p>
 <p>Now that we have our optimizer, we initialise all the variables and define a saver so that we can save the model. We start a session and run the mini-batches by epochs, passing it the training dataset we loaded earlier on.</p>
-
 <p>Once we’re done with the training, we save the model.  A TensorFlow model consists of two parts. The first is the meta graph, which saves information on the TensorFlow graph. This is saved into a file with a <code>.meta</code> extension, in this case, it will be <code>model.meta</code>.</p>
-
 <p>The second are a bunch of checkpoint files. The <code>model.index</code> stores a list of variable names and shapes, while the <code>model.data-00000-of-00001</code> stores the actual values of the variables.</p>
-
 <p>We’ll be re-using these files later when we want to load the model for doing the prediction.</p>
-
 <h2 id="define-the-predict-function">Define the predict function</h2>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># predicting with the test dataset</span>
 <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>    
@@ -242,15 +191,11 @@ The question is with the many that deep learning frameworks, which one should I 
         <span class="n">correct_prediction</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">tf</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">final_outputs</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
         <span class="n">accuracy</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">correct_prediction</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
         <span class="n">tf</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">scalar</span><span class="p">(</span><span class="s1">&#39;accuracy&#39;</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>          
-        <span class="k">print</span><span class="p">(</span><span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">accuracy</span><span class="p">,</span> <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">mnist</span><span class="o">.</span><span class="n">test</span><span class="o">.</span><span class="n">images</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">mnist</span><span class="o">.</span><span class="n">test</span><span class="o">.</span><span class="n">labels</span><span class="p">}))</span></code></pre></div>
-<p>After we’ve trained the model we would want to have something that we can use for predicting the values. In this case what we actually want is to run our <code>predict</code> function over the 10,000 images in the test dataset and see how many of them our trained model gets correctly.</p>
-
+        <span class="k">print</span><span class="p">(</span><span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">accuracy</span><span class="p">,</span> <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">mnist</span><span class="o">.</span><span class="n">test</span><span class="o">.</span><span class="n">images</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">mnist</span><span class="o">.</span><span class="n">test</span><span class="o">.</span><span class="n">labels</span><span class="p">}))</span>
+</code></pre></div><p>After we’ve trained the model we would want to have something that we can use for predicting the values. In this case what we actually want is to run our <code>predict</code> function over the 10,000 images in the test dataset and see how many of them our trained model gets correctly.</p>
 <p>We start off with importing the meta graph, which is from the <code>model.meta</code> file. Next we restore the checkpoint and use the default graph to get the hidden weights and output weights by their respective names.</p>
-
 <p>Finally we restore the trained model by calling the <code>mlp</code> function and passing it the saved weights.</p>
-
 <p>Armed with the trained model, we try to predict output as we pass in the test dataset, and get the accuracy of the model. The <code>predict</code> function prints out the accuracy of the prediction of all the test images.</p>
-
 <h2 id="training-then-predicting">Training then predicting</h2>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="n">inputs</span><span class="p">])</span>
@@ -261,35 +206,20 @@ The question is with the many that deep learning frameworks, which one should I 
     <span class="k">if</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">action</span> <span class="o">==</span> <span class="s2">&#34;predict&#34;</span><span class="p">:</span>
         <span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">action</span> <span class="o">==</span> <span class="s2">&#34;train&#34;</span><span class="p">:</span>
-        <span class="n">train</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span></code></pre></div>
-<p>The last bit is pretty trivial, it’s just a main function that allows the user to either predict or train according. This part is actually the same in the other implementations so I won’t be showing this code again later on.</p>
-
+        <span class="n">train</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</code></pre></div><p>The last bit is pretty trivial, it’s just a main function that allows the user to either predict or train according. This part is actually the same in the other implementations so I won’t be showing this code again later on.</p>
 <p>Here’s the results.</p>
-
-
 <figure>
-    
-        <img src="https://github.com/sausheong/pynn/raw/master/imgs/nn_tf.png" />
-    
-    
-    <figcaption>
-        <h4>Results</h4>
-        
-    </figcaption>
-    
+    <img src="https://github.com/sausheong/pynn/raw/master/imgs/nn_tf.png"/> <figcaption>
+            <h4>Results</h4>
+        </figcaption>
 </figure>
 
-
 <p>The model predicts correctly 97.25% of the time, which is not too good but ok. Now let’s look at Keras next.</p>
-
 <h1 id="keras-on-tensorflow">Keras (on TensorFlow)</h1>
-
 <p>Keras isn’t a separate framework but an interface built on top of TensorFlow, Theano and CNTK. Keras is designed for fast prototyping and being easy to use and user-friendly.</p>
-
-<p>In 2017, TensorFlow decided to <a href="[Big deep learning news: Google TensorFlow chooses Keras · fast.ai](http://www.fast.ai/2017/01/03/keras/)" target="_blank">support Keras in TensorFlow’s core library</a> though nothing changed for Keras itself.</p>
-
+<p>In 2017, TensorFlow decided to [support Keras in TensorFlow’s core library](<a href="http://www.fast.ai/2017/01/03/keras/">Big deep learning news: Google TensorFlow chooses Keras · fast.ai</a>) though nothing changed for Keras itself.</p>
 <p>Let’s see how things are different in Keras.</p>
-
 <h2 id="set-up-parameters-and-load-the-dataset-1">Set up parameters and load the dataset</h2>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">argparse</span>
 <span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
@@ -310,9 +240,8 @@ The question is with the many that deep learning frameworks, which one should I 
 <span class="n">train_images</span> <span class="o">=</span> <span class="n">train_images</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">60000</span><span class="p">,</span> <span class="mi">784</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span><span class="o">/</span><span class="mi">255</span>
 <span class="n">train_labels</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">to_categorical</span><span class="p">(</span><span class="n">train_labels</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
 <span class="n">test_images</span> <span class="o">=</span> <span class="n">test_images</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">784</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span><span class="o">/</span><span class="mi">255</span>
-<span class="n">test_labels</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">to_categorical</span><span class="p">(</span><span class="n">test_labels</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span></code></pre></div>
-<p>Setting up the dataset seems a bit more elaborate than before but it’s not a big deal, in fact it’s clearer that we’re reshaping the train and test datasets to the correct shapes and sizes.</p>
-
+<span class="n">test_labels</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">to_categorical</span><span class="p">(</span><span class="n">test_labels</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
+</code></pre></div><p>Setting up the dataset seems a bit more elaborate than before but it’s not a big deal, in fact it’s clearer that we’re reshaping the train and test datasets to the correct shapes and sizes.</p>
 <h2 id="define-the-train-function-1">Define the train function</h2>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># training with the train dataset</span>
 <span class="k">def</span> <span class="nf">train</span><span class="p">():</span>
@@ -320,75 +249,43 @@ The question is with the many that deep learning frameworks, which one should I 
     <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">hiddens</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="n">inputs</span><span class="p">,)))</span>
     <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">))</span>
     <span class="n">sgd</span> <span class="o">=</span> <span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="n">learning_rate</span><span class="p">)</span>
-    <span class="n">model</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="n">sgd</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;mean_squared_error&#39;</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="n">sgd</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;mean_squared_error&#39;</span><span class="p">)</span>
     <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_images</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="n">epochs</span><span class="p">)</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;mlp_model.h5&#39;</span><span class="p">)</span></code></pre></div>
-<p>You might notice that I didn’t define the neural network here. I could have created a separate <code>mlp</code> function to do that but it’s not really necessary because I used one of the built-in Keras models called <code>Sequential</code> and simply stacked layers on top of it to build the network.</p>
-
+    <span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;mlp_model.h5&#39;</span><span class="p">)</span>
+</code></pre></div><p>You might notice that I didn’t define the neural network here. I could have created a separate <code>mlp</code> function to do that but it’s not really necessary because I used one of the built-in Keras models called <code>Sequential</code> and simply stacked layers on top of it to build the network.</p>
 <p>The first two lines added the hidden and output layers (the input later is assumed by default, given the input shape of the hidden layer). This includes the activation function <code>sigmoid</code>.</p>
-
 <p>We define the optimizer next, using <code>optimizers.Adam</code> which is the built-in Adam optimizer.</p>
-
 <p>The model is compiled with the optimizer, and assigned an error (or loss) function <code>mean_squared_error</code> which is also built-in.</p>
-
 <p>Finally we use the <code>fit</code> method to train the model using the images and labels, with the given batch size and number of epochs.</p>
-
 <p>As before, we save the model after training it.</p>
-
 <h2 id="define-the-predict-function-1">Define the predict function</h2>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># predicting the test dataset</span>
 <span class="k">def</span> <span class="nf">predict</span><span class="p">():</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="s2">&#34;mlp_model.h5&#34;</span><span class="p">)</span>
     <span class="n">error</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">test_images</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;accuracy:&#34;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">error</span><span class="p">)</span></code></pre></div>
-<p>If you think the training function was rather simple, check out the predict function! You simply need to load up the model, then use it to evaluate the test images and labels!</p>
-
+    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;accuracy:&#34;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">error</span><span class="p">)</span>
+</code></pre></div><p>If you think the training function was rather simple, check out the predict function! You simply need to load up the model, then use it to evaluate the test images and labels!</p>
 <h2 id="training-then-predicting-1">Training then predicting</h2>
-
 <p>Here’s what you see when training.</p>
-
-
 <figure>
-    
-        <img src="https://github.com/sausheong/pynn/raw/master/imgs/nn_keras_1.png" />
-    
-    
-    <figcaption>
-        <h4>Results - training</h4>
-        
-    </figcaption>
-    
+    <img src="https://github.com/sausheong/pynn/raw/master/imgs/nn_keras_1.png"/> <figcaption>
+            <h4>Results - training</h4>
+        </figcaption>
 </figure>
-
 
 <p>And here’s the results when predicting.</p>
-
-
 <figure>
-    
-        <img src="https://github.com/sausheong/pynn/raw/master/imgs/nn_keras_2.png" />
-    
-    
-    <figcaption>
-        <h4>Results - predicting</h4>
-        
-    </figcaption>
-    
+    <img src="https://github.com/sausheong/pynn/raw/master/imgs/nn_keras_2.png"/> <figcaption>
+            <h4>Results - predicting</h4>
+        </figcaption>
 </figure>
 
-
 <p>The accuracy here is much better, we have 99.42% accuracy in detecting the correct images.</p>
-
 <h1 id="pytorch">PyTorch</h1>
-
-<p><a href="[PyTorch](http://pytorch.org/)" target="_blank">PyTorch</a>, as the name suggests, is the Python version of the Torch framework. Torch was originally developed in C, with a wrapper using the Lua programming language.  PyTorch is primarily developed by Facebook’s AI research group, and wraps around the Torch binaries with Python instead.</p>
-
-<p>A key feature in PyTorch is the ability to modify existing neural networks without having to rebuild it from scratch, using dynamic computation graphs. PyTorch describes it like using and replaying a tape recorder and it’s inspired by other works such as <a href="[GitHub - HIPS/autograd: Efficiently computes derivatives of numpy code.](https://github.com/HIPS/autograd)" target="_blank">autograd</a> and <a href="[Chainer: A flexible framework for neural networks](https://chainer.org/)" target="_blank">Chainer</a>.</p>
-
+<p><a href="%5BPyTorch%5D(http://pytorch.org/)">PyTorch</a>, as the name suggests, is the Python version of the Torch framework. Torch was originally developed in C, with a wrapper using the Lua programming language.  PyTorch is primarily developed by Facebook’s AI research group, and wraps around the Torch binaries with Python instead.</p>
+<p>A key feature in PyTorch is the ability to modify existing neural networks without having to rebuild it from scratch, using dynamic computation graphs. PyTorch describes it like using and replaying a tape recorder and it’s inspired by other works such as [autograd](<a href="https://github.com/HIPS/autograd">GitHub - HIPS/autograd: Efficiently computes derivatives of numpy code.</a>) and [Chainer](<a href="https://chainer.org/">Chainer: A flexible framework for neural networks</a>).</p>
 <p>In implementing the simple neural network, I didn’t have the chance to use this feature properly but it seems an interesting approach to building up a neural network that I’d like to explore more later.</p>
-
 <p>Let’s see how PyTorch works for our simple neural network.</p>
-
 <h2 id="set-up-parameters-and-load-the-dataset-2">Set up parameters and load the dataset</h2>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">import</span> <span class="nn">argparse</span>
@@ -407,9 +304,8 @@ The question is with the many that deep learning frameworks, which one should I 
 <span class="n">train_dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">MNIST</span><span class="p">(</span><span class="s1">&#39;mnist/&#39;</span><span class="p">,</span><span class="n">train</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">transform</span><span class="o">=</span><span class="n">transformation</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="n">train_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">test_dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">MNIST</span><span class="p">(</span><span class="s1">&#39;mnist/&#39;</span><span class="p">,</span><span class="n">train</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">transform</span><span class="o">=</span><span class="n">transformation</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="n">test_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">test_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span></code></pre></div>
-<p>Loading the datasets take a few steps, but they are rather straightforward. What’s interesting to note is that the transformation normalises with a mean of 0.1307 and standard deviation of 0.3081, which is the mean and standard deviation of the MNIST dataset.</p>
-
+<span class="n">test_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">test_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div><p>Loading the datasets take a few steps, but they are rather straightforward. What’s interesting to note is that the transformation normalises with a mean of 0.1307 and standard deviation of 0.3081, which is the mean and standard deviation of the MNIST dataset.</p>
 <h2 id="define-the-neural-network-1">Define the neural network</h2>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">mlp</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -424,11 +320,9 @@ The question is with the many that deep learning frameworks, which one should I 
         <span class="k">return</span> <span class="n">out</span>
 
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&#34;mlp&#34;</span></code></pre></div>
-<p>Defining the neural network is simple. We define some methods in the class, with <code>sigmoid</code> being  <code>nn.Sigmoid</code>, <code>hidden_layer</code> and <code>output_layer</code>  being linear layers with the appropriate sizes.</p>
-
+        <span class="k">return</span> <span class="s2">&#34;mlp&#34;</span>
+</code></pre></div><p>Defining the neural network is simple. We define some methods in the class, with <code>sigmoid</code> being  <code>nn.Sigmoid</code>, <code>hidden_layer</code> and <code>output_layer</code>  being linear layers with the appropriate sizes.</p>
 <p>The <code>forward</code> method then passes the input <code>x</code> into the hidden layer, and then to the <code>sigmoid</code> activation function. After that it goes into the output layer and again to the <code>sigmoid</code> activation function one more time before returning the output.</p>
-
 <h2 id="define-the-train-function-2">Define the train function</h2>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">train</span><span class="p">():</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">mlp</span><span class="p">()</span>
@@ -454,13 +348,10 @@ The question is with the many that deep learning frameworks, which one should I 
         <span class="n">avg_error</span> <span class="o">/=</span> <span class="n">train_loader</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">train_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">print</span> <span class="p">(</span><span class="s1">&#39;Epoch [</span><span class="si">%d</span><span class="s1">/</span><span class="si">%d</span><span class="s1">], error: </span><span class="si">%.4f</span><span class="s1">&#39;</span> <span class="o">%</span><span class="p">(</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">epochs</span><span class="p">,</span> <span class="n">avg_error</span><span class="p">))</span>
     <span class="c1"># Save model to file</span>
-    <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="s1">&#39;model.pkl&#39;</span><span class="p">)</span></code></pre></div>
-<p>As with the other implementations, we first create the neural network model,  the error function <code>loss</code> (which we defined to be a mean square error loss function) and also the Adam optimizer.</p>
-
+    <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="s1">&#39;model.pkl&#39;</span><span class="p">)</span>
+</code></pre></div><p>As with the other implementations, we first create the neural network model,  the error function <code>loss</code> (which we defined to be a mean square error loss function) and also the Adam optimizer.</p>
 <p>We run the training for 50 epochs as usual. Because the training labels are not in the correct format, we need to convert it to a one-hot vector, <code>target</code>. Then we compute the error using the <code>loss</code> function, passing it the actual output values, as well as the target, then apply backpropagation to it.</p>
-
 <p>Finally we save the model before ending the training. There are a couple of ways to save a PyTorch model. The more generic Python way is to save it as a pickle file, with a <code>.pkl</code> extension. This is what I used in this implementation. An alternative is to use PyTorch’s own serialisation mechanism which saves into a file with a <code>.pth</code> extension.</p>
-
 <h2 id="define-the-predict-function-2">Define the predict function</h2>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">predict</span><span class="p">():</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">mlp</span><span class="p">()</span>
@@ -469,42 +360,25 @@ The question is with the many that deep learning frameworks, which one should I 
     <span class="k">for</span> <span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="ow">in</span> <span class="n">test_loader</span><span class="p">:</span>
         <span class="n">images</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="n">images</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">inputs</span><span class="p">))</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
-        <span class="n">_</span><span class="p">,</span> <span class="n">predicted</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="nb">max</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">predicted</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">total</span> <span class="o">+=</span> <span class="n">labels</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">correct</span> <span class="o">+=</span> <span class="p">(</span><span class="n">predicted</span> <span class="o">==</span> <span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="nb">sum</span><span class="p">()</span>
-    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;accuracy: </span><span class="si">%0.2f</span><span class="s1"> </span><span class="si">%%</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="mf">100.0</span> <span class="o">*</span> <span class="n">correct</span> <span class="o">/</span> <span class="n">total</span><span class="p">))</span>   </code></pre></div>
-<p>Predicting is simpler than training. Here we need to first create a neural network and load it with the saved state to reproduce the trained model. Then using the trained model we predict the output and then check if it’s correct using the labels. Finally we total up all the correctly predicted values and get the percentage of accuracy.</p>
-
+        <span class="n">correct</span> <span class="o">+=</span> <span class="p">(</span><span class="n">predicted</span> <span class="o">==</span> <span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;accuracy: </span><span class="si">%0.2f</span><span class="s1"> </span><span class="si">%%</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="mf">100.0</span> <span class="o">*</span> <span class="n">correct</span> <span class="o">/</span> <span class="n">total</span><span class="p">))</span>   
+</code></pre></div><p>Predicting is simpler than training. Here we need to first create a neural network and load it with the saved state to reproduce the trained model. Then using the trained model we predict the output and then check if it’s correct using the labels. Finally we total up all the correctly predicted values and get the percentage of accuracy.</p>
 <h2 id="training-then-predicting-2">Training then predicting</h2>
-
 <p>Here’s the results.</p>
-
-
 <figure>
-    
-        <img src="https://github.com/sausheong/pynn/raw/master/imgs/nn_pytorch.png" />
-    
-    
-    <figcaption>
-        <h4>Results</h4>
-        
-    </figcaption>
-    
+    <img src="https://github.com/sausheong/pynn/raw/master/imgs/nn_pytorch.png"/> <figcaption>
+            <h4>Results</h4>
+        </figcaption>
 </figure>
 
-
 <p>As you can see, the network couldn’t converge properly within 50 epochs with the same learning rate.  The prediction accuracy here is quite poor, only 95.17%. On the other hand when I switched over to using the SGD optimizer, the accuracy was better at 98.29%.</p>
-
 <h1 id="mxnet-with-gluon">MXNet with Gluon</h1>
-
-<p><a href="[MXNet: A Scalable Deep Learning Framework](https://mxnet.incubator.apache.org/)" target="_blank">MXNet</a> is an Apache Foundation project that’s currently being incubated in Apache. It has support in multiple languages and supported by a number of large industry players, prominently including Amazon and Microsoft.</p>
-
-<p><a href="[Why Amazon picked MXNet for deep learning | InfoWorld](https://www.infoworld.com/article/3144025/cloud-computing/why-amazon-picked-mxnet-for-deep-learning.html)" target="_blank">Amazon chose MXNet as a deep learning framework of choice</a> because it claims that MXNet scales and runs better than other frameworks. MXNet models are portable and can be deployed on devices as well. In <a href="[AWS, Microsoft launch deep learning interface Gluon | ZDNet](https://www.zdnet.com/article/aws-microsoft-launch-deep-learning-interface-gluon/)" target="_blank">October 2017 Amazon and Microsoft launched a new interface for MXNet called Gluon</a>, to make deep learning easier.</p>
-
+<p>[MXNet](<a href="https://mxnet.incubator.apache.org/">MXNet: A Scalable Deep Learning Framework</a>) is an Apache Foundation project that’s currently being incubated in Apache. It has support in multiple languages and supported by a number of large industry players, prominently including Amazon and Microsoft.</p>
+<p>[Amazon chose MXNet as a deep learning framework of choice](<a href="https://www.infoworld.com/article/3144025/cloud-computing/why-amazon-picked-mxnet-for-deep-learning.html">Why Amazon picked MXNet for deep learning | InfoWorld</a>) because it claims that MXNet scales and runs better than other frameworks. MXNet models are portable and can be deployed on devices as well. In [October 2017 Amazon and Microsoft launched a new interface for MXNet called Gluon](<a href="https://www.zdnet.com/article/aws-microsoft-launch-deep-learning-interface-gluon/">AWS, Microsoft launch deep learning interface Gluon | ZDNet</a>), to make deep learning easier.</p>
 <p>Gluon is relatively easy to use and to build our simple neural network from my perspective it seems pretty much the same. Admittedly I probably haven’t used it to it’s best capabilities.</p>
-
 <p>Let’s see how it works.</p>
-
 <h2 id="set-up-parameters-and-load-the-dataset-3">Set up parameters and load the dataset</h2>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">argparse</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
@@ -525,11 +399,9 @@ The question is with the many that deep learning frameworks, which one should I 
     <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="n">label</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
     
 <span class="n">train_data</span> <span class="o">=</span> <span class="n">mx</span><span class="o">.</span><span class="n">gluon</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">vision</span><span class="o">.</span><span class="n">MNIST</span><span class="p">(</span><span class="n">train</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">),</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">test_data</span> <span class="o">=</span> <span class="n">mx</span><span class="o">.</span><span class="n">gluon</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">vision</span><span class="o">.</span><span class="n">MNIST</span><span class="p">(</span><span class="n">train</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">),</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span></code></pre></div>
-<p>Unlike other frameworks, you have to be more explicit where you want the context of operations are to be run on. In this case I’m running on the CPU only so I created a context <code>ctx</code> that is based on the CPU.</p>
-
+<span class="n">test_data</span> <span class="o">=</span> <span class="n">mx</span><span class="o">.</span><span class="n">gluon</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">vision</span><span class="o">.</span><span class="n">MNIST</span><span class="p">(</span><span class="n">train</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">),</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div><p>Unlike other frameworks, you have to be more explicit where you want the context of operations are to be run on. In this case I’m running on the CPU only so I created a context <code>ctx</code> that is based on the CPU.</p>
 <p>Loading the datasets are not much different from the other frameworks.</p>
-
 <h2 id="define-the-neural-network-2">Define the neural network</h2>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">mlp</span><span class="p">():</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
@@ -538,9 +410,8 @@ The question is with the many that deep learning frameworks, which one should I 
         <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&#34;sigmoid&#34;</span><span class="p">))</span>
         <span class="n">dist</span> <span class="o">=</span> <span class="n">mx</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">inputs</span><span class="p">)))</span>
         <span class="n">model</span><span class="o">.</span><span class="n">collect_params</span><span class="p">()</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">ctx</span><span class="o">=</span><span class="n">ctx</span><span class="p">)</span> 
-    <span class="k">return</span> <span class="n">model</span></code></pre></div>
-<p>Defining the neural network is relatively simple and quite similar to Keras. We simply use a built-in model add layers on it with the appropriate activation function then initialise it with the context and weights with random value sampled from a uniform distribution. I used the uniform distribution here to be consistent with the earlier implementations. I did try other distributions but the results are somewhat the same so at least in this post I am sticking to this distribution.</p>
-
+    <span class="k">return</span> <span class="n">model</span>
+</code></pre></div><p>Defining the neural network is relatively simple and quite similar to Keras. We simply use a built-in model add layers on it with the appropriate activation function then initialise it with the context and weights with random value sampled from a uniform distribution. I used the uniform distribution here to be consistent with the earlier implementations. I did try other distributions but the results are somewhat the same so at least in this post I am sticking to this distribution.</p>
 <h2 id="define-the-train-function-3">Define the train function</h2>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">train</span><span class="p">():</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">mlp</span><span class="p">()</span>   
@@ -557,17 +428,13 @@ The question is with the many that deep learning frameworks, which one should I 
                 <span class="n">error</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
             <span class="n">error</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
             <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-            <span class="n">cumulative_error</span> <span class="o">+=</span> <span class="n">nd</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">error</span><span class="p">)</span><span class="o">.</span><span class="n">asscalar</span><span class="p">()</span>
+            <span class="n">cumulative_error</span> <span class="o">+=</span> <span class="n">nd</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">error</span><span class="p">)</span><span class="o">.</span><span class="n">asscalar</span><span class="p">()</span>
         <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Epoch [</span><span class="si">%d</span><span class="s2">/</span><span class="si">%d</span><span class="s2">]: error: </span><span class="si">%.4f</span><span class="s2">&#34;</span> <span class="o">%</span> <span class="p">(</span><span class="n">e</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">epochs</span><span class="p">,</span> <span class="n">cumulative_error</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">train_data</span><span class="p">)))</span>    
-    <span class="n">model</span><span class="o">.</span><span class="n">save_params</span><span class="p">(</span><span class="s2">&#34;mxnet.model&#34;</span><span class="p">)</span></code></pre></div>
-<p>To train the model, we first create it with our <code>mlp</code> function. We define an error function <code>loss</code>  using  <code>L2Loss</code> which is essential a mean square error function.</p>
-
+    <span class="n">model</span><span class="o">.</span><span class="n">save_params</span><span class="p">(</span><span class="s2">&#34;mxnet.model&#34;</span><span class="p">)</span>
+</code></pre></div><p>To train the model, we first create it with our <code>mlp</code> function. We define an error function <code>loss</code>  using  <code>L2Loss</code> which is essential a mean square error function.</p>
 <p>We also define an optimiser (called a <code>Trainer</code> in MXNet), which uses the Adam optimizer algorithm.</p>
-
 <p>Next we enumerate the train dataset and reshape into a one-hot ndarray. We pass the train dataset through the trained model to get an output. The output and labels are passed to the error function.</p>
-
 <p>After the training we save the network model. MXNet allows us to save the parameters with a simple <code>save_params</code> method. It’s not too particular about the file name so we can use any name we like.</p>
-
 <h2 id="define-the-predict-function-3">Define the predict function</h2>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">predict</span><span class="p">():</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">mlp</span><span class="p">()</span>
@@ -579,46 +446,26 @@ The question is with the many that deep learning frameworks, which one should I 
         <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="n">predictions</span> <span class="o">=</span> <span class="n">nd</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">acc</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">preds</span><span class="o">=</span><span class="n">predictions</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;accuracy: </span><span class="si">%.2f</span><span class="s2"> </span><span class="si">%%</span><span class="s2">&#34;</span> <span class="o">%</span> <span class="p">(</span><span class="n">acc</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">))</span></code></pre></div>
-<p>The <code>predict</code> function recreates our trained model by loading it from the file we saved earlier on. We reshape the data in the test dataset, and pass it through the loaded trained model and and we get the predictions as an output. Then using the labels we find the accuracy of the predictions.</p>
-
+    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;accuracy: </span><span class="si">%.2f</span><span class="s2"> </span><span class="si">%%</span><span class="s2">&#34;</span> <span class="o">%</span> <span class="p">(</span><span class="n">acc</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">))</span>
+</code></pre></div><p>The <code>predict</code> function recreates our trained model by loading it from the file we saved earlier on. We reshape the data in the test dataset, and pass it through the loaded trained model and and we get the predictions as an output. Then using the labels we find the accuracy of the predictions.</p>
 <h2 id="training-then-predicting-3">Training then predicting</h2>
-
 <p>Here’s the result of the prediction using the MXNet framework with Gluon.</p>
-
-
 <figure>
-    
-        <img src="https://github.com/sausheong/pynn/raw/master/imgs/nn_mxnet.png" />
-    
-    
-    <figcaption>
-        <h4>Results</h4>
-        
-    </figcaption>
-    
+    <img src="https://github.com/sausheong/pynn/raw/master/imgs/nn_mxnet.png"/> <figcaption>
+            <h4>Results</h4>
+        </figcaption>
 </figure>
 
-
 <p>The accuracy is 97.49% which is pretty much the same as the rest of the frameworks.</p>
-
 <h1 id="some-thoughts">Some thoughts</h1>
-
 <p>Obviously this post doesn’t have all the deep learning frameworks. It’s more like a rambling walk through a few selected frameworks that piqued my fancy as I explored various frameworks. I missed out quite a number of popular ones including Caffe and Caffe2, CNTK, Theano, Torch, Sonnet and many many others.</p>
-
 <p>I didn’t do any comparisons either — that’s not the intention, any comparisons would require much deeper understanding of these frameworks and a lot more time. And in a sense since all these frameworks are growing (as I wrote this post over the past weeks, TensorFlow released 1.7 and 1.8 in a row!) and changing any comparisons would be inaccurate very quickly. Rather, my purpose was to figure out how easy it is to actually write deep learning software and how much these frameworks can help me do that.</p>
-
 <p>As I was using these frameworks I realised that they are largely the same in terms of what the goals are. In each framework, the goals are always to have an easy way to load the datasets, define a model, train that model then use it to predict the results. The way to achieve might be different from framework to framework and the underlying philosophies might differ but the goals remain the same.</p>
-
 <p>In a sense it’s very similar to all web frameworks that I’ve been using for the past 20 years. While amazing web applications have been created over the years, web frameworks have essentially worked about the same way, with the same views, controllers and services and working with HTTP.</p>
-
 <p>No doubt I’m entirely oversimplifying everything, but in a sense I’m comforted at the same time.</p>
-
 <h1 id="source-code">Source code</h1>
-
 <p>You can find all the source code here:</p>
-
-<p><a href="https://github.com/sausheong/pynn" target="_blank">https://github.com/sausheong/pynn</a></p>
+<p><a href="https://github.com/sausheong/pynn">https://github.com/sausheong/pynn</a></p>
 
     </div>
     

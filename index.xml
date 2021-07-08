@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>sausheong&#39;s space</title>
@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy; &lt;a href=&#34;https://github.com/sausheong&#34;&gt;Chang Sau Sheong&lt;/a&gt; 2018</copyright>
-    <lastBuildDate>Wed, 25 Dec 2019 22:33:07 +0800</lastBuildDate>
-    
-	<atom:link href="https://sausheong.github.io/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 25 Dec 2019 22:33:07 +0800</lastBuildDate><atom:link href="https://sausheong.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Setting up a Raspberry Pi 4 as an development machine for your iPad Pro</title>
       <link>https://sausheong.github.io/posts/pi4-dev-ipadpro/</link>
@@ -23,21 +19,12 @@ Years ago when I was just starting out in my career, a couple of friends and I c
     </item>
     
     <item>
-      <title>Create a simple cross-platform desktop game with Go</title>
-      <link>https://sausheong.github.io/posts/cross-platform-games-with-go/</link>
-      <pubDate>Sun, 12 Aug 2018 16:06:07 +0800</pubDate>
-      
-      <guid>https://sausheong.github.io/posts/cross-platform-games-with-go/</guid>
-      <description>A few months ago I fiddled around with writing Space Invaders using Go. I had a lot of fun writing it but the output only worked on iTerm2 because it used a specific feature of that terminal. In order to play the game you&amp;rsquo;d really have to download iTerm2 and run it on the command line. I thought it&amp;rsquo;d be fun to muck around it a bit more to see if I can bring it out as a proper desktop game.</description>
-    </item>
-    
-    <item>
       <title>Sentiment analysis with a simple naive Bayes classifier in Go</title>
       <link>https://sausheong.github.io/posts/sentiment-analysis-naive-bayes-classifier-in-go/</link>
       <pubDate>Tue, 29 May 2018 16:06:07 +0800</pubDate>
       
       <guid>https://sausheong.github.io/posts/sentiment-analysis-naive-bayes-classifier-in-go/</guid>
-      <description>I was reading the Master Algorithm by Pedro Domingos recently. It&amp;rsquo;s a fascinating read, with some interesting ideas. In the book, Domingos proposed that machine learning algorithms can be placed into one of 5 tribes &amp;ndash; symbolists, connectionists, evolutionaries, Bayesians and analogizers. Each one of these tribes has a master algorithm of its own. The symbolists&amp;rsquo; is the inverse deduction (decision tree), the connectionists&amp;rsquo; is the backpropagation (neural network), the evolutionaries is genetic programming (genetic algorithms), the Bayesians is Bayes&amp;rsquo; theorem and the analogizers&amp;rsquo; is the support vector machine (SVM).</description>
+      <description>I was reading the Master Algorithm by Pedro Domingos recently. It&amp;rsquo;s a fascinating read, with some interesting ideas. In the book, Domingos proposed that machine learning algorithms can be placed into one of 5 tribes &amp;ndash; symbolists, connectionists, evolutionaries, Bayesians and analogizers. Each one of these tribes has a master algorithm of its own. The symbolists&#39; is the inverse deduction (decision tree), the connectionists&#39; is the backpropagation (neural network), the evolutionaries is genetic programming (genetic algorithms), the Bayesians is Bayes&#39; theorem and the analogizers&#39; is the support vector machine (SVM).</description>
     </item>
     
     <item>
@@ -66,7 +53,7 @@ This is because computer programs are really good at executing algorithms &amp;n
       <pubDate>Thu, 01 Feb 2018 01:15:07 +0800</pubDate>
       
       <guid>https://sausheong.github.io/posts/space-invaders-with-go/</guid>
-      <description>The earliest memory I had of arcade video games was watching my older brother and cousins going at the video game machines at Genting Highlands. While our parents were at the other types of games Genting Highlands was more popularly known for, we were generally let loose to play arcade games to our hearts&amp;rsquo; content.
+      <description>The earliest memory I had of arcade video games was watching my older brother and cousins going at the video game machines at Genting Highlands. While our parents were at the other types of games Genting Highlands was more popularly known for, we were generally let loose to play arcade games to our hearts&#39; content.
 Those were the magical days of Pac-Man, Space Invaders, Galaxian, Donkey Kong, Frogger, Centipede and many, many more.</description>
     </item>
     

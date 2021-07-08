@@ -78,44 +78,27 @@
     <h1 class="title">Flocking with Go</h1>
       
     <div class="content">
-      
-
-<p>I have been writing flocking simulations for a long time. I played around with it with Java but the earliest one I still have record of was with JRuby and Swing called <a href="https://youtu.be/x44s8TTWm5E" target="_blank">Utopia</a>. I wrote one using <a href="http://shoesrb.com" target="_blank">Shoes</a> and that was the one in my <a href="http://shop.oreilly.com/product/0636920022626.do" target="_blank"><em>Exploring Everyday Things witn R and Ruby</em></a> book. Some time after (I was unhappy with Shoes in general), I re-wrote it again using <a href="https://github.com/gosu/gosu" target="_blank">Gosu</a>, a 2D game development library for Ruby and C++. This version can be found <a href="https://github.com/sausheong/utopia" target="_blank">here</a>.</p>
-
-<p><a href="https://en.wikipedia.org/wiki/Flocking_(behavior)" target="_blank">Flocking</a> simulations are basically a software program that simulates the flocking behavior of birds. This flocking behavior is very somewhat similar to the swarming behavior of insects or the shoaling behavior of fish. It&rsquo;s considered an emergent behavior &ndash; a behavior that arises from individuals following simple rules and doesn&rsquo;t involve any central coordination. Such behavior, especially seen in murmurations of starlings or swarms of barracuda can be a breath-taking phenomenon.</p>
-
-<p><img src="https://github.com/sausheong/goids/raw/master/imgs/flocking.jpg" alt="murmuration of starlings" /></p>
-
+      <p>I have been writing flocking simulations for a long time. I played around with it with Java but the earliest one I still have record of was with JRuby and Swing called <a href="https://youtu.be/x44s8TTWm5E">Utopia</a>. I wrote one using <a href="http://shoesrb.com">Shoes</a> and that was the one in my <a href="http://shop.oreilly.com/product/0636920022626.do"><em>Exploring Everyday Things witn R and Ruby</em></a> book. Some time after (I was unhappy with Shoes in general), I re-wrote it again using <a href="https://github.com/gosu/gosu">Gosu</a>, a 2D game development library for Ruby and C++. This version can be found <a href="https://github.com/sausheong/utopia">here</a>.</p>
+<p><a href="https://en.wikipedia.org/wiki/Flocking_(behavior)">Flocking</a> simulations are basically a software program that simulates the flocking behavior of birds. This flocking behavior is very somewhat similar to the swarming behavior of insects or the shoaling behavior of fish. It&rsquo;s considered an emergent behavior &ndash; a behavior that arises from individuals following simple rules and doesn&rsquo;t involve any central coordination. Such behavior, especially seen in murmurations of starlings or swarms of barracuda can be a breath-taking phenomenon.</p>
+<p><img src="https://github.com/sausheong/goids/raw/master/imgs/flocking.jpg" alt="murmuration of starlings"></p>
 <h2 id="boids">Boids</h2>
-
-<p>Flocking was first simulated in software by Craig Reynolds, a programmer who developed a software program called <a href="http://www.red3d.com/cwr/boids/" target="_blank"><em>boids</em></a> and published a paper on the topic in 1987 in the proceedings of the ACM SIGGRAPH conference. Since then, there has been a number of advancements in simulating flocking but nonetheless the basic idea still remains pretty simple.</p>
-
+<p>Flocking was first simulated in software by Craig Reynolds, a programmer who developed a software program called <a href="http://www.red3d.com/cwr/boids/"><em>boids</em></a> and published a paper on the topic in 1987 in the proceedings of the ACM SIGGRAPH conference. Since then, there has been a number of advancements in simulating flocking but nonetheless the basic idea still remains pretty simple.</p>
 <p>Boids itself used three basic rules to describe how an individual boid moves around:</p>
-
 <ul>
 <li><em>Separation</em> &ndash; avoid crowding other flockmates that are close by</li>
 <li><em>Alignment</em> &ndash; move towards the average direction of nearby flockmates</li>
 <li><em>Cohesion</em> &ndash; move towards the average position of nearby flockmates</li>
 </ul>
-
-<p><img src="https://github.com/sausheong/goids/raw/master/imgs/Rule_separation.gif" alt="separation" />
-<img src="https://github.com/sausheong/goids/raw/master/imgs/Rule_alignment.gif" alt="alignment" />
-<img src="https://github.com/sausheong/goids/raw/master/imgs/Rule_cohesion.gif" alt="cohesion" /></p>
-
+<p><img src="https://github.com/sausheong/goids/raw/master/imgs/Rule_separation.gif" alt="separation">
+<img src="https://github.com/sausheong/goids/raw/master/imgs/Rule_alignment.gif" alt="alignment">
+<img src="https://github.com/sausheong/goids/raw/master/imgs/Rule_cohesion.gif" alt="cohesion"></p>
 <p>These rules have been expanded and in some cases, more rules have been added but the fundamental idea is that a localised reaction by an individual following a few simple rules can result in complex, unexpected behavior.</p>
-
 <h2 id="doing-it-in-go">Doing it in Go</h2>
-
-<p>While I have been programming in Go seriously for a few years (it&rsquo;s my primary programming language now), I haven&rsquo;t been able to figure out a good way to write a flocking simulation with Go all this time. The biggest problem is that Go is mostly a backend programming language and doesn&rsquo;t really have a GUI toolkit. While there were a few attempts, including bindings to GTK and QT, none of them fit what I wanted. If you&rsquo;re looking for one for a desktop application, you are probably better off using <a href="https://github.com/electron/electron" target="_blank">Electron</a> and building a web application in Go to back that up.</p>
-
-<p>That is, until I was fiddling around with genetic algorithms in my post <a href="https://sausheong.github.io/posts/a-gentle-introduction-to-genetic-algorithms/" target="_blank"><em>A gentle introduction to genetic algorithms</em></a>. In that post I was trying to display an image to the terminal, in my case, the excellent <a href="https://www.iterm2.com/" target="_blank">iTerm2</a>. There&rsquo;s where I stumbled on this hack on iTerm2 that allows me to display images on the screen.</p>
-
+<p>While I have been programming in Go seriously for a few years (it&rsquo;s my primary programming language now), I haven&rsquo;t been able to figure out a good way to write a flocking simulation with Go all this time. The biggest problem is that Go is mostly a backend programming language and doesn&rsquo;t really have a GUI toolkit. While there were a few attempts, including bindings to GTK and QT, none of them fit what I wanted. If you&rsquo;re looking for one for a desktop application, you are probably better off using <a href="https://github.com/electron/electron">Electron</a> and building a web application in Go to back that up.</p>
+<p>That is, until I was fiddling around with genetic algorithms in my post <a href="https://sausheong.github.io/posts/a-gentle-introduction-to-genetic-algorithms/"><em>A gentle introduction to genetic algorithms</em></a>. In that post I was trying to display an image to the terminal, in my case, the excellent <a href="https://www.iterm2.com/">iTerm2</a>. There&rsquo;s where I stumbled on this hack on iTerm2 that allows me to display images on the screen.</p>
 <p>Naturally if I can display one image, I can always display multiple images. And if I can display multiple images, I can also display them overlaying each other, one after another. And if I can display them fast enough &hellip;</p>
-
-<p><img src="https://github.com/sausheong/goids/raw/master/imgs/flip.gif" alt="flipbook" /></p>
-
+<p><img src="https://github.com/sausheong/goids/raw/master/imgs/flip.gif" alt="flipbook"></p>
 <h2 id="goids">Goids</h2>
-
 <p>I call them <em>goids</em>, of course. A <code>Goid</code> is a simple struct with information on its position, velocity and color.</p>
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">Goid</span> <span class="kd">struct</span> <span class="p">{</span>
 	<span class="nx">X</span>     <span class="kt">int</span> <span class="c1">// position
@@ -124,67 +107,62 @@
 </span><span class="c1"></span>	<span class="nx">Vy</span>    <span class="kt">int</span>
 	<span class="nx">R</span>     <span class="kt">int</span> <span class="c1">// radius
 </span><span class="c1"></span>	<span class="nx">Color</span> <span class="nx">color</span><span class="p">.</span><span class="nx">Color</span>
-<span class="p">}</span></code></pre></div>
-<p>Position and color is pretty easy to understand. Velocity here is not simply the speed the goid is moving but also direction it is moving. In this case, <code>Vx</code> and <code>Vy</code> is how far away the goid is going to be away the next loop, and also directionally where it&rsquo;s going to be. Mathematically speaking, while <code>X</code> and <code>Y</code> is the <em>scalar</em> position (it tells you how far away from origin on a 2D plane), <code>Vx</code> and <code>Vy</code> is a <a href="http://mathinsight.org/vector_introduction" target="_blank"><em>vector</em></a>.</p>
-
+<span class="p">}</span>
+</code></pre></div><p>Position and color is pretty easy to understand. Velocity here is not simply the speed the goid is moving but also direction it is moving. In this case, <code>Vx</code> and <code>Vy</code> is how far away the goid is going to be away the next loop, and also directionally where it&rsquo;s going to be. Mathematically speaking, while <code>X</code> and <code>Y</code> is the <em>scalar</em> position (it tells you how far away from origin on a 2D plane), <code>Vx</code> and <code>Vy</code> is a <a href="http://mathinsight.org/vector_introduction"><em>vector</em></a>.</p>
 <p>Creating goids is relatively simple. Each goid must be within the window and its starting velocity is smaller than its size.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nx">createRandomGoid</span><span class="p">()</span> <span class="p">(</span><span class="nx">g</span> <span class="nx">Goid</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">createRandomGoid</span><span class="p">()</span> <span class="p">(</span><span class="nx">g</span> <span class="nx">Goid</span><span class="p">)</span> <span class="p">{</span>
 	<span class="nx">g</span> <span class="p">=</span> <span class="nx">Goid</span><span class="p">{</span>
-		<span class="nx">X</span><span class="p">:</span>     <span class="nx">rand</span><span class="p">.</span><span class="nx">Intn</span><span class="p">(</span><span class="nx">windowWidth</span><span class="p">),</span>
-		<span class="nx">Y</span><span class="p">:</span>     <span class="nx">rand</span><span class="p">.</span><span class="nx">Intn</span><span class="p">(</span><span class="nx">windowHeight</span><span class="p">),</span>
-		<span class="nx">Vx</span><span class="p">:</span>    <span class="nx">rand</span><span class="p">.</span><span class="nx">Intn</span><span class="p">(</span><span class="nx">goidSize</span><span class="p">),</span>
-		<span class="nx">Vy</span><span class="p">:</span>    <span class="nx">rand</span><span class="p">.</span><span class="nx">Intn</span><span class="p">(</span><span class="nx">goidSize</span><span class="p">),</span>
+		<span class="nx">X</span><span class="p">:</span>     <span class="nx">rand</span><span class="p">.</span><span class="nf">Intn</span><span class="p">(</span><span class="nx">windowWidth</span><span class="p">),</span>
+		<span class="nx">Y</span><span class="p">:</span>     <span class="nx">rand</span><span class="p">.</span><span class="nf">Intn</span><span class="p">(</span><span class="nx">windowHeight</span><span class="p">),</span>
+		<span class="nx">Vx</span><span class="p">:</span>    <span class="nx">rand</span><span class="p">.</span><span class="nf">Intn</span><span class="p">(</span><span class="nx">goidSize</span><span class="p">),</span>
+		<span class="nx">Vy</span><span class="p">:</span>    <span class="nx">rand</span><span class="p">.</span><span class="nf">Intn</span><span class="p">(</span><span class="nx">goidSize</span><span class="p">),</span>
 		<span class="nx">R</span><span class="p">:</span>     <span class="nx">goidSize</span><span class="p">,</span>
 		<span class="nx">Color</span><span class="p">:</span> <span class="nx">goidColor</span><span class="p">,</span>
 	<span class="p">}</span>
 	<span class="k">return</span>
-<span class="p">}</span></code></pre></div>
-<p>The bulk of the work is in the <code>move</code> function.</p>
+<span class="p">}</span>
+</code></pre></div><p>The bulk of the work is in the <code>move</code> function.</p>
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// move the goids with the 3 classic boid rules
-</span><span class="c1"></span><span class="kd">func</span> <span class="nx">move</span><span class="p">(</span><span class="nx">goids</span> <span class="p">[]</span><span class="o">*</span><span class="nx">Goid</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">move</span><span class="p">(</span><span class="nx">goids</span> <span class="p">[]</span><span class="o">*</span><span class="nx">Goid</span><span class="p">)</span> <span class="p">{</span>
 	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">goid</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">goids</span> <span class="p">{</span>
-		<span class="nx">neighbours</span> <span class="o">:=</span> <span class="nx">goid</span><span class="p">.</span><span class="nx">nearestNeighbours</span><span class="p">(</span><span class="nx">goids</span><span class="p">)</span>
-		<span class="nx">separate</span><span class="p">(</span><span class="nx">goid</span><span class="p">,</span> <span class="nx">neighbours</span><span class="p">)</span>		
-		<span class="nx">align</span><span class="p">(</span><span class="nx">goid</span><span class="p">,</span> <span class="nx">neighbours</span><span class="p">)</span>
-        <span class="nx">cohere</span><span class="p">(</span><span class="nx">goid</span><span class="p">,</span> <span class="nx">neighbours</span><span class="p">)</span>
+		<span class="nx">neighbours</span> <span class="o">:=</span> <span class="nx">goid</span><span class="p">.</span><span class="nf">nearestNeighbours</span><span class="p">(</span><span class="nx">goids</span><span class="p">)</span>
+		<span class="nf">separate</span><span class="p">(</span><span class="nx">goid</span><span class="p">,</span> <span class="nx">neighbours</span><span class="p">)</span>		
+		<span class="nf">align</span><span class="p">(</span><span class="nx">goid</span><span class="p">,</span> <span class="nx">neighbours</span><span class="p">)</span>
+        <span class="nf">cohere</span><span class="p">(</span><span class="nx">goid</span><span class="p">,</span> <span class="nx">neighbours</span><span class="p">)</span>
 
-		<span class="nx">stayInWindow</span><span class="p">(</span><span class="nx">goid</span><span class="p">)</span>
+		<span class="nf">stayInWindow</span><span class="p">(</span><span class="nx">goid</span><span class="p">)</span>
 	<span class="p">}</span>
-<span class="p">}</span></code></pre></div>
-<p>Flocking simulations have advanced considerably since 30 years ago, but for this simple simulation I used the 3 classic rules from boids. All 3 rules require the goid to know who its neighbours are so it makes sense to figure that out first.</p>
+<span class="p">}</span>
+</code></pre></div><p>Flocking simulations have advanced considerably since 30 years ago, but for this simple simulation I used the 3 classic rules from boids. All 3 rules require the goid to know who its neighbours are so it makes sense to figure that out first.</p>
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// find the nearest neighbours
-</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">g</span> <span class="o">*</span><span class="nx">Goid</span><span class="p">)</span> <span class="nx">nearestNeighbours</span><span class="p">(</span><span class="nx">goids</span> <span class="p">[]</span><span class="o">*</span><span class="nx">Goid</span><span class="p">)</span> <span class="p">(</span><span class="nx">neighbours</span> <span class="p">[]</span><span class="nx">Goid</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">g</span> <span class="o">*</span><span class="nx">Goid</span><span class="p">)</span> <span class="nf">nearestNeighbours</span><span class="p">(</span><span class="nx">goids</span> <span class="p">[]</span><span class="o">*</span><span class="nx">Goid</span><span class="p">)</span> <span class="p">(</span><span class="nx">neighbours</span> <span class="p">[]</span><span class="nx">Goid</span><span class="p">)</span> <span class="p">{</span>
 	<span class="nx">neighbours</span> <span class="p">=</span> <span class="nb">make</span><span class="p">([]</span><span class="nx">Goid</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">goids</span><span class="p">))</span>
 	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">goid</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">goids</span> <span class="p">{</span>
 		<span class="nx">neighbours</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">neighbours</span><span class="p">,</span> <span class="o">*</span><span class="nx">goid</span><span class="p">)</span>
 	<span class="p">}</span>
-	<span class="nx">sort</span><span class="p">.</span><span class="nx">SliceStable</span><span class="p">(</span><span class="nx">neighbours</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">j</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="nx">g</span><span class="p">.</span><span class="nx">distance</span><span class="p">(</span><span class="nx">neighbours</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span> <span class="p">&lt;</span> <span class="nx">g</span><span class="p">.</span><span class="nx">distance</span><span class="p">(</span><span class="nx">neighbours</span><span class="p">[</span><span class="nx">j</span><span class="p">])</span>
+	<span class="nx">sort</span><span class="p">.</span><span class="nf">SliceStable</span><span class="p">(</span><span class="nx">neighbours</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">j</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">g</span><span class="p">.</span><span class="nf">distance</span><span class="p">(</span><span class="nx">neighbours</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span> <span class="p">&lt;</span> <span class="nx">g</span><span class="p">.</span><span class="nf">distance</span><span class="p">(</span><span class="nx">neighbours</span><span class="p">[</span><span class="nx">j</span><span class="p">])</span>
 	<span class="p">})</span>
 	<span class="k">return</span>
 <span class="p">}</span>
 
 <span class="c1">// distance between 2 goids
-</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">g</span> <span class="o">*</span><span class="nx">Goid</span><span class="p">)</span> <span class="nx">distance</span><span class="p">(</span><span class="nx">n</span> <span class="nx">Goid</span><span class="p">)</span> <span class="kt">float64</span> <span class="p">{</span>
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">g</span> <span class="o">*</span><span class="nx">Goid</span><span class="p">)</span> <span class="nf">distance</span><span class="p">(</span><span class="nx">n</span> <span class="nx">Goid</span><span class="p">)</span> <span class="kt">float64</span> <span class="p">{</span>
 	<span class="nx">x</span> <span class="o">:=</span> <span class="nx">g</span><span class="p">.</span><span class="nx">X</span> <span class="o">-</span> <span class="nx">n</span><span class="p">.</span><span class="nx">X</span>
 	<span class="nx">y</span> <span class="o">:=</span> <span class="nx">g</span><span class="p">.</span><span class="nx">Y</span> <span class="o">-</span> <span class="nx">n</span><span class="p">.</span><span class="nx">Y</span>
-	<span class="k">return</span> <span class="nx">math</span><span class="p">.</span><span class="nx">Sqrt</span><span class="p">(</span><span class="nb">float64</span><span class="p">(</span><span class="nx">x</span><span class="o">*</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="o">*</span><span class="nx">y</span><span class="p">))</span>
+	<span class="k">return</span> <span class="nx">math</span><span class="p">.</span><span class="nf">Sqrt</span><span class="p">(</span><span class="nb">float64</span><span class="p">(</span><span class="nx">x</span><span class="o">*</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="o">*</span><span class="nx">y</span><span class="p">))</span>
 
-<span class="p">}</span></code></pre></div>
-<p>First, we clone the entire population of goids, then we use <code>sort.SliceStable</code> to sort the cloned array by distance from the goid in question. Finding the distance is just a matter of using the Pythagoras theorem.</p>
-
-<p><img src="https://github.com/sausheong/goids/raw/master/imgs/pythagoras.png" alt="Pythagoras theorem" /></p>
-
+<span class="p">}</span>
+</code></pre></div><p>First, we clone the entire population of goids, then we use <code>sort.SliceStable</code> to sort the cloned array by distance from the goid in question. Finding the distance is just a matter of using the Pythagoras theorem.</p>
+<p><img src="https://github.com/sausheong/goids/raw/master/imgs/pythagoras.png" alt="Pythagoras theorem"></p>
 <p>This gives us a list of neighbouring goids, sorted by distances away. Let&rsquo;s look at the first rule.</p>
-
 <h3 id="separation-rule">Separation rule</h3>
-
 <p>This is the <em>personal space</em> rule. Let&rsquo;s say you&rsquo;re in a train with a number of other commuters, and it stops at a station where there are a number of people getting in. As they come in, they will fill up the space, and there will be some who end up too close to you. What would you do? You&rsquo;re going to move a bit away from them but not too close to others, and finally settling down to a comfortable distance from everyone else. This is that rule.</p>
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// steer to avoid crowding local goids
-</span><span class="c1"></span><span class="kd">func</span> <span class="nx">separate</span><span class="p">(</span><span class="nx">g</span> <span class="o">*</span><span class="nx">Goid</span><span class="p">,</span> <span class="nx">neighbours</span> <span class="p">[]</span><span class="nx">Goid</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">separate</span><span class="p">(</span><span class="nx">g</span> <span class="o">*</span><span class="nx">Goid</span><span class="p">,</span> <span class="nx">neighbours</span> <span class="p">[]</span><span class="nx">Goid</span><span class="p">)</span> <span class="p">{</span>
 	<span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
 	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">n</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">neighbours</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="nx">numNeighbours</span><span class="p">]</span> <span class="p">{</span>
-		<span class="k">if</span> <span class="nx">g</span><span class="p">.</span><span class="nx">distance</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span> <span class="p">&lt;</span> <span class="nx">separationFactor</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="nx">g</span><span class="p">.</span><span class="nf">distance</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span> <span class="p">&lt;</span> <span class="nx">separationFactor</span> <span class="p">{</span>
 			<span class="nx">x</span> <span class="o">+=</span> <span class="nx">g</span><span class="p">.</span><span class="nx">X</span> <span class="o">-</span> <span class="nx">n</span><span class="p">.</span><span class="nx">X</span>
 			<span class="nx">y</span> <span class="o">+=</span> <span class="nx">g</span><span class="p">.</span><span class="nx">Y</span> <span class="o">-</span> <span class="nx">n</span><span class="p">.</span><span class="nx">Y</span>
 		<span class="p">}</span>
@@ -193,16 +171,13 @@
 	<span class="nx">g</span><span class="p">.</span><span class="nx">Vy</span> <span class="p">=</span> <span class="nx">y</span>
 	<span class="nx">g</span><span class="p">.</span><span class="nx">X</span> <span class="o">+=</span> <span class="nx">x</span>
 	<span class="nx">g</span><span class="p">.</span><span class="nx">Y</span> <span class="o">+=</span> <span class="nx">y</span>
-<span class="p">}</span></code></pre></div>
-<p>We&rsquo;re only interested in a limited number of neighbouring goids, which is specified by the parameter <code>numNeighbours</code>. The neighbouring goids must also be within the parameter <code>separationFactor</code> (not all neighbouring goids are close enough for it to be uncomfortable). Once these goids are in that space, we move a bit away from each one of them. Then we update the velocity to that distance away, and then move the goid by that velocity.</p>
-
+<span class="p">}</span>
+</code></pre></div><p>We&rsquo;re only interested in a limited number of neighbouring goids, which is specified by the parameter <code>numNeighbours</code>. The neighbouring goids must also be within the parameter <code>separationFactor</code> (not all neighbouring goids are close enough for it to be uncomfortable). Once these goids are in that space, we move a bit away from each one of them. Then we update the velocity to that distance away, and then move the goid by that velocity.</p>
 <h3 id="alignment-rule">Alignment rule</h3>
-
 <p>This is the <em>peer pressure</em> rule. Peer pressure is direct influence on people by their peers to change their behaviour to conform to their of the group. You might be familiar with peer pressure &ndash; when you see your neighbours with their shiny new 4K TV or iPhone X you might be tempted to get one for yourself as well. There are plenty of other examples of peer pressure in our lives that it doesn&rsquo;t need further explanation, and this is exactly what the alignment rule is.</p>
-
-<p><img src="https://github.com/sausheong/goids/raw/master/imgs/lemmings.jpg" alt="lemmings" /></p>
+<p><img src="https://github.com/sausheong/goids/raw/master/imgs/lemmings.jpg" alt="lemmings"></p>
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// steer towards the average heading of local goids
-</span><span class="c1"></span><span class="kd">func</span> <span class="nx">align</span><span class="p">(</span><span class="nx">g</span> <span class="o">*</span><span class="nx">Goid</span><span class="p">,</span> <span class="nx">neighbours</span> <span class="p">[]</span><span class="nx">Goid</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">align</span><span class="p">(</span><span class="nx">g</span> <span class="o">*</span><span class="nx">Goid</span><span class="p">,</span> <span class="nx">neighbours</span> <span class="p">[]</span><span class="nx">Goid</span><span class="p">)</span> <span class="p">{</span>
 	<span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
 	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">n</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">neighbours</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="nx">numNeighbours</span><span class="p">]</span> <span class="p">{</span>
 		<span class="nx">x</span> <span class="o">+=</span> <span class="nx">n</span><span class="p">.</span><span class="nx">Vx</span>
@@ -213,16 +188,13 @@
 	<span class="nx">g</span><span class="p">.</span><span class="nx">Vy</span> <span class="o">+=</span> <span class="nx">dy</span>
 	<span class="nx">g</span><span class="p">.</span><span class="nx">X</span> <span class="o">+=</span> <span class="nx">dx</span>
 	<span class="nx">g</span><span class="p">.</span><span class="nx">Y</span> <span class="o">+=</span> <span class="nx">dy</span>
-<span class="p">}</span></code></pre></div>
-<p>As before, we are only interested in a limited number of neighbouring goids specified by <code>numNeighbours</code>. However instead of affecting the position of the goid, this rule changes the velocity of the goid and we add up the velocity of all the neighbouring goids, and divide it by the number of neighbours. The final value modifies the velocity instead of replacing it altogether, while the position of the goid is modified by the new value.</p>
-
+<span class="p">}</span>
+</code></pre></div><p>As before, we are only interested in a limited number of neighbouring goids specified by <code>numNeighbours</code>. However instead of affecting the position of the goid, this rule changes the velocity of the goid and we add up the velocity of all the neighbouring goids, and divide it by the number of neighbours. The final value modifies the velocity instead of replacing it altogether, while the position of the goid is modified by the new value.</p>
 <h3 id="cohesion-rule">Cohesion rule</h3>
-
 <p>This is the <em>phalanx</em> rule. The Greek phalanx was a rectangular, close-rank infantry formation that marched and fought as one entity. It was one of the most effective and enduring military formation in ancient warfare. Its effectiveness lie in the tight formation of impenetrable shields and spears that slowly advanced forward, breaking through enemy ranks. The Romans later took the same idea to create the three-line Roman legion that was used to conquer the known world.</p>
-
-<p><img src="https://github.com/sausheong/goids/raw/master/imgs/phalanx.jpg" alt="phalanx" /></p>
+<p><img src="https://github.com/sausheong/goids/raw/master/imgs/phalanx.jpg" alt="phalanx"></p>
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// steer to move toward the average position of local goids
-</span><span class="c1"></span><span class="kd">func</span> <span class="nx">cohere</span><span class="p">(</span><span class="nx">g</span> <span class="o">*</span><span class="nx">Goid</span><span class="p">,</span> <span class="nx">neighbours</span> <span class="p">[]</span><span class="nx">Goid</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">cohere</span><span class="p">(</span><span class="nx">g</span> <span class="o">*</span><span class="nx">Goid</span><span class="p">,</span> <span class="nx">neighbours</span> <span class="p">[]</span><span class="nx">Goid</span><span class="p">)</span> <span class="p">{</span>
 	<span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
 	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">n</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">neighbours</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="nx">numNeighbours</span><span class="p">]</span> <span class="p">{</span>
 		<span class="nx">x</span> <span class="o">+=</span> <span class="nx">n</span><span class="p">.</span><span class="nx">X</span>
@@ -233,14 +205,12 @@
 	<span class="nx">g</span><span class="p">.</span><span class="nx">Vy</span> <span class="o">+=</span> <span class="nx">dy</span>
 	<span class="nx">g</span><span class="p">.</span><span class="nx">X</span> <span class="o">+=</span> <span class="nx">dx</span>
 	<span class="nx">g</span><span class="p">.</span><span class="nx">Y</span> <span class="o">+=</span> <span class="nx">dy</span>
-<span class="p">}</span></code></pre></div>
-<p>As with the other rules, we are only interested in the neighbouring goids. We take the average position of all these neighbours (adding up the positions of all the neighbours and dividing it by the number of neighbours), and subtract the goid&rsquo;s position from it. This value is then divided by a <code>coherenceFactor</code> that determines how much the goids want to cohere with its neighbours. If the <code>coherenceFactor</code> is too high, the goids will end up not moving, if it&rsquo;s too low it will end up sticking too closely with each other, forming clusters of tightly-knit goids.</p>
-
+<span class="p">}</span>
+</code></pre></div><p>As with the other rules, we are only interested in the neighbouring goids. We take the average position of all these neighbours (adding up the positions of all the neighbours and dividing it by the number of neighbours), and subtract the goid&rsquo;s position from it. This value is then divided by a <code>coherenceFactor</code> that determines how much the goids want to cohere with its neighbours. If the <code>coherenceFactor</code> is too high, the goids will end up not moving, if it&rsquo;s too low it will end up sticking too closely with each other, forming clusters of tightly-knit goids.</p>
 <h3 id="staying-within-view">Staying within view</h3>
-
 <p>Now that we have the rules we can run simulation, but since our view is limited to the parameters <code>windowWidth</code> and <code>windowHeight</code>, once the goids wander off the screen we can&rsquo;t see it anymore. Which means after a while, it&rsquo;s just an empty screen. To stop that from happening, if a goid wanders off the screen, we magically transport it to the other side of the window.</p>
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// if goid goes out of the window frame it comes back on the other side
-</span><span class="c1"></span><span class="kd">func</span> <span class="nx">stayInWindow</span><span class="p">(</span><span class="nx">goid</span> <span class="o">*</span><span class="nx">Goid</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">stayInWindow</span><span class="p">(</span><span class="nx">goid</span> <span class="o">*</span><span class="nx">Goid</span><span class="p">)</span> <span class="p">{</span>
 	<span class="k">if</span> <span class="nx">goid</span><span class="p">.</span><span class="nx">X</span> <span class="p">&lt;</span> <span class="mi">0</span> <span class="p">{</span>
 		<span class="nx">goid</span><span class="p">.</span><span class="nx">X</span> <span class="p">=</span> <span class="nx">windowWidth</span> <span class="o">+</span> <span class="nx">goid</span><span class="p">.</span><span class="nx">X</span>
 	<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">goid</span><span class="p">.</span><span class="nx">X</span> <span class="p">&gt;</span> <span class="nx">windowWidth</span> <span class="p">{</span>
@@ -251,86 +221,74 @@
 	<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">goid</span><span class="p">.</span><span class="nx">Y</span> <span class="p">&gt;</span> <span class="nx">windowHeight</span> <span class="p">{</span>
 		<span class="nx">goid</span><span class="p">.</span><span class="nx">Y</span> <span class="p">=</span> <span class="nx">windowHeight</span> <span class="o">-</span> <span class="nx">goid</span><span class="p">.</span><span class="nx">Y</span>
 	<span class="p">}</span>
-<span class="p">}</span></code></pre></div>
-<h3 id="showing-the-frame">Showing the frame</h3>
-
+<span class="p">}</span>
+</code></pre></div><h3 id="showing-the-frame">Showing the frame</h3>
 <p>The final piece of the puzzle is drawing the goids themselves.</p>
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// draw the goids
-</span><span class="c1"></span><span class="kd">func</span> <span class="nx">draw</span><span class="p">(</span><span class="nx">goids</span> <span class="p">[]</span><span class="o">*</span><span class="nx">Goid</span><span class="p">)</span> <span class="o">*</span><span class="nx">image</span><span class="p">.</span><span class="nx">RGBA</span> <span class="p">{</span>
-	<span class="nx">dest</span> <span class="o">:=</span> <span class="nx">image</span><span class="p">.</span><span class="nx">NewRGBA</span><span class="p">(</span><span class="nx">image</span><span class="p">.</span><span class="nx">Rect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">windowWidth</span><span class="p">,</span> <span class="nx">windowHeight</span><span class="p">))</span>
-	<span class="nx">gc</span> <span class="o">:=</span> <span class="nx">draw2dimg</span><span class="p">.</span><span class="nx">NewGraphicContext</span><span class="p">(</span><span class="nx">dest</span><span class="p">)</span>
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">draw</span><span class="p">(</span><span class="nx">goids</span> <span class="p">[]</span><span class="o">*</span><span class="nx">Goid</span><span class="p">)</span> <span class="o">*</span><span class="nx">image</span><span class="p">.</span><span class="nx">RGBA</span> <span class="p">{</span>
+	<span class="nx">dest</span> <span class="o">:=</span> <span class="nx">image</span><span class="p">.</span><span class="nf">NewRGBA</span><span class="p">(</span><span class="nx">image</span><span class="p">.</span><span class="nf">Rect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">windowWidth</span><span class="p">,</span> <span class="nx">windowHeight</span><span class="p">))</span>
+	<span class="nx">gc</span> <span class="o">:=</span> <span class="nx">draw2dimg</span><span class="p">.</span><span class="nf">NewGraphicContext</span><span class="p">(</span><span class="nx">dest</span><span class="p">)</span>
 	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">goid</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">goids</span> <span class="p">{</span>
-		<span class="nx">gc</span><span class="p">.</span><span class="nx">SetFillColor</span><span class="p">(</span><span class="nx">goid</span><span class="p">.</span><span class="nx">Color</span><span class="p">)</span>
-		<span class="nx">gc</span><span class="p">.</span><span class="nx">MoveTo</span><span class="p">(</span><span class="nb">float64</span><span class="p">(</span><span class="nx">goid</span><span class="p">.</span><span class="nx">X</span><span class="p">),</span> <span class="nb">float64</span><span class="p">(</span><span class="nx">goid</span><span class="p">.</span><span class="nx">Y</span><span class="p">))</span>
-		<span class="nx">gc</span><span class="p">.</span><span class="nx">ArcTo</span><span class="p">(</span><span class="nb">float64</span><span class="p">(</span><span class="nx">goid</span><span class="p">.</span><span class="nx">X</span><span class="p">),</span> <span class="nb">float64</span><span class="p">(</span><span class="nx">goid</span><span class="p">.</span><span class="nx">Y</span><span class="p">),</span> <span class="nb">float64</span><span class="p">(</span><span class="nx">goid</span><span class="p">.</span><span class="nx">R</span><span class="p">),</span> <span class="nb">float64</span><span class="p">(</span><span class="nx">goid</span><span class="p">.</span><span class="nx">R</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="nx">math</span><span class="p">.</span><span class="nx">Pi</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
-		<span class="nx">gc</span><span class="p">.</span><span class="nx">LineTo</span><span class="p">(</span><span class="nb">float64</span><span class="p">(</span><span class="nx">goid</span><span class="p">.</span><span class="nx">X</span><span class="o">-</span><span class="nx">goid</span><span class="p">.</span><span class="nx">Vx</span><span class="p">),</span> <span class="nb">float64</span><span class="p">(</span><span class="nx">goid</span><span class="p">.</span><span class="nx">Y</span><span class="o">-</span><span class="nx">goid</span><span class="p">.</span><span class="nx">Vy</span><span class="p">))</span>
-		<span class="nx">gc</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
-		<span class="nx">gc</span><span class="p">.</span><span class="nx">Fill</span><span class="p">()</span>
+		<span class="nx">gc</span><span class="p">.</span><span class="nf">SetFillColor</span><span class="p">(</span><span class="nx">goid</span><span class="p">.</span><span class="nx">Color</span><span class="p">)</span>
+		<span class="nx">gc</span><span class="p">.</span><span class="nf">MoveTo</span><span class="p">(</span><span class="nb">float64</span><span class="p">(</span><span class="nx">goid</span><span class="p">.</span><span class="nx">X</span><span class="p">),</span> <span class="nb">float64</span><span class="p">(</span><span class="nx">goid</span><span class="p">.</span><span class="nx">Y</span><span class="p">))</span>
+		<span class="nx">gc</span><span class="p">.</span><span class="nf">ArcTo</span><span class="p">(</span><span class="nb">float64</span><span class="p">(</span><span class="nx">goid</span><span class="p">.</span><span class="nx">X</span><span class="p">),</span> <span class="nb">float64</span><span class="p">(</span><span class="nx">goid</span><span class="p">.</span><span class="nx">Y</span><span class="p">),</span> <span class="nb">float64</span><span class="p">(</span><span class="nx">goid</span><span class="p">.</span><span class="nx">R</span><span class="p">),</span> <span class="nb">float64</span><span class="p">(</span><span class="nx">goid</span><span class="p">.</span><span class="nx">R</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="nx">math</span><span class="p">.</span><span class="nx">Pi</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+		<span class="nx">gc</span><span class="p">.</span><span class="nf">LineTo</span><span class="p">(</span><span class="nb">float64</span><span class="p">(</span><span class="nx">goid</span><span class="p">.</span><span class="nx">X</span><span class="o">-</span><span class="nx">goid</span><span class="p">.</span><span class="nx">Vx</span><span class="p">),</span> <span class="nb">float64</span><span class="p">(</span><span class="nx">goid</span><span class="p">.</span><span class="nx">Y</span><span class="o">-</span><span class="nx">goid</span><span class="p">.</span><span class="nx">Vy</span><span class="p">))</span>
+		<span class="nx">gc</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+		<span class="nx">gc</span><span class="p">.</span><span class="nf">Fill</span><span class="p">()</span>
 	<span class="p">}</span>
 	<span class="k">return</span> <span class="nx">dest</span>
-<span class="p">}</span></code></pre></div>
-<p>Each frame is an image of width <code>windowWidth</code> and height <code>windowHeight</code>. WIthin this frame, we draw each goid as a circle, and then we draw a line to represent the goid&rsquo;s tail. This line goes against the direction of where the goid is going, so we subtract the position of the goid from its velocity.</p>
-
+<span class="p">}</span>
+</code></pre></div><p>Each frame is an image of width <code>windowWidth</code> and height <code>windowHeight</code>. WIthin this frame, we draw each goid as a circle, and then we draw a line to represent the goid&rsquo;s tail. This line goes against the direction of where the goid is going, so we subtract the position of the goid from its velocity.</p>
 <h3 id="displaying-the-simulation">Displaying the simulation</h3>
-
 <p>We have all the functions needed now, so let&rsquo;s put it all together in the <code>main</code> function.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="nx">clearScreen</span><span class="p">()</span>
-	<span class="nx">hideCursor</span><span class="p">()</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nf">clearScreen</span><span class="p">()</span>
+	<span class="nf">hideCursor</span><span class="p">()</span>
 
 	<span class="nx">goids</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="o">*</span><span class="nx">Goid</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">populationSize</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
-		<span class="nx">g</span> <span class="o">:=</span> <span class="nx">createRandomGoid</span><span class="p">()</span>
+		<span class="nx">g</span> <span class="o">:=</span> <span class="nf">createRandomGoid</span><span class="p">()</span>
 		<span class="nx">goids</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">goids</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">g</span><span class="p">)</span>
 	<span class="p">}</span>
 
 	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">loops</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
-		<span class="nx">move</span><span class="p">(</span><span class="nx">goids</span><span class="p">)</span>
-		<span class="nx">frame</span> <span class="o">:=</span> <span class="nx">draw</span><span class="p">(</span><span class="nx">goids</span><span class="p">)</span>
-		<span class="nx">printImage</span><span class="p">(</span><span class="nx">frame</span><span class="p">.</span><span class="nx">SubImage</span><span class="p">(</span><span class="nx">frame</span><span class="p">.</span><span class="nx">Rect</span><span class="p">))</span>
-		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;\nLoop: %d&#34;</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span>
+		<span class="nf">move</span><span class="p">(</span><span class="nx">goids</span><span class="p">)</span>
+		<span class="nx">frame</span> <span class="o">:=</span> <span class="nf">draw</span><span class="p">(</span><span class="nx">goids</span><span class="p">)</span>
+		<span class="nf">printImage</span><span class="p">(</span><span class="nx">frame</span><span class="p">.</span><span class="nf">SubImage</span><span class="p">(</span><span class="nx">frame</span><span class="p">.</span><span class="nx">Rect</span><span class="p">))</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;\nLoop: %d&#34;</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span>
 
 	<span class="p">}</span>
-	<span class="nx">showCursor</span><span class="p">()</span>
-<span class="p">}</span></code></pre></div>
-<p>There are a few more functions that you&rsquo;re not seen before. What are <code>clearScreen</code>, <code>hideCursor</code>, <code>showCursor</code> and <code>printImage</code>? These are the functions that actually display the simulation.</p>
-
+	<span class="nf">showCursor</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div><p>There are a few more functions that you&rsquo;re not seen before. What are <code>clearScreen</code>, <code>hideCursor</code>, <code>showCursor</code> and <code>printImage</code>? These are the functions that actually display the simulation.</p>
 <p>Let&rsquo;s look at <code>clearScreen</code>, <code>hideCursor</code> and <code>showCursor</code>.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nx">hideCursor</span><span class="p">()</span> <span class="p">{</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&#34;\x1b[?25l&#34;</span><span class="p">)</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">hideCursor</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Print</span><span class="p">(</span><span class="s">&#34;\x1b[?25l&#34;</span><span class="p">)</span>
 <span class="p">}</span>
 
-<span class="kd">func</span> <span class="nx">showCursor</span><span class="p">()</span> <span class="p">{</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&#34;\x1b[?25h\n&#34;</span><span class="p">)</span>
+<span class="kd">func</span> <span class="nf">showCursor</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Print</span><span class="p">(</span><span class="s">&#34;\x1b[?25h\n&#34;</span><span class="p">)</span>
 <span class="p">}</span>
 
-<span class="kd">func</span> <span class="nx">clearScreen</span><span class="p">()</span> <span class="p">{</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&#34;\x1b[2J&#34;</span><span class="p">)</span>
-<span class="p">}</span></code></pre></div>
-<p>So what&rsquo;s the strange escape sequences we used? These are <a href="https://en.wikipedia.org/wiki/ANSI_escape_code" target="_blank">ANSI escape sequences</a> used to control the various options on text terminals. They are mostly a relic of the past but still widely implemented in terminal emulators such as iTerm2. All sequences start with <code>ESC</code> (27 or in hex 0x1B), followed by a second byte that provides the control option. In particular, <code>ESC</code> followed by <code>[</code> indicates that the next byte is a Control Sequence Introducer (CSI), which is a set of useful sequences. For example, <code>?25h</code> shows the cursor and <code>?25l</code> hides the cursor. And as you would have probably guessed, <code>2J</code> clears the entire screen and moves the cursor to the upper left of the screen.</p>
-
+<span class="kd">func</span> <span class="nf">clearScreen</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Print</span><span class="p">(</span><span class="s">&#34;\x1b[2J&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><p>So what&rsquo;s the strange escape sequences we used? These are <a href="https://en.wikipedia.org/wiki/ANSI_escape_code">ANSI escape sequences</a> used to control the various options on text terminals. They are mostly a relic of the past but still widely implemented in terminal emulators such as iTerm2. All sequences start with <code>ESC</code> (27 or in hex 0x1B), followed by a second byte that provides the control option. In particular, <code>ESC</code> followed by <code>[</code> indicates that the next byte is a Control Sequence Introducer (CSI), which is a set of useful sequences. For example, <code>?25h</code> shows the cursor and <code>?25l</code> hides the cursor. And as you would have probably guessed, <code>2J</code> clears the entire screen and moves the cursor to the upper left of the screen.</p>
 <p>Let&rsquo;s look at how we print the image to the screen.</p>
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// this only works for iTerm!
-</span><span class="c1"></span><span class="kd">func</span> <span class="nx">printImage</span><span class="p">(</span><span class="nx">img</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Image</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">printImage</span><span class="p">(</span><span class="nx">img</span> <span class="nx">image</span><span class="p">.</span><span class="nx">Image</span><span class="p">)</span> <span class="p">{</span>
 	<span class="kd">var</span> <span class="nx">buf</span> <span class="nx">bytes</span><span class="p">.</span><span class="nx">Buffer</span>
-	<span class="nx">png</span><span class="p">.</span><span class="nx">Encode</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">img</span><span class="p">)</span>
-	<span class="nx">imgBase64Str</span> <span class="o">:=</span> <span class="nx">base64</span><span class="p">.</span><span class="nx">StdEncoding</span><span class="p">.</span><span class="nx">EncodeToString</span><span class="p">(</span><span class="nx">buf</span><span class="p">.</span><span class="nx">Bytes</span><span class="p">())</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;\x1b[2;0H\x1b]1337;File=inline=1:%s\a&#34;</span><span class="p">,</span> <span class="nx">imgBase64Str</span><span class="p">)</span>
-<span class="p">}</span></code></pre></div>
-<p>This is an interesting hack that is only found (as far as I know) in <a href="https://www.iterm2.com/documentation-images.html" target="_blank">iTerm2</a>. that allows you to take the base64 representation of a binary image and prints it inline on the terminal. The escape sequence <code>2;0H</code> at the start of the line is a CSI that moves the cursor to row 2, column 0, where we want to print the image.</p>
-
+	<span class="nx">png</span><span class="p">.</span><span class="nf">Encode</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">img</span><span class="p">)</span>
+	<span class="nx">imgBase64Str</span> <span class="o">:=</span> <span class="nx">base64</span><span class="p">.</span><span class="nx">StdEncoding</span><span class="p">.</span><span class="nf">EncodeToString</span><span class="p">(</span><span class="nx">buf</span><span class="p">.</span><span class="nf">Bytes</span><span class="p">())</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;\x1b[2;0H\x1b]1337;File=inline=1:%s\a&#34;</span><span class="p">,</span> <span class="nx">imgBase64Str</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><p>This is an interesting hack that is only found (as far as I know) in <a href="https://www.iterm2.com/documentation-images.html">iTerm2</a>. that allows you to take the base64 representation of a binary image and prints it inline on the terminal. The escape sequence <code>2;0H</code> at the start of the line is a CSI that moves the cursor to row 2, column 0, where we want to print the image.</p>
 <h2 id="final-simulation">Final simulation</h2>
-
 <p>This is how it looks when I run it.</p>
-
-<p><img src="https://github.com/sausheong/goids/raw/master/imgs/goids.gif" alt="Goids" /></p>
-
+<p><img src="https://github.com/sausheong/goids/raw/master/imgs/goids.gif" alt="Goids"></p>
 <h2 id="code">Code</h2>
-
-<p>All the code found here can get found at <a href="http://github.com/sausheong/goids" target="_blank">http://github.com/sausheong/goids</a>.</p>
-
+<p>All the code found here can get found at <a href="http://github.com/sausheong/goids">http://github.com/sausheong/goids</a>.</p>
 <h2 id="why-did-i-do-this">Why did I do this?</h2>
-
 <p>Flocking simulations have been done to the death, but I enjoy writing it. I guess that&rsquo;s probably why I did it for the I-don&rsquo;t-know-how-many-times. Also, it gives me ideas and practice on where else to take it, and also doing more with the idea of printing frames on a terminal. You&rsquo;ll probably see more of this later.</p>
 
     </div>
