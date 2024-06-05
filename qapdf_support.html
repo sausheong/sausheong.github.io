@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>qaPDF Support</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #007BFF;
+      color: #fff;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    #logo {
+      height: 50px; 
+      /* Replace with actual logo image URL */
+      background-image: url("logo.png"); 
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+
+    nav {
+      background-color: #f0f0f0;
+      padding: 1rem;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav li {
+      display: inline-block;
+      margin-right: 20px;
+    }
+
+    main {
+      padding: 2rem;
+    }
+
+    footer {
+      background-color: #333;
+      color: #fff;
+      padding: 1rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div id="logo"></div>
+    <h1>qaPDF Support</h1>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <h2>Welcome to qaPDF Support</h2>
+    <p>
+      qaPDF is an innovative iOS app that allows you to not only view PDF documents but also engage in conversations with them. Have a question about the content of your PDF? Just ask! qaPDF utilizes advanced AI to analyze your document and provide accurate, context-aware answers.
+    </p>
+
+    <h2 id="faq">Frequently Asked Questions</h2>
+    <p>Here are some answers to commonly asked questions:</p>
+    <ul>
+      <li>
+        <strong>Q: How do I ask a document a question?</strong>
+        <br>
+        A: Simply open a PDF document in qaPDF and tap the "Chat" button. Type your question in the input field and hit send. 
+      </li>
+      <li>
+        <strong>Q: What types of questions can I ask?</strong>
+        <br>
+        A: You can ask anything related to the content of the PDF. For example, you could ask for definitions, summaries of specific sections, or comparisons between different parts of the document.
+      </li>
+      <li>
+        <strong>Q: Is my data secure?</strong>
+        <br>
+        A: qaPDF processes your documents locally on your device and does not store them on external servers. 
+      </li>
+      <li>
+        <strong>Q: Which AI provider do you use?</strong>
+        <br>
+        A: qaPDF uses Google Gemini-1.5-Flash with 1 million token context size. You can create your API key here -- https://aistudio.google.com/app/apikey. Note that Gemini-1.5-Flash is free with rate limits and conditions. 
+		In particular, Google is allowed to use your prompts and responses to train its models. To avoid this, you can create a paid account by setting up billing. 
+		<b>Do not submit sensitive, confidential, or personal information to Google's unpaid services.</b>
+      </li>
+
+    </ul>
+
+    <h2 id="contact">Contact the Developer</h2>
+    <p>
+      For further assistance, bug reports, or feature requests, please feel free to contact the developer directly:
+    </p>
+    <p>
+      <strong>Name:</strong> Chang Sau Sheong <br>
+      <strong>Email:</strong> sausheong@gmail.com
+    </p>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Chang Sau Sheong. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
